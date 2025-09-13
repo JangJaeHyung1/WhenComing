@@ -8,7 +8,7 @@
 import Foundation
 
 protocol BusArrivalRemoteDataSource {
-    func getArrivalInfoList(stationId: String) async throws -> [BusArrivalDTO]
+    func getArrivalInfoList(pageNo: Int, stationId: String) async throws -> [BusArrivalDTO]
     func getSpecificBusArrival(cityCode: String, stationId: String, routeId: String) async throws -> [BusInfoDTO]
 }
 
@@ -20,8 +20,8 @@ final class DefaultBusArrivalRemoteDataSource: BusArrivalRemoteDataSource {
         self.networkService = networkService
     }
 
-    func getArrivalInfoList(stationId: String) async throws -> [BusArrivalDTO] {
-        try await networkService.request(.getArrivalInfoList(stationId: stationId), type: [BusArrivalDTO].self)
+    func getArrivalInfoList(pageNo: Int, stationId: String) async throws -> [BusArrivalDTO] {
+        try await networkService.request(.getArrivalInfoList(pageNo: pageNo, stationId: stationId), type: [BusArrivalDTO].self)
     }
 
     func getSpecificBusArrival(cityCode: String, stationId: String, routeId: String) async throws -> [BusInfoDTO] {

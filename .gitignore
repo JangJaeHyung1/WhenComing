@@ -1,1 +1,25 @@
+# API Key
 *.xcconfig
+
+# macOS
+.DS_Store
+
+# Xcode
+*.xcuserstate
+xcuserdata/
+DerivedData/
+build/
+
+# SwiftPM / Cocoapods
+.build/
+Package.resolved
+Pods/
+
+# 개인 설정
+*.xcodeproj/project.xcworkspace/xcuserdata
+*.xcodeproj/xcuserdata
+
+# 기타
+*.log
+
+
