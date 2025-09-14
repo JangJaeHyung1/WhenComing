@@ -10,4 +10,5 @@ import Foundation
 enum APIPath {
     static let busSttnInfoInqireService = "https://apis.data.go.kr/1613000/BusSttnInfoInqireService"
     static let busArvlInfoInqireService = "https://apis.data.go.kr/1613000/ArvlInfoInqireService"
+    static let busRouteInfoInqireService = "https://apis.data.go.kr/1613000/BusRouteInfoInqireService"
 }

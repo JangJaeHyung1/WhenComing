@@ -10,6 +10,7 @@ import Foundation
 enum ServiceType {
     case busStationInfo
     case busArrivalInfo
+    case busRouteInfo
 }
 
 struct NetworkConfig {
@@ -19,6 +20,8 @@ struct NetworkConfig {
             return APIPath.busSttnInfoInqireService
         case .busArrivalInfo:
             return APIPath.busArvlInfoInqireService
+        case .busArrivalInfo:
+            return APIPath.busRouteInfoInqireService
         }
     }
 }
