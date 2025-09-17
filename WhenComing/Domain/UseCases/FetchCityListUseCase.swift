@@ -9,7 +9,7 @@ import Foundation
 
 // MARK: - Protocol
 protocol FetchCityCodeListUseCase {
-    func execute() async throws -> [CityCodeEntity]
+    func execute() async throws -> [BusCityCodeEntity]
 }
 
 // MARK: - Implementation
@@ -20,7 +20,7 @@ final class DefaultFetchCityCodeListUseCase: FetchCityCodeListUseCase {
         self.repository = repository
     }
 
-    func execute() async throws -> [CityCodeEntity] {
+    func execute() async throws -> [BusCityCodeEntity] {
         try await repository.fetchCityCodeList()
     }
 }

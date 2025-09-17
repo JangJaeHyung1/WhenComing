@@ -14,11 +14,7 @@ final class DefaultBusArrivalRepository: BusArrivalRepository {
         self.remoteDataSource = remoteDataSource
     }
 
-    func fetchArrivalInfoList(pageNo: Int, stationId: String) async throws -> [BusArrivalDTO] {
-        try await remoteDataSource.getArrivalInfoList(pageNo: pageNo, stationId: stationId)
-    }
-
-    func fetchSpecificBusArrival(cityCode: String, stationId: String, routeId: String) async throws -> [BusInfoDTO] {
-        try await remoteDataSource.getSpecificBusArrival(cityCode: cityCode, stationId: stationId, routeId: routeId)
+    func fetchSpecificBusArrival(pageNo: Int, cityCode: String, stationId: String, routeId: String) async throws -> [SpecificBusArrivalEntity] {
+        try await remoteDataSource.getSpecificBusArrival(pageNo: pageNo, cityCode: cityCode, stationId: stationId, routeId: routeId).map { $0.toEntity() }
     }
 }

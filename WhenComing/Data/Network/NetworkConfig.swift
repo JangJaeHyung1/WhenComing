@@ -22,6 +22,8 @@ struct NetworkConfig {
             return APIPath.busArvlInfoInqireService
         case .busArrivalInfo:
             return APIPath.busRouteInfoInqireService
+        case .busRouteInfo:
+            return
         }
     }
 }

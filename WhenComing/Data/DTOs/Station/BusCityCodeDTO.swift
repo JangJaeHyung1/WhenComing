@@ -40,8 +40,8 @@ struct CityCodeDTO: Decodable {
 }
 
 extension CityCodeDTO {
-    func toEntity() -> CityCodeEntity {
-        return CityCodeEntity(
+    func toEntity() -> BusCityCodeEntity {
+        return BusCityCodeEntity(
             code: cityCode,
             name: cityName
         )
