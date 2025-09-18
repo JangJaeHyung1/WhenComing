@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class DefaultBusStationRepository: BusStationRepository {
+final class DefaultBusStationRepository: BusStationRepositoryProtocol {
     private let remoteDataSource: BusStationRemoteDataSource
 
     init(remoteDataSource: BusStationRemoteDataSource) {

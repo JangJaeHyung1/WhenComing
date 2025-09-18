@@ -20,10 +20,8 @@ struct NetworkConfig {
             return APIPath.busSttnInfoInqireService
         case .busArrivalInfo:
             return APIPath.busArvlInfoInqireService
-        case .busArrivalInfo:
-            return APIPath.busRouteInfoInqireService
         case .busRouteInfo:
-            return
+            return APIPath.busRouteInfoInqireService
         }
     }
 }

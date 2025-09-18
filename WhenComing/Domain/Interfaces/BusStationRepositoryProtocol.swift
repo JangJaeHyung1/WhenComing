@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol BusStationRepository {
+protocol BusStationRepositoryProtocol {
     func fetchCityCodeList() async throws -> [BusCityCodeEntity]
     func fetchStationList(pageNo: Int, cityCode: String, stationName: String) async throws -> [BusStationEntity]
     func fetchNearyByStationList(pageNo: Int, latitude: Double, longitude: Double) async throws -> [AroundBusStationEntity]

@@ -256,7 +256,7 @@ extension UIFont {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = lineHeightMultiple
 
-        let attributes: [NSAttributedString.Key: Any] = [
+        let _: [NSAttributedString.Key: Any] = [
             .font: font,
             .paragraphStyle: paragraphStyle
         ]

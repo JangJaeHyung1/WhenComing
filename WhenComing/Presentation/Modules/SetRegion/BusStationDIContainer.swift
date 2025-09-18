@@ -23,7 +23,7 @@ final class BusStationDIContainer {
 
     // MARK: - Repository
 
-    private lazy var busStationRepository: BusStationRepository = {
+    private lazy var busStationRepository: BusStationRepositoryProtocol = {
         DefaultBusStationRepository(remoteDataSource: busStationRemoteDataSource)
     }()
 

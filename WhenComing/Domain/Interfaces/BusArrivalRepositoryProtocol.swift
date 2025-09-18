@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol BusArrivalRepository {
+protocol BusArrivalRepositoryProtocol {
     func fetchSpecificBusArrival(pageNo: Int, cityCode: String, stationId: String, routeId: String) async throws -> [SpecificBusArrivalEntity]
 }

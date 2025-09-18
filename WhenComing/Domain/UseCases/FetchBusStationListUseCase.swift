@@ -14,9 +14,9 @@ protocol FetchBusStationListUseCase {
 
 // MARK: - Implementation
 final class DefaultFetchBusStationListUseCase: FetchBusStationListUseCase {
-    private let repository: BusStationRepository
+    private let repository: BusStationRepositoryProtocol
 
-    init(repository: BusStationRepository) {
+    init(repository: BusStationRepositoryProtocol) {
         self.repository = repository
     }
 

@@ -8,6 +8,11 @@
 import Foundation
 
 enum APIEndpoint {
+    
+    var pageSize: Int {
+        return 20
+    }
+    
     // 버스정류소정보 busArrivalInfo
     case getCityCodeList                    // 서비스 가능 지역 검색
     case getStationList(pageNo: Int, cityCode: String, stationName: String)  // 정류소번호 목록조회: 정류장 이름 검색 결과 가져오기
@@ -84,21 +89,21 @@ enum APIEndpoint {
         case .getStationList(pageNo: let pageNo,cityCode: let cityCode, stationName: let stationName):
             queryItems += [
                 URLQueryItem(name: "pageNo", value: "\(pageNo)"),
-                URLQueryItem(name: "numOfRows", value: "10"),
+                URLQueryItem(name: "numOfRows", value: "\(pageSize)"),
                 URLQueryItem(name: "cityCode", value: cityCode),
                 URLQueryItem(name: "nodeNm", value: stationName),
             ]
         case .getAroundStationList(pageNo: let pageNo, lat: let lat, lng: let lng):
             queryItems += [
                 URLQueryItem(name: "pageNo", value: "\(pageNo)"),
-                URLQueryItem(name: "numOfRows", value: "10"),
+                URLQueryItem(name: "numOfRows", value: "\(pageSize)"),
                 URLQueryItem(name: "gpsLati", value: "\(lat)"),
                 URLQueryItem(name: "gpsLong", value: "\(lng)"),
             ]
         case .getSttnThrghRouteList(pageNo: let pageNo, cityCode: let cityCode, nodeId: let nodeId):
             queryItems += [
                 URLQueryItem(name: "pageNo", value: "\(pageNo)"),
-                URLQueryItem(name: "numOfRows", value: "10"),
+                URLQueryItem(name: "numOfRows", value: "\(pageSize)"),
                 URLQueryItem(name: "cityCode", value: cityCode),
                 URLQueryItem(name: "nodeid", value: "\(nodeId)"),
             ]
@@ -107,7 +112,7 @@ enum APIEndpoint {
         case .getSpecificBusArrival(pageNo: let pageNo, cityCode: let cityCode, stationId: let stationId, routeId: let routeId):
             queryItems += [
                 URLQueryItem(name: "pageNo", value: "\(pageNo)"),
-                URLQueryItem(name: "numOfRows", value: "10"),
+                URLQueryItem(name: "numOfRows", value: "\(pageSize)"),
                 URLQueryItem(name: "cityCode", value: cityCode),
                 URLQueryItem(name: "nodeid", value: "\(stationId)"),
                 URLQueryItem(name: "routeId", value: "\(routeId)"),
@@ -115,7 +120,7 @@ enum APIEndpoint {
         case .getBusRouteList(pageNo: let pageNo, cityCode: let cityCode, routeId: let routeId):
             queryItems += [
                 URLQueryItem(name: "pageNo", value: "\(pageNo)"),
-                URLQueryItem(name: "numOfRows", value: "10"),
+                URLQueryItem(name: "numOfRows", value: "\(pageSize)"),
                 URLQueryItem(name: "cityCode", value: cityCode),
                 URLQueryItem(name: "routeId", value: routeId),
             ]
