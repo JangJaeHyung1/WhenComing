@@ -44,7 +44,7 @@ extension SetRegionViewController {
     
     private func fetch() {
         vm.input.fetchCityCodesTrigger.accept(())
-        vm.input.searchStationTrigger.accept((pageNo: 1, cityCode: "21", stationName: "동백"))
+        
     }
     
     private func bind() {

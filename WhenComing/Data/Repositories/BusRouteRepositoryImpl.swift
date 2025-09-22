@@ -7,13 +7,13 @@
 
 final class DefaultBusRouteRepository: BusRouteRepositoryProtocol {
     
-    private let remoteDataSource: BusArrivalRemoteDataSource
+    private let remoteDataSource: BusRouteRemoteDataSource
 
-    init(remoteDataSource: BusArrivalRemoteDataSource) {
+    init(remoteDataSource: BusRouteRemoteDataSource) {
         self.remoteDataSource = remoteDataSource
     }
 
-    func fetchBusRoute(pageNo: Int, cityCode: String, stationId: String, routeId: String) async throws -> [SpecificBusArrivalEntity] {
-        try await remoteDataSource.getSpecificBusArrival(pageNo: pageNo, cityCode: cityCode, stationId: stationId, routeId: routeId).map { $0.toEntity() }
+    func fetchBusRoute(pageNo: Int, cityCode: String, stationId: String, routeId: String) async throws -> [BusRouteInfoEntity] {
+        try await remoteDataSource.getBusRouteList(pageNo: pageNo, cityCode: cityCode, routeId: routeId).map { $0.toEntity() }
     }
 }

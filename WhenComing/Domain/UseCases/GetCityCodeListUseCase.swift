@@ -1,5 +1,5 @@
 //
-//  FetchBusListUseCase.swift
+//  FetchCityCodeListUseCase.swift
 //  WhenComing
 //
 //  Created by jh on 3/18/25.
@@ -8,12 +8,12 @@
 import Foundation
 
 // MARK: - Protocol
-protocol FetchCityCodeListUseCase {
+protocol GetCityCodeListUseCase {
     func execute() async throws -> [BusCityCodeEntity]
 }
 
 // MARK: - Implementation
-final class DefaultFetchCityCodeListUseCase: FetchCityCodeListUseCase {
+final class DefaultGetCityCodeListUseCase: GetCityCodeListUseCase {
     private let repository: BusStationRepositoryProtocol
 
     init(repository: BusStationRepositoryProtocol) {

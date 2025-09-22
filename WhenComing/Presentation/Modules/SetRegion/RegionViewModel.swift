@@ -16,11 +16,9 @@ final class BusStationViewModel {
     // MARK: - Input/Output
     struct Input {
         let fetchCityCodesTrigger: PublishRelay<Void>
-        let searchStationTrigger: PublishRelay<(pageNo: Int, cityCode: String, stationName: String)>
     }
     struct Output {
         let cityCodes: BehaviorRelay<[CityCodeDTO]>
-        let busStations: BehaviorRelay<[BusStationDTO]>
         let isLoading: BehaviorRelay<Bool>
         let error: PublishRelay<Error>
     }
@@ -28,24 +26,19 @@ final class BusStationViewModel {
     let output: Output
     
     // MARK: - Dependencies
-    private let fetchCityCodeUseCase: FetchCityCodeListUseCase
-    private let fetchBusStationListUseCase: FetchBusStationListUseCase
+    private let getCityCodeUseCase: GetCityCodeListUseCase
     
     // MARK: - Init
     init(
-        fetchCityCodeUseCase: FetchCityCodeListUseCase,
-        fetchBusStationListUseCase: FetchBusStationListUseCase
+        getCityCodeUseCase: GetCityCodeListUseCase,
     ) {
-        self.fetchCityCodeUseCase = fetchCityCodeUseCase
-        self.fetchBusStationListUseCase = fetchBusStationListUseCase
+        self.getCityCodeUseCase = getCityCodeUseCase
         
         self.input = Input(
-            fetchCityCodesTrigger: PublishRelay<Void>(),
-            searchStationTrigger: PublishRelay<(pageNo: Int, cityCode: String, stationName: String)>()
+            fetchCityCodesTrigger: PublishRelay<Void>()
         )
         self.output = Output(
             cityCodes: BehaviorRelay(value: []),
-            busStations: BehaviorRelay(value: []),
             isLoading: BehaviorRelay(value: false),
             error: PublishRelay<Error>()
         )
@@ -59,7 +52,7 @@ final class BusStationViewModel {
                 guard let self else { return }
                 Task {
                     do {
-                        let cityList = try await self.fetchCityCodeUseCase.execute()
+                        let cityList = try await self.getCityCodeUseCase.execute()
                         print("cityList:\(cityList)")
                     } catch {
                         print(error)
@@ -69,20 +62,5 @@ final class BusStationViewModel {
             })
             .disposed(by: disposeBag)
         
-        input.searchStationTrigger
-            .subscribe(onNext:{ [weak self] res in
-                guard let self else { return }
-                Task {
-                    do {
-                        print("searchStationTrigger")
-                        let stationList = try await self.fetchBusStationListUseCase.execute(pageNo: res.pageNo, cityCode: res.cityCode, stationName: res.stationName)
-                        print("stationList:\(stationList)")
-                    }
-                    catch {
-                        print(error)
-                    }
-                }
-            })
-            .disposed(by: disposeBag)
     }
 }

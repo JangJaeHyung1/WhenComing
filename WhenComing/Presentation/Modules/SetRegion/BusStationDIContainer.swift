@@ -29,20 +29,15 @@ final class BusStationDIContainer {
 
     // MARK: - UseCases
 
-    func makeFetchCityCodeListUseCase() -> FetchCityCodeListUseCase {
-        DefaultFetchCityCodeListUseCase(repository: busStationRepository)
-    }
-
-    func makeFetchBusStationListUseCase() -> FetchBusStationListUseCase {
-        DefaultFetchBusStationListUseCase(repository: busStationRepository)
+    func makeGetCityCodeListUseCase() -> GetCityCodeListUseCase {
+        DefaultGetCityCodeListUseCase(repository: busStationRepository)
     }
 
     // MARK: - ViewModel
 
     func makeBusStationViewModel() -> BusStationViewModel {
         BusStationViewModel(
-            fetchCityCodeUseCase: makeFetchCityCodeListUseCase(),
-            fetchBusStationListUseCase: makeFetchBusStationListUseCase()
+            getCityCodeUseCase: makeGetCityCodeListUseCase()
         )
     }
 
