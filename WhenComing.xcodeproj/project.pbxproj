@@ -54,6 +54,7 @@
 		E99BEE772D4279450013C32E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E99BEE752D4279450013C32E /* Main.storyboard */; };
 		E99BEE792D4279460013C32E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E99BEE782D4279460013C32E /* Assets.xcassets */; };
 		E99BEE7C2D4279460013C32E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E99BEE7A2D4279460013C32E /* LaunchScreen.storyboard */; };
+		E9D336072E8974CB00BB270F /* CityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D336062E8974CB00BB270F /* CityCell.swift */; };
 		E9D955652D4E2E10009C3353 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D955642D4E2E10009C3353 /* MainViewController.swift */; };
 		E9D955672D4E2E1A009C3353 /* SetRegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D955662D4E2E1A009C3353 /* SetRegionViewController.swift */; };
 		E9DDB29C2E689B6B00EC7B5F /* BusCityCodeEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9DDB29B2E689B6900EC7B5F /* BusCityCodeEntity.swift */; };
@@ -105,6 +106,7 @@
 		E99BEE782D4279460013C32E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E99BEE7B2D4279460013C32E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E99BEE7D2D4279460013C32E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E9D336062E8974CB00BB270F /* CityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityCell.swift; sourceTree = "<group>"; };
 		E9D955642D4E2E10009C3353 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		E9D955662D4E2E1A009C3353 /* SetRegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetRegionViewController.swift; sourceTree = "<group>"; };
 		E9DDB29B2E689B6900EC7B5F /* BusCityCodeEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusCityCodeEntity.swift; sourceTree = "<group>"; };
@@ -386,12 +388,21 @@
 			path = WhenComing;
 			sourceTree = "<group>";
 		};
+		E9D336052E8974B200BB270F /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				E9D336062E8974CB00BB270F /* CityCell.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
 		E9D955622D4E2CFB009C3353 /* SetRegion */ = {
 			isa = PBXGroup;
 			children = (
 				E991C3E42E54B1AB006C90D2 /* BusStationDIContainer.swift */,
 				E9D955662D4E2E1A009C3353 /* SetRegionViewController.swift */,
 				E991C3E02E54AC72006C90D2 /* RegionViewModel.swift */,
+				E9D336052E8974B200BB270F /* UI */,
 			);
 			path = SetRegion;
 			sourceTree = "<group>";
@@ -491,6 +502,7 @@
 				E935F9002D6E224C00EC2EC6 /* NetworkService.swift in Sources */,
 				E91AD4842E7862A900353FED /* BusRouteRepositoryProtocol.swift in Sources */,
 				E91EDD762D4676740041104B /* Extension.swift in Sources */,
+				E9D336072E8974CB00BB270F /* CityCell.swift in Sources */,
 				E91AD47C2E785A3000353FED /* ArroundBusStationDTO.swift in Sources */,
 				E935F9042D6E226100EC2EC6 /* NetworkConfig.swift in Sources */,
 				E98E487A2D8959CE004BFD1D /* BusArrivalRemoteDataSource.swift in Sources */,

@@ -12,15 +12,20 @@ import RxCocoa
 final class BusStationViewModel {
     
     private let disposeBag = DisposeBag()
-    
+    private let cityCodesRelay = BehaviorRelay<[BusCityCodeEntity]>(value: [])
+    private let isLoadingRelay = BehaviorRelay<Bool>(value: false)
+    private let errorRelay = PublishRelay<Error>()
+    private let dummyData: [String] = ["서울","부산","대구","대전","울산","제주","마산","전북","서울","부산",
+                             "대구","대전","울산","제주","마산","전북","서울","부산","대구","대전",
+                             "울산","제주","마산","전북","서울","부산","대구","대전","울산","제주",]
     // MARK: - Input/Output
     struct Input {
         let fetchCityCodesTrigger: PublishRelay<Void>
     }
     struct Output {
-        let cityCodes: BehaviorRelay<[CityCodeDTO]>
-        let isLoading: BehaviorRelay<Bool>
-        let error: PublishRelay<Error>
+        let cityCodes: Driver<[BusCityCodeEntity]>
+        let isLoading: Driver<Bool>
+        let error: Signal<Error>
     }
     let input: Input
     let output: Output
@@ -38,9 +43,9 @@ final class BusStationViewModel {
             fetchCityCodesTrigger: PublishRelay<Void>()
         )
         self.output = Output(
-            cityCodes: BehaviorRelay(value: []),
-            isLoading: BehaviorRelay(value: false),
-            error: PublishRelay<Error>()
+            cityCodes: cityCodesRelay.asObservable().asDriver(onErrorDriveWith: .empty()),
+            isLoading: isLoadingRelay.asObservable().asDriver(onErrorDriveWith: .empty()),
+            error: errorRelay.asSignal()
         )
         
         bind()
@@ -48,19 +53,37 @@ final class BusStationViewModel {
     
     private func bind() {
         input.fetchCityCodesTrigger
-            .subscribe(onNext:{ [weak self] res in
+            .filter { return false }
+            .throttle(.seconds(1), scheduler: MainScheduler.asyncInstance)
+            .subscribe(onNext: { [weak self] in
                 guard let self else { return }
-                Task {
+                Task { [weak self] in
+                    guard let self else { return }
+                    await MainActor.run { self.isLoadingRelay.accept(true) }
                     do {
                         let cityList = try await self.getCityCodeUseCase.execute()
-                        print("cityList:\(cityList)")
+                        await MainActor.run {
+                            self.cityCodesRelay.accept(cityList)
+                            self.isLoadingRelay.accept(false)
+                        }
                     } catch {
-                        print(error)
+                        await MainActor.run {
+                            self.errorRelay.accept(error)
+                            self.isLoadingRelay.accept(false)
+                        }
                     }
-                    
                 }
             })
             .disposed(by: disposeBag)
         
+        input.fetchCityCodesTrigger
+            .throttle(.seconds(1), scheduler: MainScheduler.asyncInstance)
+            .subscribe(onNext: { [weak self] in
+                guard let self else { return }
+                self.cityCodesRelay.accept(dummyData.enumerated().map { index, name in
+                    BusCityCodeEntity(code: index, name: name)
+                })
+            })
+            .disposed(by: disposeBag)
     }
 }
