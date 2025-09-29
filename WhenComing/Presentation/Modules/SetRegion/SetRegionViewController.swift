@@ -14,10 +14,6 @@ class SetRegionViewController: UIViewController {
     private let disposeBag = DisposeBag()
     var vm = BusStationDIContainer().makeBusStationViewModel()
     
-    
-    var cityCodes: [String] = ["서울","부산","대구","대전","울산","제주","마산","전북","서울","부산",
-                               "대구","대전","울산","제주","마산","전북","서울","부산","대구","대전",
-                               "울산","제주","마산","전북","서울","부산","대구","대전","울산","제주",]
     var collectionView: UICollectionView!
     
     
@@ -28,6 +24,7 @@ class SetRegionViewController: UIViewController {
         btn.isEnabled = false
         btn.tintColor = .white
         btn.setTitle("다음", for: .normal)
+        btn.setTitleColor(.white, for: .normal)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
@@ -76,7 +73,7 @@ extension SetRegionViewController {
         collectionCellUI()
     }
     private func configure() {
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
     }
     
     private func fetch() {
@@ -137,11 +134,11 @@ extension SetRegionViewController {
     private func setConstraints() {
         nextBtn.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(18)
-            make.height.equalTo(42)
+            make.height.equalTo(50)
             make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-18)
         }
         collectionView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
+            make.top.equalTo(view.safeAreaLayoutGuide)
             make.leading.trailing.equalToSuperview()
             make.bottom.equalTo(nextBtn.snp.top).offset(-12)
         }
@@ -156,7 +153,7 @@ extension SetRegionViewController: UICollectionViewDelegateFlowLayout {
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         let interval:CGFloat = 8
         let width: CGFloat = ( UIScreen.main.bounds.width - interval * 3 - ( 12 * 2)) / 3
-        return CGSize(width: width , height: 40 )
+        return CGSize(width: width , height: 48 )
     }
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
@@ -174,7 +171,7 @@ extension SetRegionViewController: UICollectionViewDelegateFlowLayout {
         let interval:CGFloat = 12
         let flowLayout: UICollectionViewFlowLayout
         flowLayout = UICollectionViewFlowLayout()
-        flowLayout.sectionInset = UIEdgeInsets.init(top: interval , left: interval, bottom: 0, right: interval)
+        flowLayout.sectionInset = UIEdgeInsets.init(top: interval , left: interval, bottom: interval, right: interval)
         self.collectionView.collectionViewLayout = flowLayout
     }
 }

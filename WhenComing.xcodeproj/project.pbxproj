@@ -401,7 +401,7 @@
 			children = (
 				E991C3E42E54B1AB006C90D2 /* BusStationDIContainer.swift */,
 				E9D955662D4E2E1A009C3353 /* SetRegionViewController.swift */,
-				E991C3E02E54AC72006C90D2 /* RegionViewModel.swift */,
+				E9F8A7662E8ACD5A00CDBC22 /* ViewModel */,
 				E9D336052E8974B200BB270F /* UI */,
 			);
 			path = SetRegion;
@@ -413,6 +413,14 @@
 				E9D955642D4E2E10009C3353 /* MainViewController.swift */,
 			);
 			path = Main;
+			sourceTree = "<group>";
+		};
+		E9F8A7662E8ACD5A00CDBC22 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				E991C3E02E54AC72006C90D2 /* RegionViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
