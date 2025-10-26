@@ -118,7 +118,7 @@ extension SetRegionViewController {
     }
     
     private func setNavi() {
-        self.navigationItem.title = "지역 선택"
+        self.navigationItem.title = "지역이 어디인가요?"
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.largeTitleDisplayMode = .always
         self.navigationItem.setHidesBackButton(false, animated: true)

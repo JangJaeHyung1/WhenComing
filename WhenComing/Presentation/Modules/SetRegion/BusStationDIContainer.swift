@@ -37,7 +37,7 @@ final class BusStationDIContainer {
 
     func makeBusStationViewModel() -> BusStationViewModel {
         BusStationViewModel(
-            getCityCodeUseCase: makeGetCityCodeListUseCase()
+            getCityCodeListUseCase: makeGetCityCodeListUseCase()
         )
     }
 

@@ -57,6 +57,10 @@
 		E9D336072E8974CB00BB270F /* CityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D336062E8974CB00BB270F /* CityCell.swift */; };
 		E9D955652D4E2E10009C3353 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D955642D4E2E10009C3353 /* MainViewController.swift */; };
 		E9D955672D4E2E1A009C3353 /* SetRegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D955662D4E2E1A009C3353 /* SetRegionViewController.swift */; };
+		E9DC2A942EAE29A800BF138B /* BusCityCodeLocalDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9DC2A932EAE299900BF138B /* BusCityCodeLocalDataSource.swift */; };
+		E9DC2A962EAE2B6E00BF138B /* BusCityCodeRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9DC2A952EAE2B6D00BF138B /* BusCityCodeRepositoryProtocol.swift */; };
+		E9DC2A982EAE2BAE00BF138B /* BusCityCodeRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9DC2A972EAE2BAB00BF138B /* BusCityCodeRepositoryImpl.swift */; };
+		E9DC2A9A2EAE2EDB00BF138B /* CityCodeUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9DC2A992EAE2ED700BF138B /* CityCodeUseCase.swift */; };
 		E9DDB29C2E689B6B00EC7B5F /* BusCityCodeEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9DDB29B2E689B6900EC7B5F /* BusCityCodeEntity.swift */; };
 /* End PBXBuildFile section */
 
@@ -109,6 +113,10 @@
 		E9D336062E8974CB00BB270F /* CityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityCell.swift; sourceTree = "<group>"; };
 		E9D955642D4E2E10009C3353 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		E9D955662D4E2E1A009C3353 /* SetRegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetRegionViewController.swift; sourceTree = "<group>"; };
+		E9DC2A932EAE299900BF138B /* BusCityCodeLocalDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusCityCodeLocalDataSource.swift; sourceTree = "<group>"; };
+		E9DC2A952EAE2B6D00BF138B /* BusCityCodeRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusCityCodeRepositoryProtocol.swift; sourceTree = "<group>"; };
+		E9DC2A972EAE2BAB00BF138B /* BusCityCodeRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusCityCodeRepositoryImpl.swift; sourceTree = "<group>"; };
+		E9DC2A992EAE2ED700BF138B /* CityCodeUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityCodeUseCase.swift; sourceTree = "<group>"; };
 		E9DDB29B2E689B6900EC7B5F /* BusCityCodeEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusCityCodeEntity.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -151,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				E98E48712D89592E004BFD1D /* SpecificBusArrivalEntity.swift */,
+				E91AD47F2E785CE300353FED /* FavoriteBusEnitity.swift */,
 			);
 			path = Bus;
 			sourceTree = "<group>";
@@ -212,6 +221,7 @@
 		E91EDD632D4664210041104B /* UseCases */ = {
 			isa = PBXGroup;
 			children = (
+				E9DC2A992EAE2ED700BF138B /* CityCodeUseCase.swift */,
 				E98E48732D895962004BFD1D /* GetCityCodeListUseCase.swift */,
 				E991C3E22E54AFF1006C90D2 /* SearchStationByNameUseCase.swift */,
 				E990E2702E8188E8004CC626 /* GetNearbyStationListUseCase.swift */,
@@ -228,7 +238,6 @@
 				E91AD4852E78667C00353FED /* Station */,
 				E91AD4862E78668800353FED /* Bus */,
 				E91AD4872E7866A300353FED /* Route */,
-				E91AD47F2E785CE300353FED /* FavoriteBusEnitity.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -236,6 +245,7 @@
 		E91EDD652D4664360041104B /* Interfaces */ = {
 			isa = PBXGroup;
 			children = (
+				E9DC2A952EAE2B6D00BF138B /* BusCityCodeRepositoryProtocol.swift */,
 				E98E48772D895982004BFD1D /* BusStationRepositoryProtocol.swift */,
 				E98662D62DD1252400D4BE33 /* BusArrivalRepositoryProtocol.swift */,
 				E91AD4832E7862A700353FED /* BusRouteRepositoryProtocol.swift */,
@@ -309,6 +319,7 @@
 		E91EDD6E2D4675E90041104B /* DataSource */ = {
 			isa = PBXGroup;
 			children = (
+				E9DC2A932EAE299900BF138B /* BusCityCodeLocalDataSource.swift */,
 				E99BA3D22DD2587200963ACF /* BusStationRemoteDataSource.swift */,
 				E98E48792D8959CE004BFD1D /* BusArrivalRemoteDataSource.swift */,
 				E91CC6AA2E7985430092F9B8 /* BusRouteRemoteDataSource.swift */,
@@ -319,6 +330,7 @@
 		E91EDD6F2D4675EE0041104B /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
+				E9DC2A972EAE2BAB00BF138B /* BusCityCodeRepositoryImpl.swift */,
 				E935F9072D6E230B00EC2EC6 /* BusStationRepositoryImpl.swift */,
 				E961EC9E2D6EBC1100BB5E77 /* BusArrivalRepositoryImpl.swift */,
 				E91AD48B2E78689600353FED /* BusRouteRepositoryImpl.swift */,
@@ -515,6 +527,7 @@
 				E935F9042D6E226100EC2EC6 /* NetworkConfig.swift in Sources */,
 				E98E487A2D8959CE004BFD1D /* BusArrivalRemoteDataSource.swift in Sources */,
 				E935F8FE2D6E223E00EC2EC6 /* APIEndpoint.swift in Sources */,
+				E9DC2A942EAE29A800BF138B /* BusCityCodeLocalDataSource.swift in Sources */,
 				E961ECA12D6EBC3B00BB5E77 /* BusStaionDTO.swift in Sources */,
 				E991C3E52E54B1AF006C90D2 /* BusStationDIContainer.swift in Sources */,
 				E961EC9D2D6EBBFE00BB5E77 /* GetBusArrivalInfoUseCase.swift in Sources */,
@@ -525,7 +538,9 @@
 				E935F9082D6E230B00EC2EC6 /* BusStationRepositoryImpl.swift in Sources */,
 				E98E487C2D8959E2004BFD1D /* SpecificBusArrivalDTO.swift in Sources */,
 				E98E48722D89592E004BFD1D /* SpecificBusArrivalEntity.swift in Sources */,
+				E9DC2A982EAE2BAE00BF138B /* BusCityCodeRepositoryImpl.swift in Sources */,
 				E91EDD742D4676590041104B /* DesignSystem.swift in Sources */,
+				E9DC2A962EAE2B6E00BF138B /* BusCityCodeRepositoryProtocol.swift in Sources */,
 				E98E48742D895962004BFD1D /* GetCityCodeListUseCase.swift in Sources */,
 				E99BEE742D4279450013C32E /* ViewController.swift in Sources */,
 				E91AD47A2E78563800353FED /* BusRouteInfoEntity.swift in Sources */,
@@ -539,6 +554,7 @@
 				E935F8FB2D6E204F00EC2EC6 /* BusStationEntity.swift in Sources */,
 				E991C3E32E54AFF2006C90D2 /* SearchStationByNameUseCase.swift in Sources */,
 				E9D955652D4E2E10009C3353 /* MainViewController.swift in Sources */,
+				E9DC2A9A2EAE2EDB00BF138B /* CityCodeUseCase.swift in Sources */,
 				E99BEE702D4279450013C32E /* AppDelegate.swift in Sources */,
 				E91AD4782E78561100353FED /* AroundBusStationEntity.swift in Sources */,
 				E91AD47E2E785BF200353FED /* StationThrghBusEntity.swift in Sources */,

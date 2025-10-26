@@ -38,9 +38,9 @@ final class BusStationViewModel {
     
     // MARK: - Init
     init(
-        getCityCodeUseCase: GetCityCodeListUseCase,
+        getCityCodeListUseCase: GetCityCodeListUseCase,
     ) {
-        self.getCityCodeUseCase = getCityCodeUseCase
+        self.getCityCodeUseCase = getCityCodeListUseCase
         
         self.input = Input(
             fetchCityCodesTrigger: PublishRelay<Void>()
@@ -53,6 +53,8 @@ final class BusStationViewModel {
         
         bind()
     }
+    
+    
     
     private func bind() {
         input.fetchCityCodesTrigger
