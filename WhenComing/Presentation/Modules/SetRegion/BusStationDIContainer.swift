@@ -20,11 +20,17 @@ final class BusStationDIContainer {
     private lazy var busStationRemoteDataSource: BusStationRemoteDataSource = {
         DefaultBusStationRemoteDataSource(networkService: networkService)
     }()
+    private lazy var busCityCodeLocalDataSource: BusCityCodeLocalDataSource = {
+        DefaultBusCityCodeLocalDataSource()
+    }()
 
     // MARK: - Repository
 
     private lazy var busStationRepository: BusStationRepositoryProtocol = {
         DefaultBusStationRepository(remoteDataSource: busStationRemoteDataSource)
+    }()
+    private lazy var busCityCodeRepository: BusCityCodeRepositoryProtocol = {
+        DefaultBusCityCoedRepository(remoteDataSource: busCityCodeLocalDataSource)
     }()
 
     // MARK: - UseCases
@@ -32,13 +38,17 @@ final class BusStationDIContainer {
     func makeGetCityCodeListUseCase() -> GetCityCodeListUseCase {
         DefaultGetCityCodeListUseCase(repository: busStationRepository)
     }
-
-    // MARK: - ViewModel
-
-    func makeBusStationViewModel() -> BusStationViewModel {
-        BusStationViewModel(
-            getCityCodeListUseCase: makeGetCityCodeListUseCase()
-        )
+    
+    func makeloadSaveCityCodeUseCase() -> LoadSavedCityCodeUseCase {
+        DefaultLoadSavedCityCodeUseCase(repository: busCityCodeRepository)
     }
 
+    // MARK: - ViewModel
+    
+    func makeBusStationViewModel() -> BusStationViewModel {
+        BusStationViewModel(
+            getCityCodeListUseCase: makeGetCityCodeListUseCase(), loadSaveCityCodeUseCase: makeloadSaveCityCodeUseCase()
+        )
+    }
+    
 }

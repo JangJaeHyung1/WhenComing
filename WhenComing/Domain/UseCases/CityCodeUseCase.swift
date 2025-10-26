@@ -6,33 +6,22 @@
 //
 
 protocol LoadSavedCityCodeUseCase {
-    func execute() async -> Int?
-}
-
-protocol SaveCityCodeUseCase {
-    func execute(_ code: Int) async
+    func load() -> Int?
+    func save(_ code: Int)
 }
 
 final class DefaultLoadSavedCityCodeUseCase: LoadSavedCityCodeUseCase {
-    private let repo: BusCityCodeRepositoryProtocol
     
-    init(repo: BusCityCodeRepositoryProtocol) {
-        self.repo = repo
+    private let repository: BusCityCodeRepositoryProtocol
+    
+    init(repository: BusCityCodeRepositoryProtocol) {
+        self.repository = repository
     }
     
-    func execute() -> Int? {
-        repo.loadCityCode()
+    func load() -> Int? {
+        repository.loadCityCode()
     }
-}
-
-final class DefaultSaveCityCodeUseCase: SaveCityCodeUseCase {
-    private let repo: BusCityCodeRepositoryProtocol
-    
-    init(repo: BusCityCodeRepositoryProtocol) {
-        self.repo = repo
-    }
-    
-    func execute(_ code: Int) {
-        repo.saveCityCode(code)
+    func save(_ code: Int) {
+        repository.saveCityCode(code)
     }
 }

@@ -6,7 +6,7 @@
 //
 
 
-struct BusCityCodeEntity {
+struct BusCityCodeEntity: Hashable {
     let code: Int
     let name: String
 }

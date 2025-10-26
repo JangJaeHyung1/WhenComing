@@ -470,7 +470,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1520;
-				LastUpgradeCheck = 1520;
+				LastUpgradeCheck = 1630;
 				TargetAttributes = {
 					E99BEE6B2D4279450013C32E = {
 						CreatedOnToolsVersion = 15.2;
@@ -719,7 +719,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 8Y6GZNH939;
+				DEVELOPMENT_TEAM = HU86N788J6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WhenComing/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "언제오지";
@@ -754,7 +754,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 8Y6GZNH939;
+				DEVELOPMENT_TEAM = HU86N788J6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WhenComing/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "언제오지";

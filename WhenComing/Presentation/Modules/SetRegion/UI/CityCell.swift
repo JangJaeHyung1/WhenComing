@@ -42,10 +42,9 @@ class CityCell: UICollectionViewCell {
         lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.numberOfLines = 0
         lbl.textColor = .label
+        lbl.textAlignment = .center
         lbl.lineBreakMode = .byWordWrapping
         lbl.isUserInteractionEnabled = true
-        lbl.adjustsFontSizeToFitWidth = true
-        lbl.minimumScaleFactor = 0.5
         return lbl
     }()
     
@@ -120,7 +119,8 @@ class CityCell: UICollectionViewCell {
         cellView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -0).isActive = true
         
         titleLbl.snp.makeConstraints { make in
-            make.center.equalToSuperview()
+            make.leading.trailing.equalToSuperview().inset(4)
+            make.centerY.equalToSuperview()
         }
     }
     

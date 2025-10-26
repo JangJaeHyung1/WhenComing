@@ -12,7 +12,7 @@ protocol BusCityCodeLocalDataSource {
     func saveCityCode(_ code: Int)
 }
 
-final class UserBusCityCodeLocalDataSource: BusCityCodeLocalDataSource {
+final class DefaultBusCityCodeLocalDataSource: BusCityCodeLocalDataSource {
     private let key = "selected_city_code"
 
     func loadCityCode() -> Int? {

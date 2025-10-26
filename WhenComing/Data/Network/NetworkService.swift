@@ -20,7 +20,7 @@ final class NetworkService: NetworkServiceProtocol {
         guard let request = endpoint.urlRequest else {
             throw APIError.urlError
         }
-//        print(request)
+        print(request)
         let (data, response) = try await URLSession.shared.data(for: request)
         
         guard let httpResponse = response as? HTTPURLResponse else {
@@ -32,8 +32,8 @@ final class NetworkService: NetworkServiceProtocol {
         }
         
         do {
-//            print("🟠 Raw JSON:")
-//            print(String(data: data, encoding: .utf8) ?? "nil")
+            print("🟠 Raw JSON:")
+            print(String(data: data, encoding: .utf8) ?? "nil")
             return try JSONDecoder().decode(T.self, from: data)
         } catch {
             throw APIError.failToDecode(error.localizedDescription)

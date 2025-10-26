@@ -24,6 +24,7 @@ final class BusStationViewModel {
     // MARK: - Input/Output
     struct Input {
         let fetchCityCodesTrigger: PublishRelay<Void>
+        let searchQuery: PublishRelay<String>
     }
     struct Output {
         let cityCodes: Driver<[BusCityCodeEntity]>
@@ -34,19 +35,34 @@ final class BusStationViewModel {
     let output: Output
     
     // MARK: - Dependencies
-    private let getCityCodeUseCase: GetCityCodeListUseCase
+    private let getCityCodeListUseCase: GetCityCodeListUseCase
+    private let loadSaveCityCodeUseCase: LoadSavedCityCodeUseCase
     
     // MARK: - Init
     init(
         getCityCodeListUseCase: GetCityCodeListUseCase,
+        loadSaveCityCodeUseCase: LoadSavedCityCodeUseCase
     ) {
-        self.getCityCodeUseCase = getCityCodeListUseCase
+        self.getCityCodeListUseCase = getCityCodeListUseCase
+        self.loadSaveCityCodeUseCase = loadSaveCityCodeUseCase
         
         self.input = Input(
-            fetchCityCodesTrigger: PublishRelay<Void>()
+            fetchCityCodesTrigger: PublishRelay<Void>(),
+            searchQuery: PublishRelay<String>()
         )
+        
+        // MARK: - transform
+        
+        let filteredCityCodes = Observable
+            .combineLatest(cityCodesRelay, input.searchQuery.startWith(""))
+            .map { cityCodes, query in
+                guard !query.isEmpty else { return cityCodes }
+                return cityCodes.filter { $0.name.contains(query) }
+            }
+            .asDriver(onErrorDriveWith: .empty())
+        
         self.output = Output(
-            cityCodes: cityCodesRelay.asObservable().asDriver(onErrorDriveWith: .empty()),
+            cityCodes: filteredCityCodes,
             isLoading: isLoadingRelay.asObservable().asDriver(onErrorDriveWith: .empty()),
             error: errorRelay.asSignal()
         )
@@ -58,7 +74,7 @@ final class BusStationViewModel {
     
     private func bind() {
         input.fetchCityCodesTrigger
-            .filter { return false }
+//            .filter { return false }
             .throttle(.seconds(1), scheduler: MainScheduler.asyncInstance)
             .subscribe(onNext: { [weak self] in
                 guard let self else { return }
@@ -66,7 +82,7 @@ final class BusStationViewModel {
                     guard let self else { return }
                     await MainActor.run { self.isLoadingRelay.accept(true) }
                     do {
-                        let cityList = try await self.getCityCodeUseCase.execute()
+                        let cityList = try await self.getCityCodeListUseCase.execute()
                         await MainActor.run {
                             self.cityCodesRelay.accept(cityList)
                             self.isLoadingRelay.accept(false)
@@ -82,6 +98,7 @@ final class BusStationViewModel {
             .disposed(by: disposeBag)
         
         input.fetchCityCodesTrigger
+            .filter { return false }
             .throttle(.seconds(1), scheduler: MainScheduler.asyncInstance)
             .subscribe(onNext: { [weak self] in
                 guard let self else { return }
@@ -90,5 +107,14 @@ final class BusStationViewModel {
                 })
             })
             .disposed(by: disposeBag)
+    }
+    
+    
+    func loadCityCode() -> Int? {
+        self.loadSaveCityCodeUseCase.load()
+    }
+    
+    func saveCityCode(_ code: Int) {
+        self.loadSaveCityCodeUseCase.save(code)
     }
 }

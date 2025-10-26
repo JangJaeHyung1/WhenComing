@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -17,15 +17,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="DRc-4B-Luc">
-                                <rect key="frame" x="146.66666666666666" y="376" width="100" height="100"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="100" id="4Wq-2C-X5k"/>
-                                    <constraint firstAttribute="height" constant="100" id="xSZ-09-cdW"/>
-                                </constraints>
-                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dgr-1f-GsR">
-                                <rect key="frame" x="42.000000000000007" y="89" width="124.66666666666669" height="129"/>
+                                <rect key="frame" x="42.000000000000007" y="148" width="124.66666666666669" height="129"/>
                                 <string key="text">출퇴근길
 지하철
 버스</string>
@@ -33,9 +26,9 @@
                                 <color key="textColor" red="0.59624677835051543" green="0.59624677835051543" blue="0.59624677835051543" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="언제 오지..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VNJ-kb-mWJ">
-                                <rect key="frame" x="158.66666666666666" y="466" width="92" height="24"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="언제 오지" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VNJ-kb-mWJ">
+                                <rect key="frame" x="123.33333333333333" y="402" width="146.66666666666669" height="48"/>
+                                <fontDescription key="fontDescription" type="system" weight="black" pointSize="40"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -43,12 +36,10 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="VNJ-kb-mWJ" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="IEB-zU-keo"/>
+                            <constraint firstItem="VNJ-kb-mWJ" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="OHm-hk-zaL"/>
                             <constraint firstItem="Dgr-1f-GsR" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="42" id="Y9L-s1-dOI"/>
-                            <constraint firstItem="VNJ-kb-mWJ" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" constant="8" id="YBf-Mr-opv"/>
                             <constraint firstItem="Dgr-1f-GsR" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="30" id="YMP-Jp-hLF"/>
-                            <constraint firstItem="DRc-4B-Luc" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="e5V-e4-OV6"/>
-                            <constraint firstItem="DRc-4B-Luc" firstAttribute="baseline" secondItem="VNJ-kb-mWJ" secondAttribute="top" constant="10" id="rcL-8G-1bw"/>
-                            <constraint firstItem="DRc-4B-Luc" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="woR-Qh-yLi"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -58,7 +49,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="logo" width="99" height="99"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
