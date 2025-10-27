@@ -31,6 +31,7 @@
 		E935F9042D6E226100EC2EC6 /* NetworkConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E935F9032D6E226100EC2EC6 /* NetworkConfig.swift */; };
 		E935F9062D6E22D200EC2EC6 /* APIPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = E935F9052D6E22D200EC2EC6 /* APIPath.swift */; };
 		E935F9082D6E230B00EC2EC6 /* BusStationRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E935F9072D6E230B00EC2EC6 /* BusStationRepositoryImpl.swift */; };
+		E93CC4A32EAF91E000741B09 /* SegmentControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93CC4A22EAF91E000741B09 /* SegmentControlView.swift */; };
 		E961EC9D2D6EBBFE00BB5E77 /* GetBusArrivalInfoUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E961EC9C2D6EBBFE00BB5E77 /* GetBusArrivalInfoUseCase.swift */; };
 		E961EC9F2D6EBC1100BB5E77 /* BusArrivalRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E961EC9E2D6EBC1100BB5E77 /* BusArrivalRepositoryImpl.swift */; };
 		E961ECA12D6EBC3B00BB5E77 /* BusStaionDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = E961ECA02D6EBC3B00BB5E77 /* BusStaionDTO.swift */; };
@@ -85,6 +86,7 @@
 		E935F9032D6E226100EC2EC6 /* NetworkConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConfig.swift; sourceTree = "<group>"; };
 		E935F9052D6E22D200EC2EC6 /* APIPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIPath.swift; sourceTree = "<group>"; };
 		E935F9072D6E230B00EC2EC6 /* BusStationRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusStationRepositoryImpl.swift; sourceTree = "<group>"; };
+		E93CC4A22EAF91E000741B09 /* SegmentControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentControlView.swift; sourceTree = "<group>"; };
 		E961EC9C2D6EBBFE00BB5E77 /* GetBusArrivalInfoUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetBusArrivalInfoUseCase.swift; sourceTree = "<group>"; };
 		E961EC9E2D6EBC1100BB5E77 /* BusArrivalRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusArrivalRepositoryImpl.swift; sourceTree = "<group>"; };
 		E961ECA02D6EBC3B00BB5E77 /* BusStaionDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusStaionDTO.swift; sourceTree = "<group>"; };
@@ -367,6 +369,14 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
+		E93CC49F2EAF91A200741B09 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				E93CC4A22EAF91E000741B09 /* SegmentControlView.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
 		E99BEE632D4279450013C32E = {
 			isa = PBXGroup;
 			children = (
@@ -423,6 +433,7 @@
 			isa = PBXGroup;
 			children = (
 				E9D955642D4E2E10009C3353 /* MainViewController.swift */,
+				E93CC49F2EAF91A200741B09 /* UI */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -520,6 +531,7 @@
 			files = (
 				E9DDB29C2E689B6B00EC7B5F /* BusCityCodeEntity.swift in Sources */,
 				E935F9002D6E224C00EC2EC6 /* NetworkService.swift in Sources */,
+				E93CC4A32EAF91E000741B09 /* SegmentControlView.swift in Sources */,
 				E91AD4842E7862A900353FED /* BusRouteRepositoryProtocol.swift in Sources */,
 				E91EDD762D4676740041104B /* Extension.swift in Sources */,
 				E9D336072E8974CB00BB270F /* CityCell.swift in Sources */,

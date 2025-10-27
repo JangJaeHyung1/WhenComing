@@ -71,7 +71,6 @@ extension SetRegionViewController {
     }
     
     
-    
     private func setCollectionView(){
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .vertical
@@ -101,7 +100,7 @@ extension SetRegionViewController {
     }
     
     private func fetch() {
-        vm.input.fetchCityCodesTrigger.accept(())
+//        vm.input.fetchCityCodesTrigger.accept(())
         
     }
     func enableBtn() {
@@ -215,7 +214,6 @@ extension SetRegionViewController: UICollectionViewDelegateFlowLayout,  UICollec
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let entity = collectionViewDataSource.itemIdentifier(for: indexPath) else { return }
-        print("선택된 지역: \(entity.name), \(entity.code)")
         selectedCityCode = entity.code
         enableBtn()
     }
@@ -227,13 +225,5 @@ extension SetRegionViewController {
         vm.saveCityCode(cityCode)
         let mainVC = MainViewController()
         UIApplication.shared.windows.first?.rootViewController = UINavigationController(rootViewController: mainVC)
-        
-//        let scene = UIApplication.shared.connectedScenes.first
-//        if let windowScene = scene as? UIWindowScene,
-//           let window = windowScene.windows.first {
-//            let mainVC = MainViewController()
-//            window.rootViewController = UINavigationController(rootViewController: mainVC)
-//            window.makeKeyAndVisible()
-//        }
     }
 }
