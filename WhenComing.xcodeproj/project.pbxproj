@@ -16,6 +16,7 @@
 		E91AD4822E785D5E00353FED /* StationThrghBusDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91AD4812E785D5B00353FED /* StationThrghBusDTO.swift */; };
 		E91AD4842E7862A900353FED /* BusRouteRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91AD4832E7862A700353FED /* BusRouteRepositoryProtocol.swift */; };
 		E91AD48C2E78689900353FED /* BusRouteRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91AD48B2E78689600353FED /* BusRouteRepositoryImpl.swift */; };
+		E91C78A02EB0F18200B537FE /* NextButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91C789F2EB0F18100B537FE /* NextButtonCell.swift */; };
 		E91CC6AB2E7985440092F9B8 /* BusRouteRemoteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91CC6AA2E7985430092F9B8 /* BusRouteRemoteDataSource.swift */; };
 		E91EDD462D4660CC0041104B /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = E91EDD452D4660CC0041104B /* SnapKit */; };
 		E91EDD542D4662380041104B /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = E91EDD532D4662380041104B /* RxCocoa */; };
@@ -32,6 +33,9 @@
 		E935F9062D6E22D200EC2EC6 /* APIPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = E935F9052D6E22D200EC2EC6 /* APIPath.swift */; };
 		E935F9082D6E230B00EC2EC6 /* BusStationRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E935F9072D6E230B00EC2EC6 /* BusStationRepositoryImpl.swift */; };
 		E93CC4A32EAF91E000741B09 /* SegmentControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93CC4A22EAF91E000741B09 /* SegmentControlView.swift */; };
+		E9408EC32EB375EB004B153E /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9408EC22EB375EB004B153E /* SearchViewController.swift */; };
+		E9408EC62EB3BC23004B153E /* SearchDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9408EC52EB3BC23004B153E /* SearchDIContainer.swift */; };
+		E9408EC82EB3BC37004B153E /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9408EC72EB3BC37004B153E /* SearchViewModel.swift */; };
 		E961EC9D2D6EBBFE00BB5E77 /* GetBusArrivalInfoUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E961EC9C2D6EBBFE00BB5E77 /* GetBusArrivalInfoUseCase.swift */; };
 		E961EC9F2D6EBC1100BB5E77 /* BusArrivalRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E961EC9E2D6EBC1100BB5E77 /* BusArrivalRepositoryImpl.swift */; };
 		E961ECA12D6EBC3B00BB5E77 /* BusStaionDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = E961ECA02D6EBC3B00BB5E77 /* BusStaionDTO.swift */; };
@@ -76,6 +80,7 @@
 		E91AD4812E785D5B00353FED /* StationThrghBusDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationThrghBusDTO.swift; sourceTree = "<group>"; };
 		E91AD4832E7862A700353FED /* BusRouteRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusRouteRepositoryProtocol.swift; sourceTree = "<group>"; };
 		E91AD48B2E78689600353FED /* BusRouteRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusRouteRepositoryImpl.swift; sourceTree = "<group>"; };
+		E91C789F2EB0F18100B537FE /* NextButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextButtonCell.swift; sourceTree = "<group>"; };
 		E91CC6AA2E7985430092F9B8 /* BusRouteRemoteDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusRouteRemoteDataSource.swift; sourceTree = "<group>"; };
 		E91EDD732D4676590041104B /* DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem.swift; sourceTree = "<group>"; };
 		E91EDD752D4676740041104B /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
@@ -87,6 +92,9 @@
 		E935F9052D6E22D200EC2EC6 /* APIPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIPath.swift; sourceTree = "<group>"; };
 		E935F9072D6E230B00EC2EC6 /* BusStationRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusStationRepositoryImpl.swift; sourceTree = "<group>"; };
 		E93CC4A22EAF91E000741B09 /* SegmentControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentControlView.swift; sourceTree = "<group>"; };
+		E9408EC22EB375EB004B153E /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		E9408EC52EB3BC23004B153E /* SearchDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDIContainer.swift; sourceTree = "<group>"; };
+		E9408EC72EB3BC37004B153E /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		E961EC9C2D6EBBFE00BB5E77 /* GetBusArrivalInfoUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetBusArrivalInfoUseCase.swift; sourceTree = "<group>"; };
 		E961EC9E2D6EBC1100BB5E77 /* BusArrivalRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusArrivalRepositoryImpl.swift; sourceTree = "<group>"; };
 		E961ECA02D6EBC3B00BB5E77 /* BusStaionDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusStaionDTO.swift; sourceTree = "<group>"; };
@@ -268,6 +276,7 @@
 		E91EDD682D4675870041104B /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				E9408EBF2EB37589004B153E /* Search */,
 				E9D955632D4E2DED009C3353 /* Main */,
 				E9D955622D4E2CFB009C3353 /* SetRegion */,
 			);
@@ -360,8 +369,8 @@
 		E935F8FC2D6E21D800EC2EC6 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				E935F8FF2D6E224C00EC2EC6 /* NetworkService.swift */,
 				E935F9032D6E226100EC2EC6 /* NetworkConfig.swift */,
+				E935F8FF2D6E224C00EC2EC6 /* NetworkService.swift */,
 				E935F9052D6E22D200EC2EC6 /* APIPath.swift */,
 				E935F8FD2D6E223E00EC2EC6 /* APIEndpoint.swift */,
 				E935F9012D6E225600EC2EC6 /* APIError.swift */,
@@ -372,9 +381,43 @@
 		E93CC49F2EAF91A200741B09 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				E91C789F2EB0F18100B537FE /* NextButtonCell.swift */,
 				E93CC4A22EAF91E000741B09 /* SegmentControlView.swift */,
 			);
 			path = UI;
+			sourceTree = "<group>";
+		};
+		E9408EBF2EB37589004B153E /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				E9408EC22EB375EB004B153E /* SearchViewController.swift */,
+				E9408EC12EB375D6004B153E /* ViewModel */,
+				E9408EC02EB375CF004B153E /* UI */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		E9408EC02EB375CF004B153E /* UI */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		E9408EC12EB375D6004B153E /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				E9408EC52EB3BC23004B153E /* SearchDIContainer.swift */,
+				E9408EC72EB3BC37004B153E /* SearchViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		E9408EC42EB3BBAA004B153E /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		E99BEE632D4279450013C32E = {
@@ -421,7 +464,6 @@
 		E9D955622D4E2CFB009C3353 /* SetRegion */ = {
 			isa = PBXGroup;
 			children = (
-				E991C3E42E54B1AB006C90D2 /* BusStationDIContainer.swift */,
 				E9D955662D4E2E1A009C3353 /* SetRegionViewController.swift */,
 				E9F8A7662E8ACD5A00CDBC22 /* ViewModel */,
 				E9D336052E8974B200BB270F /* UI */,
@@ -433,6 +475,7 @@
 			isa = PBXGroup;
 			children = (
 				E9D955642D4E2E10009C3353 /* MainViewController.swift */,
+				E9408EC42EB3BBAA004B153E /* ViewModel */,
 				E93CC49F2EAF91A200741B09 /* UI */,
 			);
 			path = Main;
@@ -441,6 +484,7 @@
 		E9F8A7662E8ACD5A00CDBC22 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				E991C3E42E54B1AB006C90D2 /* BusStationDIContainer.swift */,
 				E991C3E02E54AC72006C90D2 /* RegionViewModel.swift */,
 			);
 			path = ViewModel;
@@ -541,11 +585,13 @@
 				E935F8FE2D6E223E00EC2EC6 /* APIEndpoint.swift in Sources */,
 				E9DC2A942EAE29A800BF138B /* BusCityCodeLocalDataSource.swift in Sources */,
 				E961ECA12D6EBC3B00BB5E77 /* BusStaionDTO.swift in Sources */,
+				E9408EC82EB3BC37004B153E /* SearchViewModel.swift in Sources */,
 				E991C3E52E54B1AF006C90D2 /* BusStationDIContainer.swift in Sources */,
 				E961EC9D2D6EBBFE00BB5E77 /* GetBusArrivalInfoUseCase.swift in Sources */,
 				E98662D72DD1252400D4BE33 /* BusArrivalRepositoryProtocol.swift in Sources */,
 				E991C3E12E54AC74006C90D2 /* RegionViewModel.swift in Sources */,
 				E99BA3D32DD2587200963ACF /* BusStationRemoteDataSource.swift in Sources */,
+				E9408EC62EB3BC23004B153E /* SearchDIContainer.swift in Sources */,
 				E91AD4822E785D5E00353FED /* StationThrghBusDTO.swift in Sources */,
 				E935F9082D6E230B00EC2EC6 /* BusStationRepositoryImpl.swift in Sources */,
 				E98E487C2D8959E2004BFD1D /* SpecificBusArrivalDTO.swift in Sources */,
@@ -559,6 +605,7 @@
 				E935F9062D6E22D200EC2EC6 /* APIPath.swift in Sources */,
 				E909CCB42DCF29910080BF16 /* BusCityCodeDTO.swift in Sources */,
 				E990E2712E8188E9004CC626 /* GetNearbyStationListUseCase.swift in Sources */,
+				E91C78A02EB0F18200B537FE /* NextButtonCell.swift in Sources */,
 				E990E2732E8189AC004CC626 /* GetBusRouteListUseCase.swift in Sources */,
 				E9D955672D4E2E1A009C3353 /* SetRegionViewController.swift in Sources */,
 				E98E48762D89596E004BFD1D /* GetStationThrghBusList.swift in Sources */,
@@ -568,6 +615,7 @@
 				E9D955652D4E2E10009C3353 /* MainViewController.swift in Sources */,
 				E9DC2A9A2EAE2EDB00BF138B /* CityCodeUseCase.swift in Sources */,
 				E99BEE702D4279450013C32E /* AppDelegate.swift in Sources */,
+				E9408EC32EB375EB004B153E /* SearchViewController.swift in Sources */,
 				E91AD4782E78561100353FED /* AroundBusStationEntity.swift in Sources */,
 				E91AD47E2E785BF200353FED /* StationThrghBusEntity.swift in Sources */,
 				E99BEE722D4279450013C32E /* SceneDelegate.swift in Sources */,
