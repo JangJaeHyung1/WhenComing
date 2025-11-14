@@ -8,19 +8,19 @@
 
 import Foundation
 
-final class DefaultBusCityCoedRepository: BusCityCodeRepositoryProtocol {
+final class DefaultBusCityCodeRepository: BusCityCodeRepositoryProtocol {
 
-    private let remoteDataSource: BusCityCodeLocalDataSource
+    private let localDataSource: BusCityCodeLocalDataSource
 
-    init(remoteDataSource: BusCityCodeLocalDataSource) {
-        self.remoteDataSource = remoteDataSource
+    init(localDataSource: BusCityCodeLocalDataSource) {
+        self.localDataSource = localDataSource
     }
 
     func loadCityCode() -> Int? {
-        remoteDataSource.loadCityCode()
+        localDataSource.loadCityCode()
     }
 
     func saveCityCode(_ code: Int) {
-        remoteDataSource.saveCityCode(code)
+        localDataSource.saveCityCode(code)
     }
 }

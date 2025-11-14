@@ -15,7 +15,8 @@ class SearchViewController: UIViewController {
     private let vm = SearchDIContainer().makeBusStationViewModel()
 
     private var tableView: UITableView!
-
+    private var items: [BusStationCellPresentable] = []
+    
     // 헤더 컨테이너
     private let headerView: UIView = {
         let v = UIView()
@@ -47,6 +48,13 @@ class SearchViewController: UIViewController {
         sb.searchTextField.backgroundColor = .clear
         sb.searchTextField.clearButtonMode = .whileEditing
         return sb
+    }()
+    
+    private let loadingIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .medium)
+        indicator.hidesWhenStopped = true
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
     }()
 
     init() {
@@ -98,6 +106,7 @@ extension SearchViewController {
         headerView.addSubview(backButton)
         headerView.addSubview(searchBar)
         view.addSubview(tableView)
+        view.addSubview(loadingIndicator)
     }
 
     private func setConstraints() {
@@ -125,16 +134,31 @@ extension SearchViewController {
             make.top.equalTo(headerView.snp.bottom)
             make.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
         }
+        loadingIndicator.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
     }
 
     private func bind() {
+        // MARK: - input
         // 검색어 변경 → 뷰모델로 전달
         searchBar.rx.text.orEmpty
             .distinctUntilChanged()
+            .observe(on: MainScheduler.asyncInstance)
             .bind(onNext: { [weak self] text in
-                // self?.vm.input.searchQuery.accept(text)  // 필요하면 이렇게
-                print("검색어:", text)
+                guard let self else { return }
+                if text.count > 0 {
+                    self.vm.input.searchQuery.accept(text)
+                } else {
+                    items = []
+                    tableView.reloadData()
+                }
             })
+            .disposed(by: disposeBag)
+        
+        // MARK: - output
+        vm.output.isLoading
+            .drive(loadingIndicator.rx.isAnimating)
             .disposed(by: disposeBag)
     }
 
@@ -145,7 +169,7 @@ extension SearchViewController {
 
 extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 20
+        return items.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

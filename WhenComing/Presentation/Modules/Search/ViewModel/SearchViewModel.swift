@@ -15,7 +15,7 @@ final class SearchViewModel {
     
     private let isLoadingRelay = BehaviorRelay<Bool>(value: false)
     private let errorRelay = PublishRelay<Error>()
-    private var cityCode: Int
+    private var cityCode: String
     
     // MARK: - Input/Output
     struct Input {
@@ -31,13 +31,17 @@ final class SearchViewModel {
     
     // MARK: - Dependencies
     private let loadSaveCityCodeUseCase: LoadSavedCityCodeUseCase
+    private let searchStationByNameUseCase: SearchStationByNameUseCase
     
     // MARK: - Init
     init(
-        loadSaveCityCodeUseCase: LoadSavedCityCodeUseCase
+        loadSaveCityCodeUseCase: LoadSavedCityCodeUseCase,
+        searchStationByNameUseCase: SearchStationByNameUseCase
     ) {
         self.loadSaveCityCodeUseCase = loadSaveCityCodeUseCase
-        self.cityCode = loadSaveCityCodeUseCase.load() ?? 0
+        self.searchStationByNameUseCase = searchStationByNameUseCase
+        
+        self.cityCode = String(loadSaveCityCodeUseCase.load() ?? 0)
         print("searchViewModel cityCode:\(cityCode)")
         self.input = Input(
             searchQuery: PublishRelay<String>()
@@ -56,7 +60,31 @@ final class SearchViewModel {
     
     
     private func bind() {
-        
+        input.searchQuery
+            .debounce(.milliseconds(400), scheduler: MainScheduler.instance)
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] query in
+                guard let self = self else { return }
+                self.isLoadingRelay.accept(true)
+
+                Task {
+                    do {
+                        let stations = try await self.searchStationByNameUseCase.execute(
+                            pageNo: 1,
+                            cityCode: self.cityCode,
+                            stationName: query
+                        )
+                        print("search result station: \(stations)")
+                        // self?.stationsRelay.accept(stations)
+                    } catch {
+                        self.errorRelay.accept(error)
+                        // self?.stationsRelay.accept([])
+                    }
+
+                    self.isLoadingRelay.accept(false)
+                }
+            })
+            .disposed(by: disposeBag)
     }
     
 }

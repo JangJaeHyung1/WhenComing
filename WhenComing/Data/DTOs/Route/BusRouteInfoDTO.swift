@@ -97,6 +97,7 @@ extension BusRouteInfoDTO {
                                  lng: gpsLong,
                                  nodeId: nodeId,
                                  nodeNm: nodeNm,
+                                 nodeNo: nodeNo,
                                  nodeOrd: nodeOrd,
                                  routeId: routeId,
                                  upDownCd: upDownCd)

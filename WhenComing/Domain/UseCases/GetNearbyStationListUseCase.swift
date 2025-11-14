@@ -21,7 +21,7 @@ final class DefaultGetNearbyStationListUseCase: GetNearbyStationListUseCase {
     }
 
     func execute(pageNo: Int, lat: Double, lng: Double) async throws -> [AroundBusStationEntity] {
-        try await repository.fetchNearyByStationList(pageNo: pageNo, latitude: lat, longitude: lng)
+        try await repository.fetchNearbyStationList(pageNo: pageNo, latitude: lat, longitude: lng)
     }
 }
 

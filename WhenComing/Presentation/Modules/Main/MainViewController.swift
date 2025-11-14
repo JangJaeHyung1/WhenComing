@@ -11,7 +11,14 @@ import RxCocoa
 import SnapKit
 
 class MainViewController: UIViewController {
+    
+    enum SortType {
+        case nearestStation   // 가까운역순
+        case arrivalTime      // 도착순
+    }
 
+    private var currentSortType: SortType = .nearestStation
+    
     private let segmentControlView: SegmentControlView = {
         let view = SegmentControlView(titles: ["출근길", "퇴근길"])
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -19,9 +26,8 @@ class MainViewController: UIViewController {
         return view
     }()
     
-    // 출퇴근 코멘트 배열 이후 랜덤 처리 예정
-    var goWorkComment = "오후 3시 이전은 출근길입니다."
-    var leaveWorkComment = "오후 3시 이후는 퇴근길입니다."
+    // 최근 업데이트된 시간
+    var lastUpdateTimeText = "최근 업데이트 15시 32분"
     
     private let bottomGuideLbl: UILabel = {
         let lbl = UILabel()
@@ -50,7 +56,9 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         setUp()
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        setNavi()
+    }
 }
 
 
@@ -88,6 +96,7 @@ extension MainViewController {
         tableView.refreshControl = refreshControl
         refreshControl.transform = .init(scaleX: 0.75, y: 0.75)
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.contentInsetAdjustmentBehavior = .automatic
     }
     /// 03:00 ≤ now < 15:00  => 출근(0)
     /// 15:00 ≤ now < 03:00 => 퇴근(1)
@@ -102,7 +111,7 @@ extension MainViewController {
     }
     
     private func setBottomGuideLbl() {
-        bottomGuideLbl.text = segmentControlView.selectedIndex == 0 ? goWorkComment : leaveWorkComment
+        bottomGuideLbl.text = lastUpdateTimeText
     }
     
     private func bind() {
@@ -132,12 +141,58 @@ extension MainViewController {
     }
     
     private func setNavi() {
-        self.navigationItem.title = "언제오지"
+        self.navigationItem.title = "내 출퇴근 버스"
         self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationItem.largeTitleDisplayMode = .always
+        self.navigationItem.largeTitleDisplayMode = .automatic
         self.navigationItem.setHidesBackButton(false, animated: true)
         self.navigationController?.navigationBar.isHidden = false
         self.navigationController?.isNavigationBarHidden = false
+
+        let config = UIImage.SymbolConfiguration(pointSize: 18, weight: .regular)
+        let gearImage = UIImage(systemName: "gearshape", withConfiguration: config)?.withTintColor(.label, renderingMode: .alwaysOriginal)
+        let regionAction = UIAction(title: "지역 재설정") { [weak self] _ in
+            self?.resetRegion()
+        }
+
+        let sortTitle: String
+        switch currentSortType {
+        case .nearestStation:
+            sortTitle = "도착순으로 정렬"
+        case .arrivalTime:
+            sortTitle = "가까운역순으로 정렬"
+        }
+
+        let sortAction = UIAction(title: sortTitle) { [weak self] _ in
+            self?.toggleSortType()
+        }
+
+        let feedbackAction = UIAction(title: "피드백 남기기") { [weak self] _ in
+            self?.openFeedback()
+        }
+
+        let settingMenu = UIMenu(title: "", children: [regionAction, sortAction, feedbackAction])
+
+        let settingButton = UIBarButtonItem(
+            image: gearImage,
+            menu: settingMenu
+        )
+        navigationItem.rightBarButtonItem = settingButton
+    }
+    
+    
+    private func resetRegion() {
+        presentSetRegionViewController()
+    }
+
+    private func toggleSortType() {
+        currentSortType = (currentSortType == .nearestStation) ? .arrivalTime : .nearestStation
+        // TODO: currentSortType 기준으로 데이터 정렬 후 tableView.reloadData()
+        print("현재 정렬: \(currentSortType == .nearestStation ? "가까운역순" : "도착순")")
+    }
+
+    private func openFeedback() {
+        // TODO: 인앱 피드백 화면 푸시 등
+        print("피드백 남기기 선택됨")
     }
     
     private func addViews() {
@@ -151,7 +206,7 @@ extension MainViewController {
         segmentControlView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.leading.trailing.equalToSuperview()
-            make.height.greaterThanOrEqualTo(44)
+            make.height.equalTo(44)
         }
         
         tableView.snp.makeConstraints { make in
@@ -170,7 +225,7 @@ extension MainViewController {
 
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return 20
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -203,5 +258,10 @@ extension MainViewController {
     func presentSearchViewController() {
         let searchVC = SearchViewController()
         navigationController?.pushViewController(searchVC, animated: true)
+    }
+    
+    func presentSetRegionViewController() {
+        let setRegionVC = SetRegionViewController(skipIfAlreadySelected: false)
+        navigationController?.pushViewController(setRegionVC, animated: true)
     }
 }

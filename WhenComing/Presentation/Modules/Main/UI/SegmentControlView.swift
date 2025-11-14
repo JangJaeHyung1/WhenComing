@@ -38,7 +38,10 @@ final class SegmentControlView: UIControl {
     private func setup(titles: [String]) {
         isUserInteractionEnabled = true
         backgroundColor = .clear
-
+        
+        setContentHuggingPriority(.required, for: .vertical)
+        setContentCompressionResistancePriority(.required, for: .vertical)
+        
         // StackView
         stackView.axis = .horizontal
         stackView.alignment = .fill
@@ -72,7 +75,7 @@ final class SegmentControlView: UIControl {
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
             stackView.topAnchor.constraint(equalTo: topAnchor),
-            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -6),
+//            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -6),
 
             baselineView.leadingAnchor.constraint(equalTo: leadingAnchor),
             baselineView.trailingAnchor.constraint(equalTo: trailingAnchor),
@@ -139,5 +142,9 @@ final class SegmentControlView: UIControl {
         } else {
             self.layoutIfNeeded()
         }
+    }
+    
+    override var intrinsicContentSize: CGSize {
+        return CGSize(width: UIView.noIntrinsicMetric, height: 44)
     }
 }

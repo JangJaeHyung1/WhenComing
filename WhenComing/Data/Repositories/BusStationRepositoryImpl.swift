@@ -22,7 +22,7 @@ final class DefaultBusStationRepository: BusStationRepositoryProtocol {
         try await remoteDataSource.getStationList(pageNo: pageNo, cityCode: cityCode, stationName: stationName).map { $0.toEntity() }
     }
     
-    func fetchNearyByStationList(pageNo: Int, latitude: Double, longitude: Double) async throws -> [AroundBusStationEntity] {
+    func fetchNearbyStationList(pageNo: Int, latitude: Double, longitude: Double) async throws -> [AroundBusStationEntity] {
         try await remoteDataSource.getAroundStationList(pageNo: pageNo, lat: latitude, lng: longitude).map { $0.toEntity() }
     }
     

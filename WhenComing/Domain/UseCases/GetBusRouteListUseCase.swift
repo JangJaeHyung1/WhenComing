@@ -2,14 +2,14 @@
 //  GetBusRouteListUseCase.swift
 //  WhenComing
 //
-//  Created by jh on 9/22/25.
+//  Created by jh on 11/15/25.
 //
 
 import Foundation
 
 // MARK: - Protocol
 protocol GetBusRouteListUseCase {
-    func execute(pageNo: Int, cityCode: String, stationId: String, routeId: String) async throws -> [BusRouteInfoEntity]
+    func execute(cityCode: String, routeNo: String) async throws -> [BusRouteEntity]
 }
 
 // MARK: - Implementation
@@ -20,8 +20,7 @@ final class DefaultGetBusRouteListUseCase: GetBusRouteListUseCase {
         self.repository = repository
     }
 
-    func execute(pageNo: Int, cityCode: String, stationId: String, routeId: String) async throws -> [BusRouteInfoEntity] {
-        try await repository.fetchBusRoute(pageNo: pageNo, cityCode: cityCode, stationId: stationId, routeId: routeId)
+    func execute(cityCode: String, routeNo: String) async throws -> [BusRouteEntity] {
+        try await repository.fetchBusRoute(cityCode: cityCode, routeNo: routeNo)
     }
 }
-

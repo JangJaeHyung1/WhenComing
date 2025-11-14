@@ -24,8 +24,8 @@ enum APIEndpoint {
     case getSpecificBusArrival(pageNo: Int, cityCode: String, stationId: String, routeId: String) // 특정 노선 도착 정보
     
     // busRouteInfo
-    case getBusRouteList(pageNo: Int, cityCode: String, routeId: String) // 노선별경유정류소목록 조회: 해당 버스의 경유 노선으로 어디어디 가는지
-    
+    case getBusRouteInfoList(pageNo: Int, cityCode: String, routeId: String) // 노선별경유정류소목록 조회: 해당 버스의 경유 노선으로 어디어디 가는지
+    case getBusRouteList(cityCode: String, routeNo: String)
     
     var serviceType: ServiceType {
         switch self {
@@ -33,7 +33,7 @@ enum APIEndpoint {
             return .busStationInfo // 버스 정류소 정보
         case .getArrivalInfoList, .getSpecificBusArrival:
             return .busArrivalInfo // 버스 도착 정보
-        case .getBusRouteList: // 버스 노선 정보
+        case .getBusRouteInfoList, .getBusRouteList: // 버스 노선 + 노선 정보
             return .busRouteInfo
         }
     }
@@ -59,8 +59,10 @@ enum APIEndpoint {
         case .getSpecificBusArrival:
             return "/getSttnAcctoSpcifyRouteBusArvlPrearngeInfoList"
             
-        case .getBusRouteList:
+        case .getBusRouteInfoList:
             return "/getRouteAcctoThrghSttnList"
+        case .getBusRouteList:
+            return "/getRouteNoList"
         }
         
     }
@@ -117,12 +119,19 @@ enum APIEndpoint {
                 URLQueryItem(name: "nodeid", value: "\(stationId)"),
                 URLQueryItem(name: "routeId", value: "\(routeId)"),
             ]
-        case .getBusRouteList(pageNo: let pageNo, cityCode: let cityCode, routeId: let routeId):
+        case .getBusRouteInfoList(pageNo: let pageNo, cityCode: let cityCode, routeId: let routeId):
             queryItems += [
                 URLQueryItem(name: "pageNo", value: "\(pageNo)"),
                 URLQueryItem(name: "numOfRows", value: "\(pageSize)"),
                 URLQueryItem(name: "cityCode", value: cityCode),
                 URLQueryItem(name: "routeId", value: routeId),
+            ]
+        case .getBusRouteList(cityCode: let cityCode, routeNo: let routeNo):
+            queryItems += [
+                URLQueryItem(name: "pageNo", value: "\(1)"),
+                URLQueryItem(name: "numOfRows", value: "\(pageSize)"),
+                URLQueryItem(name: "cityCode", value: cityCode),
+                URLQueryItem(name: "routeNo", value: routeNo),
             ]
         }
         

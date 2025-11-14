@@ -11,6 +11,7 @@ enum ServiceType {
     case busStationInfo
     case busArrivalInfo
     case busRouteInfo
+    case busRoute
 }
 
 struct NetworkConfig {
@@ -21,6 +22,8 @@ struct NetworkConfig {
         case .busArrivalInfo:
             return APIPath.busArvlInfoInqireService
         case .busRouteInfo:
+            return APIPath.busRouteInfoInqireService
+        case .busRoute:
             return APIPath.busRouteInfoInqireService
         }
     }

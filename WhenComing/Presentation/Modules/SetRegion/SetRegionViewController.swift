@@ -13,6 +13,7 @@ import SnapKit
 class SetRegionViewController: UIViewController {
     private let disposeBag = DisposeBag()
     var vm = BusStationDIContainer().makeBusStationViewModel()
+    private let skipIfAlreadySelected: Bool
 
     private var collectionViewDataSource: UICollectionViewDiffableDataSource<Int, BusCityCodeEntity>!
     private var collectionView: UICollectionView!
@@ -33,10 +34,17 @@ class SetRegionViewController: UIViewController {
         btn.backgroundColor = .systemGray4
         btn.isEnabled = false
         btn.tintColor = .white
-        btn.setTitle("다음", for: .normal)
+        btn.setTitle("저장", for: .normal)
         btn.setTitleColor(.white, for: .normal)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
+    }()
+
+    private let loadingIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .medium)
+        indicator.hidesWhenStopped = true
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
     }()
     
     // MARK: - variables
@@ -48,11 +56,13 @@ class SetRegionViewController: UIViewController {
         setUp()
     }
     
-    init() {
+    init(skipIfAlreadySelected: Bool = true) {
+        self.skipIfAlreadySelected = skipIfAlreadySelected
         super.init(nibName: nil, bundle: nil)
     }
 
     required init?(coder: NSCoder) {
+        self.skipIfAlreadySelected = true
         super.init(coder: coder)
     }
 
@@ -61,6 +71,12 @@ class SetRegionViewController: UIViewController {
 
 extension SetRegionViewController {
     private func setUp() {
+        selectedCityCode = vm.loadCityCode()
+        
+        if skipIfAlreadySelected, let selectedCityCode = selectedCityCode {
+            nextVC(cityCode: selectedCityCode)
+        }
+        
         configure()
         setCollectionView()
         setNavi()
@@ -82,7 +98,7 @@ extension SetRegionViewController {
         collectionView.backgroundColor = .clear
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.keyboardDismissMode = .onDrag
-        
+        collectionView.contentInsetAdjustmentBehavior = .automatic
         collectionCellUI()
         
         collectionView.delegate = self
@@ -94,14 +110,11 @@ extension SetRegionViewController {
     }
     private func configure() {
         view.backgroundColor = .systemBackground
-        if let localCityCode = vm.loadCityCode() {
-            nextVC(cityCode: localCityCode)
-        }
     }
     
     private func fetch() {
-//        vm.input.fetchCityCodesTrigger.accept(())
-        
+        loadingIndicator.startAnimating()
+        vm.input.fetchCityCodesTrigger.accept(())
     }
     func enableBtn() {
         nextBtn.isEnabled = true
@@ -120,6 +133,15 @@ extension SetRegionViewController {
                 snapshot.appendSections([0])
                 snapshot.appendItems(items, toSection: 0)
                 collectionViewDataSource.apply(snapshot, animatingDifferences: true)
+                if let selectedCode = selectedCityCode,
+                   let index = items.firstIndex(where: { $0.code == selectedCode }) {
+                    let indexPath = IndexPath(item: index, section: 0)
+                    collectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
+                    enableBtn()
+                }
+                if items.count > 0 {
+                    self.loadingIndicator.stopAnimating()
+                }
             })
             .disposed(by: disposeBag)
         
@@ -152,7 +174,7 @@ extension SetRegionViewController {
     private func setNavi() {
         self.navigationItem.title = "지역이 어디인가요?"
         self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationItem.largeTitleDisplayMode = .always
+        self.navigationItem.largeTitleDisplayMode = .automatic
         self.navigationItem.setHidesBackButton(false, animated: true)
         self.navigationController?.navigationBar.isHidden = false
         self.navigationController?.isNavigationBarHidden = false
@@ -162,6 +184,7 @@ extension SetRegionViewController {
         view.addSubview(searchBar)
         view.addSubview(collectionView)
         view.addSubview(nextBtn)
+        view.addSubview(loadingIndicator)
     }
     
     private func setConstraints() {
@@ -178,6 +201,9 @@ extension SetRegionViewController {
             make.top.equalTo(searchBar.snp.bottom)
             make.leading.trailing.equalToSuperview()
             make.bottom.equalTo(nextBtn.snp.top).offset(-12)
+        }
+        loadingIndicator.snp.makeConstraints { make in
+            make.center.equalToSuperview()
         }
     }
 }

@@ -6,5 +6,6 @@
 //
 
 protocol BusRouteRepositoryProtocol {
-    func fetchBusRoute(pageNo: Int, cityCode: String, stationId: String, routeId: String) async throws -> [BusRouteInfoEntity]
+    func fetchBusRouteInfo(pageNo: Int, cityCode: String, routeId: String) async throws -> [BusRouteInfoEntity]
+    func fetchBusRoute(cityCode: String, routeNo: String) async throws -> [BusRouteEntity]
 }

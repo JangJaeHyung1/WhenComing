@@ -8,7 +8,8 @@
 import Foundation
 
 protocol BusRouteRemoteDataSource {
-    func getBusRouteList(pageNo: Int, cityCode: String, routeId: String) async throws -> [BusRouteInfoDTO]
+    func getBusRouteInfoList(pageNo: Int, cityCode: String, routeId: String) async throws -> [BusRouteInfoDTO]
+    func getBusRouteList(cityCode: String, routeNo: String) async throws -> [BusRouteDTO]
 }
 
 final class DefaultBusRouteRemoteDataSource: BusRouteRemoteDataSource {
@@ -20,8 +21,11 @@ final class DefaultBusRouteRemoteDataSource: BusRouteRemoteDataSource {
         self.networkService = networkService
     }
     
-    func getBusRouteList(pageNo: Int, cityCode: String, routeId: String) async throws -> [BusRouteInfoDTO] {
-        try await networkService.request(.getBusRouteList(pageNo: pageNo, cityCode: cityCode, routeId: routeId), type: BusRouteInfoResponseDTO.self).response.body.items.item
+    func getBusRouteInfoList(pageNo: Int, cityCode: String, routeId: String) async throws -> [BusRouteInfoDTO] {
+        try await networkService.request(.getBusRouteInfoList(pageNo: pageNo, cityCode: cityCode, routeId: routeId), type: BusRouteInfoResponseDTO.self).response.body.items.item
     }
 
+    func getBusRouteList(cityCode: String, routeNo: String) async throws -> [BusRouteDTO] {
+        try await networkService.request(.getBusRouteList(cityCode: cityCode, routeNo: routeNo), type: BusRouteListResponseDTO.self).response.body.items.item
+    }
 }
