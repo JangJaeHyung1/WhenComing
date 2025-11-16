@@ -75,6 +75,7 @@ extension SetRegionViewController {
         
         if skipIfAlreadySelected, let selectedCityCode = selectedCityCode {
             nextVC(cityCode: selectedCityCode)
+            return
         }
         
         configure()

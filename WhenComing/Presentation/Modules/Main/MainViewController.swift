@@ -165,12 +165,12 @@ extension MainViewController {
         let sortAction = UIAction(title: sortTitle) { [weak self] _ in
             self?.toggleSortType()
         }
-
-        let feedbackAction = UIAction(title: "피드백 남기기") { [weak self] _ in
-            self?.openFeedback()
+        
+        let addFavorite = UIAction(title: "즐겨찾기 추가하기") { [weak self] _ in
+            self?.presentSearchViewController()
         }
 
-        let settingMenu = UIMenu(title: "", children: [regionAction, sortAction, feedbackAction])
+        let settingMenu = UIMenu(title: "", children: [regionAction, sortAction, addFavorite])
 
         let settingButton = UIBarButtonItem(
             image: gearImage,

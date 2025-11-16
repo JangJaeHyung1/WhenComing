@@ -23,6 +23,9 @@ final class SearchDIContainer {
     private lazy var busCityCodeLocalDataSource: BusCityCodeLocalDataSource = {
         DefaultBusCityCodeLocalDataSource()
     }()
+    private lazy var busRouteRemoteDataSource: BusRouteRemoteDataSource = {
+        DefaultBusRouteRemoteDataSource(networkService: networkService)
+    }()
 
     // MARK: - Repository
 
@@ -32,7 +35,10 @@ final class SearchDIContainer {
     private lazy var busCityCodeRepository: BusCityCodeRepositoryProtocol = {
         DefaultBusCityCodeRepository(localDataSource: busCityCodeLocalDataSource)
     }()
-
+    private lazy var busRouteRepository: BusRouteRepositoryProtocol = {
+        DefaultBusRouteRepository(remoteDataSource: busRouteRemoteDataSource)
+    }()
+    
     // MARK: - UseCases
     
     func makeGetbusStationUseCase() -> SearchStationByNameUseCase {
@@ -43,11 +49,15 @@ final class SearchDIContainer {
         DefaultLoadSavedCityCodeUseCase(repository: busCityCodeRepository)
     }
 
+    func makeGetBusRouteUseCase() -> GetBusRouteListUseCase {
+        DefaultGetBusRouteListUseCase(repository: busRouteRepository)
+    }
     // MARK: - ViewModel
     
     func makeBusStationViewModel() -> SearchViewModel {
         SearchViewModel(loadSaveCityCodeUseCase: makeLoadSaveCityCodeUseCase(),
-                        searchStationByNameUseCase: makeGetbusStationUseCase()
+                        searchStationByNameUseCase: makeGetbusStationUseCase(),
+                        getRouteUseCase: makeGetBusRouteUseCase()
         )
     }
     

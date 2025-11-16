@@ -241,13 +241,13 @@
 		E91EDD632D4664210041104B /* UseCases */ = {
 			isa = PBXGroup;
 			children = (
-				E9FD038F2EC785D2005FF83B /* GetBusRouteListUseCase.swift */,
 				E9DC2A992EAE2ED700BF138B /* CityCodeUseCase.swift */,
 				E98E48732D895962004BFD1D /* GetCityCodeListUseCase.swift */,
 				E991C3E22E54AFF1006C90D2 /* SearchStationByNameUseCase.swift */,
 				E990E2702E8188E8004CC626 /* GetNearbyStationListUseCase.swift */,
 				E98E48752D89596E004BFD1D /* GetStationThrghBusList.swift */,
 				E961EC9C2D6EBBFE00BB5E77 /* GetBusArrivalInfoUseCase.swift */,
+				E9FD038F2EC785D2005FF83B /* GetBusRouteListUseCase.swift */,
 				E990E2722E8189AA004CC626 /* GetBusRouteInfoListUseCase.swift */,
 			);
 			path = UseCases;
