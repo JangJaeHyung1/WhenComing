@@ -1,5 +1,5 @@
 //
-//  GetBusArrivalInfoUseCase.swift
+//  GetSpecificBusArrivalUseCase.swift
 //  WhenComing
 //
 //  Created by jh on 2/26/25.
@@ -8,12 +8,12 @@
 import Foundation
 
 // MARK: - Protocol
-protocol GetBusArrivalInfoUseCase {
+protocol GetSpecificBusArrivalUseCase {
     func execute(pageNo: Int, cityCode: String, stationId: String, routeId: String) async throws -> [SpecificBusArrivalEntity]
 }
 
 // MARK: - Implementation
-final class DefaultGetBusArrivalInfoUseCase: GetBusArrivalInfoUseCase {
+final class DefaultSpecificBusArrivalUseCase: GetSpecificBusArrivalUseCase {
     private let repository: BusArrivalRepositoryProtocol
 
     init(repository: BusArrivalRepositoryProtocol) {

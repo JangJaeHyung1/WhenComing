@@ -20,7 +20,7 @@ enum APIEndpoint {
     case getSttnThrghRouteList(pageNo: Int, cityCode: String, nodeId: String) // 정류소별경유노선 목록조회: 무슨무슨 버스 오는지
     
     // 버스도착정보 busStationInfo
-    case getArrivalInfoList(pageNo: Int, stationId: String) // 정류소별 전체 도착 정보: 정류장을 즐겨찾기 할 경우 해당 정류장에 오는 버스들 시간 띄워줄려고했는데 일단 *보류
+    case getArrivalInfoList(pageNo: Int, stationId: String) // 정류소별 전체 도착 정보: 정류장을 즐겨찾기 할 경우 해당 정류장에 오는 버스들 시간 띄워줌
     case getSpecificBusArrival(pageNo: Int, cityCode: String, stationId: String, routeId: String) // 특정 노선 도착 정보
     
     // busRouteInfo
@@ -110,7 +110,11 @@ enum APIEndpoint {
                 URLQueryItem(name: "nodeid", value: "\(nodeId)"),
             ]
         case .getArrivalInfoList(pageNo: let pageNo, stationId: let stationId):
-            break // 보류
+            queryItems += [
+                URLQueryItem(name: "pageNo", value: "\(pageNo)"),
+                URLQueryItem(name: "numOfRows", value: "\(pageSize)"),
+                URLQueryItem(name: "stationId", value: "\(stationId)"),
+            ]
         case .getSpecificBusArrival(pageNo: let pageNo, cityCode: let cityCode, stationId: let stationId, routeId: let routeId):
             queryItems += [
                 URLQueryItem(name: "pageNo", value: "\(pageNo)"),

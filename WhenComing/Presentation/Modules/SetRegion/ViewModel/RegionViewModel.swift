@@ -1,5 +1,5 @@
 //
-//  BusStationViewModel.swift
+//  RegionViewModel.swift
 //  WhenComing
 //
 //  Created by jh on 8/19/25.
@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-final class BusStationViewModel {
+final class RegionViewModel {
     
     private let disposeBag = DisposeBag()
     private let cityCodesRelay = BehaviorRelay<[BusCityCodeEntity]>(value: [])

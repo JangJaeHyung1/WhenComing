@@ -1,5 +1,5 @@
 //
-//  BusStationDIContainer.swift
+//  SearchDIContainer.swift
 //  WhenComing
 //
 //  Created by jh on 8/19/25.
@@ -54,7 +54,7 @@ final class SearchDIContainer {
     }
     // MARK: - ViewModel
     
-    func makeBusStationViewModel() -> SearchViewModel {
+    func makeSearchViewModel() -> SearchViewModel {
         SearchViewModel(loadSaveCityCodeUseCase: makeLoadSaveCityCodeUseCase(),
                         searchStationByNameUseCase: makeGetbusStationUseCase(),
                         getRouteUseCase: makeGetBusRouteUseCase()

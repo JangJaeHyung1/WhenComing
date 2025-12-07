@@ -1,5 +1,5 @@
 //
-//  BusStationDIContainer.swift
+//  SetResgionDIContainer.swift
 //  WhenComing
 //
 //  Created by jh on 8/19/25.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class BusStationDIContainer {
+final class SetResgionDIContainer {
 
     // MARK: - Dependencies
 
@@ -45,8 +45,8 @@ final class BusStationDIContainer {
 
     // MARK: - ViewModel
     
-    func makeBusStationViewModel() -> BusStationViewModel {
-        BusStationViewModel(
+    func makeRegionViewModel() -> RegionViewModel {
+        RegionViewModel(
             getCityCodeListUseCase: makeGetCityCodeListUseCase(), loadSaveCityCodeUseCase: makeLoadSaveCityCodeUseCase()
         )
     }

@@ -12,10 +12,9 @@ import SnapKit
 
 class SearchViewController: UIViewController {
     private let disposeBag = DisposeBag()
-    private let vm = SearchDIContainer().makeBusStationViewModel()
+    private let vm = SearchDIContainer().makeSearchViewModel()
 
     private var tableView: UITableView!
-    private var items: [BusStationCellPresentable] = []
     
     // 헤더 컨테이너
     private let headerView: UIView = {
@@ -92,9 +91,6 @@ extension SearchViewController {
 
     private func setTableView() {
         tableView = UITableView()
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.backgroundColor = .systemBackground
@@ -119,7 +115,7 @@ extension SearchViewController {
         backButton.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(12)
             make.centerY.equalToSuperview()
-            make.width.greaterThanOrEqualTo(24)
+            make.width.equalTo(40)
             make.height.equalTo(32)
         }
 
@@ -143,15 +139,13 @@ extension SearchViewController {
         // MARK: - input
         // 검색어 변경 → 뷰모델로 전달
         searchBar.rx.text.orEmpty
+            .debounce(.milliseconds(500), scheduler: MainScheduler.instance)
             .distinctUntilChanged()
             .observe(on: MainScheduler.asyncInstance)
             .bind(onNext: { [weak self] text in
                 guard let self else { return }
                 if text.count > 0 {
                     self.vm.input.searchQuery.accept(text)
-                } else {
-                    items = []
-                    tableView.reloadData()
                 }
             })
             .disposed(by: disposeBag)
@@ -160,6 +154,66 @@ extension SearchViewController {
         vm.output.isLoading
             .drive(loadingIndicator.rx.isAnimating)
             .disposed(by: disposeBag)
+        
+        vm.output.isFetchMore
+            .drive(onNext: { [weak self] isLoadingMore in
+                guard let self else { return }
+                if isLoadingMore {
+                    let footer = UIActivityIndicatorView()
+                    footer.startAnimating()
+                    footer.frame = CGRect(x: 0, y: 0, width: self.tableView.bounds.width, height: 44)
+                    self.tableView.tableFooterView = footer
+                } else {
+                    self.tableView.tableFooterView = nil
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        vm.output.items
+            .drive(
+                tableView.rx.items(
+                    cellIdentifier: "cell",
+                    cellType: UITableViewCell.self
+                )
+            ) { row, item, cell in
+
+                switch item {
+                case .route(let route):
+                    cell.textLabel?.text = "\(route.routeNo) \(route.routeType)"
+                case .station(let station):
+                    if let stationNum = station.stationNumber {
+                        cell.textLabel?.text = "\(station.name) (\(stationNum)) 버스역"
+                    } else {
+                        cell.textLabel?.text = "\(station.name) 버스역"
+                    }
+                    
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        // 마지막 셀 기준으로 3개 전 셀이 화면에 보일 때 트리거 (throttled)
+        tableView.rx.willDisplayCell
+//            .throttle(.milliseconds(800), scheduler: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] (_, indexPath) in
+                guard let self else { return }
+                let totalRows = self.tableView.numberOfRows(inSection: indexPath.section)
+                if indexPath.row == totalRows - 5 {
+                    self.vm.loadNextStationsPage()
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        tableView.rx.modelSelected(SearchItem.self)
+            .subscribe(onNext:{ [weak self] item in
+                guard let self else { return }
+                switch item {
+                case .route(let route):
+                    print("\(route)")
+                case .station(let station):
+                    self.nextVC(busStation: station)
+                }
+            })
+            .disposed(by: disposeBag)
     }
 
     private func fetch() {
@@ -167,15 +221,12 @@ extension SearchViewController {
     }
 }
 
-extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.count
-    }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.selectionStyle = .none
-        cell.textLabel?.text = "Row \(indexPath.row)"
-        return cell
+// MARK: - nextVC
+
+extension SearchViewController {
+    func nextVC(busStation: BusStationEntity) {
+        let nextVC = BusStaionViewController(busStation: busStation)
+        self.navigationController?.pushViewController(nextVC, animated: true)
     }
 }

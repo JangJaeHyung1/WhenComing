@@ -12,7 +12,7 @@ import SnapKit
 
 class SetRegionViewController: UIViewController {
     private let disposeBag = DisposeBag()
-    var vm = BusStationDIContainer().makeBusStationViewModel()
+    var vm = SetResgionDIContainer().makeRegionViewModel()
     private let skipIfAlreadySelected: Bool
 
     private var collectionViewDataSource: UICollectionViewDiffableDataSource<Int, BusCityCodeEntity>!

@@ -8,12 +8,12 @@
 import Foundation
 
 // MARK: - Protocol
-protocol GetStationThrghBusList {
+protocol GetStationThrghBusListUseCase {
     func execute(pageNo: Int, cityCode: String, nodeId: String) async throws -> [StationThrghBusEntity]
 }
 
 // MARK: - Implementation
-final class DefaultGetStationThrghBusList: GetStationThrghBusList {
+final class DefaultGetStationThrghBusListUseCase: GetStationThrghBusListUseCase {
     private let repository: BusStationRepositoryProtocol
 
     init(repository: BusStationRepositoryProtocol) {
