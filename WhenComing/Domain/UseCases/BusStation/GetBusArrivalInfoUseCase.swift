@@ -9,7 +9,7 @@ import Foundation
 
 // MARK: - Protocol
 protocol GetBusArrivalInfoUseCase {
-    func execute(pageNo: Int, stationId: String) async throws -> [BusStationArrivalInfoEntity]
+    func execute(pageNo: Int, cityCode: String, nodeId: String) async throws -> [BusStationArrivalInfoEntity]
 }
 
 // MARK: - Implementation
@@ -20,7 +20,7 @@ final class DefaultGetBusArrivalInfoUseCase: GetBusArrivalInfoUseCase {
         self.repository = repository
     }
 
-    func execute(pageNo: Int, stationId: String) async throws -> [BusStationArrivalInfoEntity] {
-        try await repository.fetchArrivalInfoList(pageNo: pageNo, stationId: stationId)
+    func execute(pageNo: Int, cityCode: String, nodeId: String) async throws -> [BusStationArrivalInfoEntity] {
+        try await repository.fetchArrivalInfoList(pageNo: pageNo, cityCode: cityCode, nodeId: nodeId)
     }
 }

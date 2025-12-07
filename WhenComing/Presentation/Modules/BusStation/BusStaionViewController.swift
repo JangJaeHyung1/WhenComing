@@ -121,16 +121,11 @@ extension BusStaionViewController {
     
     private func fetch() {
         vm.fetchFirstPage(nodeId: busStation.id)
-        vm.getStationArrivalInfo(stationId: busStation.id)
+        vm.getStationArrivalInfo(nodeId: busStation.id)
     }
     
     private func bind() {
         
-        vm.output.items
-            .drive(onNext: {
-                print("items: \($0)")
-            })
-            .disposed(by: disposeBag)
     }
     
     private func setNavi() {

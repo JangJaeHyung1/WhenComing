@@ -110,7 +110,7 @@ final class BusStationViewModel {
             }
             do {
                 let items = try await getStationThrghBusListUseCase.execute(pageNo: self.pageNum, cityCode: self.cityCode, nodeId: nodeId)
-                
+                print("getStationThrghBusList item:\(items)")
                 let currentItems = self.itemsRelay.value
                 let newItems = currentItems + items
                 self.itemsRelay.accept(newItems)
@@ -119,22 +119,22 @@ final class BusStationViewModel {
                     isLastPage = true
                 }
             } catch {
-                print("error: \(error.localizedDescription)")
+                print("getStationThrghBusList error: \(error.localizedDescription)")
             }
         }
     }
     
     
-    func getStationArrivalInfo(stationId: String) {
+    func getStationArrivalInfo(nodeId: String) {
         Task { [weak self] in
             guard let self else { return }
             
             defer {}
             do {
-                let item = try await getBusArrivalInfoUseCase.execute(pageNo: 1, stationId: stationId)
+                let item = try await getBusArrivalInfoUseCase.execute(pageNo: 1, cityCode: self.cityCode, nodeId: nodeId)
                 print("getStationArrivalInfo item:\(item)")
             } catch {
-                
+                print("getStationArrivalInfo error: \(error)")
             }
         }
     }

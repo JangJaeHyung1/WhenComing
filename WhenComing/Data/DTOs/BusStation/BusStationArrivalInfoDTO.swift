@@ -24,10 +24,39 @@ struct BusStationArrivalInfoHeader: Decodable {
 }
 
 struct BusStationArrivalInfoBody: Decodable {
-    let items: BusStationArrivalInfoItems
+    let items: [BusStationArrivalInfoDTO]
     let numOfRows: Int
     let pageNo: Int
     let totalCount: Int
+
+    private enum CodingKeys: String, CodingKey {
+        case items
+        case numOfRows
+        case pageNo
+        case totalCount
+    }
+
+    private enum ItemsCodingKeys: String, CodingKey {
+        case item
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        let itemsContainer = try container.nestedContainer(keyedBy: ItemsCodingKeys.self, forKey: .items)
+
+        if let array = try? itemsContainer.decode([BusStationArrivalInfoDTO].self, forKey: .item) {
+            self.items = array
+        } else if let single = try? itemsContainer.decode(BusStationArrivalInfoDTO.self, forKey: .item) {
+            self.items = [single]
+        } else {
+            self.items = []
+        }
+
+        numOfRows = try container.decode(Int.self, forKey: .numOfRows)
+        pageNo = try container.decode(Int.self, forKey: .pageNo)
+        totalCount = try container.decode(Int.self, forKey: .totalCount)
+    }
 }
 
 struct BusStationArrivalInfoItems: Decodable {
