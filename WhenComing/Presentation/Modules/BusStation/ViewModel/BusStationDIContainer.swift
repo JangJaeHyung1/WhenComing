@@ -51,19 +51,19 @@ final class BusStationDIContainer {
     
     // MARK: - UseCases
     
-    func makeLoadSaveCityCodeUseCase() -> LoadSavedCityCodeUseCase {
+    private func makeLoadSaveCityCodeUseCase() -> LoadSavedCityCodeUseCase {
         DefaultLoadSavedCityCodeUseCase(repository: busCityCodeRepository)
     }
     
-    func makeGetNearbyStationUseCase() -> GetNearbyStationListUseCase {
+    private func makeGetNearbyStationUseCase() -> GetNearbyStationListUseCase {
         DefaultGetNearbyStationListUseCase(repository: busStationRepository)
     }
     
-    func makeGetStationThrghBusUseCase() -> GetStationThrghBusListUseCase {
+    private func makeGetStationThrghBusUseCase() -> GetStationThrghBusListUseCase {
         DefaultGetStationThrghBusListUseCase(repository: busStationRepository)
     }
     
-    func makeGetBusArrivalInfoUseCase() -> GetBusArrivalInfoUseCase {
+    private func makeGetBusArrivalInfoUseCase() -> GetBusArrivalInfoUseCase {
         DefaultGetBusArrivalInfoUseCase(repository: busArrivalRepository)
     }
     

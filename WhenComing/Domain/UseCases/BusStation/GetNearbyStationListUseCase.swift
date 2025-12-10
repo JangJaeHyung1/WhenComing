@@ -9,6 +9,13 @@ import Foundation
 
 // MARK: - Protocol
 protocol GetNearbyStationListUseCase {
+    
+    /// 해당 위치 근처 정류소 리스트 가져오는 메소드
+    /// - Parameters:
+    ///   - pageNo: page number
+    ///   - lat: 위도
+    ///   - lng: 경도
+    /// - Returns: 정류소 리스트
     func execute(pageNo: Int, lat: Double, lng: Double) async throws -> [AroundBusStationEntity]
 }
 

@@ -35,11 +35,11 @@ final class SetResgionDIContainer {
 
     // MARK: - UseCases
 
-    func makeGetCityCodeListUseCase() -> GetCityCodeListUseCase {
+    private func makeGetCityCodeListUseCase() -> GetCityCodeListUseCase {
         DefaultGetCityCodeListUseCase(repository: busStationRepository)
     }
     
-    func makeLoadSaveCityCodeUseCase() -> LoadSavedCityCodeUseCase {
+    private func makeLoadSaveCityCodeUseCase() -> LoadSavedCityCodeUseCase {
         DefaultLoadSavedCityCodeUseCase(repository: busCityCodeRepository)
     }
 

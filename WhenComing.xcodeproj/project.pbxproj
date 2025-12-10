@@ -75,6 +75,7 @@
 		E9DC2A982EAE2BAE00BF138B /* BusCityCodeRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9DC2A972EAE2BAB00BF138B /* BusCityCodeRepositoryImpl.swift */; };
 		E9DC2A9A2EAE2EDB00BF138B /* CityCodeUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9DC2A992EAE2ED700BF138B /* CityCodeUseCase.swift */; };
 		E9DDB29C2E689B6B00EC7B5F /* BusCityCodeEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9DDB29B2E689B6900EC7B5F /* BusCityCodeEntity.swift */; };
+		E9F646852EE72A2900F9FDC5 /* BusStationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F646842EE72A2900F9FDC5 /* BusStationTableViewCell.swift */; };
 		E9FD03902EC785D9005FF83B /* GetBusRouteListUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FD038F2EC785D2005FF83B /* GetBusRouteListUseCase.swift */; };
 /* End PBXBuildFile section */
 
@@ -145,6 +146,7 @@
 		E9DC2A972EAE2BAB00BF138B /* BusCityCodeRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusCityCodeRepositoryImpl.swift; sourceTree = "<group>"; };
 		E9DC2A992EAE2ED700BF138B /* CityCodeUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityCodeUseCase.swift; sourceTree = "<group>"; };
 		E9DDB29B2E689B6900EC7B5F /* BusCityCodeEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusCityCodeEntity.swift; sourceTree = "<group>"; };
+		E9F646842EE72A2900F9FDC5 /* BusStationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusStationTableViewCell.swift; sourceTree = "<group>"; };
 		E9FD038F2EC785D2005FF83B /* GetBusRouteListUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetBusRouteListUseCase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -468,6 +470,7 @@
 		E99BE5182ED1B17F0012629F /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				E9F646842EE72A2900F9FDC5 /* BusStationTableViewCell.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -681,6 +684,7 @@
 				E9DC2A982EAE2BAE00BF138B /* BusCityCodeRepositoryImpl.swift in Sources */,
 				E91EDD742D4676590041104B /* DesignSystem.swift in Sources */,
 				E9DC2A962EAE2B6E00BF138B /* BusCityCodeRepositoryProtocol.swift in Sources */,
+				E9F646852EE72A2900F9FDC5 /* BusStationTableViewCell.swift in Sources */,
 				E98E48742D895962004BFD1D /* GetCityCodeListUseCase.swift in Sources */,
 				E99BEE742D4279450013C32E /* ViewController.swift in Sources */,
 				E91AD47A2E78563800353FED /* BusRouteInfoEntity.swift in Sources */,

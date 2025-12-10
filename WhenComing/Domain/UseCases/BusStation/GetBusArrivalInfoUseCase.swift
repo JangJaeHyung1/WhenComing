@@ -9,6 +9,13 @@ import Foundation
 
 // MARK: - Protocol
 protocol GetBusArrivalInfoUseCase {
+    
+    /// 해당 정류소의 버스들의 정보들을 가져오는 메소드
+    /// - Parameters:
+    ///   - pageNo: page
+    ///   - cityCode: city code
+    ///   - nodeId: 정류소 ID
+    /// - Returns: 버스리스트 도착 시간
     func execute(pageNo: Int, cityCode: String, nodeId: String) async throws -> [BusStationArrivalInfoEntity]
 }
 

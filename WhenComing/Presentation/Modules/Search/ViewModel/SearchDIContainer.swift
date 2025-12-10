@@ -41,15 +41,15 @@ final class SearchDIContainer {
     
     // MARK: - UseCases
     
-    func makeGetbusStationUseCase() -> SearchStationByNameUseCase {
+    private func makeGetbusStationUseCase() -> SearchStationByNameUseCase {
         DefaultSearchStationByNameUseCase(repository: busStationRepository)
     }
     
-    func makeLoadSaveCityCodeUseCase() -> LoadSavedCityCodeUseCase {
+    private func makeLoadSaveCityCodeUseCase() -> LoadSavedCityCodeUseCase {
         DefaultLoadSavedCityCodeUseCase(repository: busCityCodeRepository)
     }
 
-    func makeGetBusRouteUseCase() -> GetBusRouteListUseCase {
+    private func makeGetBusRouteUseCase() -> GetBusRouteListUseCase {
         DefaultGetBusRouteListUseCase(repository: busRouteRepository)
     }
     // MARK: - ViewModel

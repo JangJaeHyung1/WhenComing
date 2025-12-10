@@ -9,6 +9,8 @@ import Foundation
 
 // MARK: - Protocol
 protocol GetCityCodeListUseCase {
+    /// 도시 코드 가져오는 메소드
+    /// - Returns: 도시 코드 리스트
     func execute() async throws -> [BusCityCodeEntity]
 }
 

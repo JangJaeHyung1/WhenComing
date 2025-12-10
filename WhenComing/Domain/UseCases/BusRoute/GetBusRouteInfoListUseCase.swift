@@ -9,6 +9,13 @@ import Foundation
 
 // MARK: - Protocol
 protocol GetBusRouteInfoListUseCase {
+    
+    /// 특정 노선(routeId)에 대한 상세 운행 정보 목록을 조회한다.
+    /// - Parameters:
+    ///   - pageNo: 페이징 번호
+    ///   - cityCode: 도시 코드
+    ///   - routeId: 버스 노선 ID
+    /// - Returns: 해당 노선의 운행 정보
     func execute(pageNo: Int, cityCode: String, routeId: String) async throws -> [BusRouteInfoEntity]
 }
 
