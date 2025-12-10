@@ -24,3 +24,36 @@
 - Clean Architecture, MVVM
 - URLSession, Codable
 - Swift Concurrency (async/await)
+
+
+
+## Archive 
+
+검색 페이지에 정류소와 버스 노선이 하나의 리스트에 나타나도록 설계하였습니다. 
+두개의 entity를 통합된 리스트에 노출시켜야하는데, 통일된 enitiy를 새로 만들거나 두개의 섹션으로 나누어 리스트를 표현하기 보다는 enum을 사용하여 하나의 배열로 나타내어 쉽게 표현할수 있도록 하였습니다. 
+추가될 (지하철 검색결과) 사항에 대해서도 enum case로 수정이 용이합니다.
+
+```
+vm.output.items
+            .drive(
+                tableView.rx.items(
+                    cellIdentifier: "cell",
+                    cellType: UITableViewCell.self
+                )
+            ) { row, item, cell in
+
+                switch item {
+                case .route(let route):
+                    cell.textLabel?.text = "\(route.routeNo) \(route.routeType)"
+                case .station(let station):
+                    if let stationNum = station.stationNumber {
+                        cell.textLabel?.text = "\(station.name) (\(stationNum)) 버스역"
+                    } else {
+                        cell.textLabel?.text = "\(station.name) 버스역"
+                    }
+                    
+                }
+            }
+            .disposed(by: disposeBag)
+```
+
