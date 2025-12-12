@@ -57,9 +57,11 @@ vm.output.items
             .disposed(by: disposeBag)
 ```
 
+<br>
+
 네트워크 통신 결과 json값에 대하여 기본적으로 배열 dto로 포맷팅 해뒀습니다.
 하지만 값이 하나일 경우 배열 형태가 아니라 단일 객체로 들어와서  dto 포멧 불일치 에러가 발생했어요.
-그래서 배열일 경우와 배열이 아닐 경우 두가지 경우의수를 고려하여 dto를 작성하여 해결하였습니다
+그래서 json item 값이 배열일 경우와 배열이 아닐 경우를 둘 다 고려하여 해결하였습니다
 
 ```
 struct BusRouteItems: Decodable {
@@ -84,7 +86,6 @@ struct BusRouteItems: Decodable {
             return
         }
 
-        // 3. 둘 다 아니면 에러
         throw DecodingError.typeMismatch( [BusRouteDTO].self, DecodingError.Context(
                 codingPath: container.codingPath + [CodingKeys.item],
                 debugDescription: “cannot decoding item as BusRouteDTO or [BusRouteDTO]"
