@@ -74,23 +74,13 @@ struct BusRouteItems: Decodable {
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        // 1. 배열로 들어온 경우
-        if let array = try? container.decode([BusRouteDTO].self, forKey: .item) {
-            self.item = array
-            return
-        }
-
-        // 2. 단일 객체로 들어온 경우
-        if let single = try? container.decode(BusRouteDTO.self, forKey: .item) {
+        if let list = try? container.decode([BusRouteDTO].self, forKey: .item) {
+            self.item = list
+        } else if let single = try? container.decode(BusRouteDTO.self, forKey: .item) {
             self.item = [single]
-            return
+        } else {
+            self.item = []
         }
-
-        throw DecodingError.typeMismatch( [BusRouteDTO].self, DecodingError.Context(
-                codingPath: container.codingPath + [CodingKeys.item],
-                debugDescription: “cannot decoding item as BusRouteDTO or [BusRouteDTO]"
-            )
-        )
     }
 }
 ```
