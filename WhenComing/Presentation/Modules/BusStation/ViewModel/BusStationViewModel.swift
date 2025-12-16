@@ -13,23 +13,25 @@ import RxCocoa
 final class BusStationViewModel {
     
     private let disposeBag = DisposeBag()
-    private let itemsRelay = BehaviorRelay<[StationThrghBusEntity]>(value: [])
+    private let busListRelay = BehaviorRelay<[StationThrghBusEntity]>(value: [])
+    private let arrivalDictRelay = BehaviorRelay<[String: BusStationArrivalInfoEntity]>(value: [:])
     private let isLoadingRelay = BehaviorRelay<Bool>(value: false)
-    private let isFetchMoreRelay = BehaviorRelay<Bool>(value: false)
     private let errorRelay = PublishRelay<Error>()
-    private var pageNum = 1
     private var cityCode: String
-    private var isLastPage: Bool = false
+    
+    struct StationBusRow {
+        let bus: StationThrghBusEntity
+        let arrival: BusStationArrivalInfoEntity?
+    }
     
     // MARK: - Input/Output
     struct Input {
-//        let searchQuery: PublishRelay<String>
+        
     }
     struct Output {
         let isLoading: Driver<Bool>
         let error: Signal<Error>
-        let items: Driver<[StationThrghBusEntity]>
-        let isFetchMore: Driver<Bool>
+        let busStationList: Driver<[StationBusRow]>
     }
     
     let input: Input
@@ -61,13 +63,25 @@ final class BusStationViewModel {
         
         self.input = Input()
         
+        let rows: Driver<[StationBusRow]> =
+            Observable.combineLatest(busListRelay, arrivalDictRelay)
+                .map { buses, dict in
+                    buses.map { bus in
+                        StationBusRow(
+                            bus: bus,
+                            arrival: dict[bus.routeId]
+                        )
+                    }
+                }
+                .asDriver(onErrorJustReturn: [])
+        
+        
         // MARK: - transform
         
         self.output = Output(
             isLoading: isLoadingRelay.asDriver(),
             error: errorRelay.asSignal(),
-            items: itemsRelay.asDriver(),
-            isFetchMore: isFetchMoreRelay.asObservable().asDriver(onErrorDriveWith: .empty())
+            busStationList: rows.asDriver()
         )
     }
     
@@ -86,17 +100,8 @@ final class BusStationViewModel {
     
     
     func fetchFirstPage(nodeId: String) {
-        pageNum = 1
-        isLastPage = false
         isLoadingRelay.accept(true)
-        itemsRelay.accept([])
-        getStationThrghBusList(nodeId: nodeId)
-    }
-    
-    func fetchNextPage(nodeId: String) {
-        guard !isLoadingRelay.value, !isLastPage, !isFetchMoreRelay.value else { return }
-        pageNum += 1
-        isFetchMoreRelay.accept(true)
+        busListRelay.accept([])
         getStationThrghBusList(nodeId: nodeId)
     }
     
@@ -106,18 +111,12 @@ final class BusStationViewModel {
             
             defer {
                 self.isLoadingRelay.accept(false)
-                self.isFetchMoreRelay.accept(false)
             }
             do {
-                let items = try await getStationThrghBusListUseCase.execute(pageNo: self.pageNum, cityCode: self.cityCode, nodeId: nodeId)
+                let items = try await getStationThrghBusListUseCase.execute(cityCode: self.cityCode, nodeId: nodeId)
                 print("getStationThrghBusList item:\(items)")
-                let currentItems = self.itemsRelay.value
-                let newItems = currentItems + items
-                self.itemsRelay.accept(newItems)
+                self.busListRelay.accept(items)
                 
-                if items.count < 20 {
-                    isLastPage = true
-                }
             } catch {
                 print("getStationThrghBusList error: \(error.localizedDescription)")
             }
@@ -131,9 +130,15 @@ final class BusStationViewModel {
             
             defer {}
             do {
-                let item = try await getBusArrivalInfoUseCase.execute(pageNo: 1, cityCode: self.cityCode, nodeId: nodeId)
-                print("getStationArrivalInfo item:\(item)")
+                let items = try await getBusArrivalInfoUseCase.execute(cityCode: self.cityCode, nodeId: nodeId)
+                var arrivalDict: [String: BusStationArrivalInfoEntity] = [:]
+                for item in items {
+                    arrivalDict[item.routeId] = item
+                }
+                self.arrivalDictRelay.accept(arrivalDict)
+                print("getStationArrivalInfo item:\(items)")
             } catch {
+                self.arrivalDictRelay.accept([:])
                 print("getStationArrivalInfo error: \(error)")
             }
         }

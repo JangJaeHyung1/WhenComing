@@ -226,7 +226,7 @@ extension SearchViewController {
 
 extension SearchViewController {
     func nextVC(busStation: BusStationEntity) {
-        let nextVC = BusStaionViewController(busStation: busStation)
+        let nextVC = BusStationViewController(busStation: busStation)
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
 }

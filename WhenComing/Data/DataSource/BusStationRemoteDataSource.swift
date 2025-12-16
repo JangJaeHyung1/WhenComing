@@ -11,7 +11,7 @@ protocol BusStationRemoteDataSource {
     func getCityCodeList() async throws -> [CityCodeDTO]
     func getStationList(pageNo: Int, cityCode: String, stationName: String) async throws -> [BusStationDTO]
     func getAroundStationList(pageNo: Int, lat: Double, lng: Double) async throws -> [ArroundStationDTO]
-    func getSttnThrghRouteList(pageNo: Int, cityCode: String, nodeId: String) async throws -> [StationThrghBusDTO]
+    func getSttnThrghRouteList(cityCode: String, nodeId: String) async throws -> [StationThrghBusDTO]
 }
 
 final class DefaultBusStationRemoteDataSource: BusStationRemoteDataSource {
@@ -34,7 +34,7 @@ final class DefaultBusStationRemoteDataSource: BusStationRemoteDataSource {
         try await networkService.request(.getAroundStationList(pageNo: pageNo, lat: lat, lng: lng), type: ArroundStationResponseDTO.self).response.body.items.item
     }
     
-    func getSttnThrghRouteList(pageNo: Int, cityCode: String, nodeId: String) async throws -> [StationThrghBusDTO] {
-        try await networkService.request(.getSttnThrghRouteList(pageNo: pageNo, cityCode: cityCode, nodeId: nodeId), type: StationThrghRouteListResponseDTO.self).response.body.items.item
+    func getSttnThrghRouteList(cityCode: String, nodeId: String) async throws -> [StationThrghBusDTO] {
+        try await networkService.request(.getSttnThrghRouteList(cityCode: cityCode, nodeId: nodeId), type: StationThrghRouteListResponseDTO.self).response.body.items.item
     }
 }

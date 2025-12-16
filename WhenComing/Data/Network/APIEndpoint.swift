@@ -17,10 +17,10 @@ enum APIEndpoint {
     case getCityCodeList                    // 서비스 가능 지역 검색
     case getStationList(pageNo: Int, cityCode: String, stationName: String)  // 정류소번호 목록조회: 정류장 이름 검색 결과 가져오기
     case getAroundStationList(pageNo: Int, lat: Double, lng: Double) // 좌표기반근접정류소 목록조회: 주변 정류장 뭐뭐 있는지
-    case getSttnThrghRouteList(pageNo: Int, cityCode: String, nodeId: String) // 정류소별경유노선 목록조회: 무슨무슨 버스 오는지
+    case getSttnThrghRouteList(cityCode: String, nodeId: String) // 정류소별경유노선 목록조회: 무슨무슨 버스 오는지
     
     // 버스도착정보 busStationInfo
-    case getArrivalInfoList(pageNo: Int, cityCode: String, nodeId: String) // 정류소별 전체 도착 정보: 정류장을 즐겨찾기 할 경우 해당 정류장에 오는 버스들 시간 띄워줌
+    case getArrivalInfoList(cityCode: String, nodeId: String) // 정류소별 전체 도착 정보: 정류장을 즐겨찾기 할 경우 해당 정류장에 오는 버스들 시간 띄워줌
     case getSpecificBusArrival(pageNo: Int, cityCode: String, stationId: String, routeId: String) // 특정 노선 도착 정보
     
     // busRouteInfo
@@ -102,17 +102,17 @@ enum APIEndpoint {
                 URLQueryItem(name: "gpsLati", value: "\(lat)"),
                 URLQueryItem(name: "gpsLong", value: "\(lng)"),
             ]
-        case .getSttnThrghRouteList(pageNo: let pageNo, cityCode: let cityCode, nodeId: let nodeId):
+        case .getSttnThrghRouteList(cityCode: let cityCode, nodeId: let nodeId):
             queryItems += [
-                URLQueryItem(name: "pageNo", value: "\(pageNo)"),
-                URLQueryItem(name: "numOfRows", value: "\(pageSize)"),
+                URLQueryItem(name: "pageNo", value: "\(1)"),
+                URLQueryItem(name: "numOfRows", value: "\(60)"),
                 URLQueryItem(name: "cityCode", value: cityCode),
                 URLQueryItem(name: "nodeid", value: "\(nodeId)"),
             ]
-        case .getArrivalInfoList(pageNo: let pageNo, cityCode: let cityCode, nodeId: let nodeId):
+        case .getArrivalInfoList(cityCode: let cityCode, nodeId: let nodeId):
             queryItems += [
-                URLQueryItem(name: "pageNo", value: "\(pageNo)"),
-                URLQueryItem(name: "numOfRows", value: "\(pageSize)"),
+                URLQueryItem(name: "pageNo", value: "\(1)"),
+                URLQueryItem(name: "numOfRows", value: "\(60)"),
                 URLQueryItem(name: "cityCode", value: "\(cityCode)"),
                 URLQueryItem(name: "nodeId", value: "\(nodeId)"),
             ]

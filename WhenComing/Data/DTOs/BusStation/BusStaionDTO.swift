@@ -30,6 +30,22 @@ struct StationBody: Decodable {
 
 struct StationItems: Decodable {
     let item: [BusStationDTO]
+
+    enum CodingKeys: String, CodingKey {
+        case item
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        if let list = try? container.decode([BusStationDTO].self, forKey: .item) {
+            self.item = list
+        } else if let single = try? container.decode(BusStationDTO.self, forKey: .item) {
+            self.item = [single]
+        } else {
+            self.item = []
+        }
+    }
 }
 
 struct BusStationDTO: Decodable {

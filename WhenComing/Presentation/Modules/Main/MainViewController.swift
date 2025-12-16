@@ -121,6 +121,7 @@ extension MainViewController {
     
     @objc private func handleRefresh() {
         fetch()
+        // TODO: 1초뒤가 아니라 비동기 리턴값 받으면 종료
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.refreshControl.endRefreshing()
         }

@@ -26,8 +26,8 @@ final class DefaultBusStationRepository: BusStationRepositoryProtocol {
         try await remoteDataSource.getAroundStationList(pageNo: pageNo, lat: latitude, lng: longitude).map { $0.toEntity() }
     }
     
-    func fetchStationThrghBusList(pageNo: Int, cityCode: String, nodeId: String) async throws -> [StationThrghBusEntity] {
-        try await remoteDataSource.getSttnThrghRouteList(pageNo: pageNo, cityCode: cityCode, nodeId: nodeId).map { $0.toEntity() }
+    func fetchStationThrghBusList(cityCode: String, nodeId: String) async throws -> [StationThrghBusEntity] {
+        try await remoteDataSource.getSttnThrghRouteList(cityCode: cityCode, nodeId: nodeId).map { $0.toEntity() }
     }
     
 }

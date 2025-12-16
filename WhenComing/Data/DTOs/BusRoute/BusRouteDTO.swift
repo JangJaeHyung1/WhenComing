@@ -30,6 +30,23 @@ struct BusRouteBody: Decodable {
 
 struct BusRouteItems: Decodable {
     let item: [BusRouteDTO]
+
+    private enum CodingKeys: String, CodingKey {
+        case item
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        
+        if let list = try? container.decode([BusRouteDTO].self, forKey: .item) {
+            self.item = list
+        } else if let single = try? container.decode(BusRouteDTO.self, forKey: .item) {
+            self.item = [single]
+        } else {
+            self.item = []
+        }
+    }
 }
 
 struct BusRouteDTO: Decodable {

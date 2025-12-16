@@ -32,8 +32,8 @@ final class NetworkService: NetworkServiceProtocol {
         }
         
         do {
-//            print("🟠 Raw JSON:")
-//            print(String(data: data, encoding: .utf8) ?? "nil")
+            print("🟠 Raw JSON:")
+            print(String(data: data, encoding: .utf8) ?? "nil")
             return try JSONDecoder().decode(T.self, from: data)
         } catch {
             throw APIError.failToDecode(error.localizedDescription)

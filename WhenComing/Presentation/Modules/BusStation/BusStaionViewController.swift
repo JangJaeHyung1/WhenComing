@@ -1,5 +1,5 @@
 //
-//  BusStaionViewController.swift
+//  BusStationViewController.swift
 //  WhenComing
 //
 //  Created by jh on 11/22/25.
@@ -11,7 +11,7 @@ import RxCocoa
 import SnapKit
 import MapKit
 
-class BusStaionViewController: UIViewController {
+class BusStationViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private let locationManager = CLLocationManager()
     
@@ -62,6 +62,14 @@ class BusStaionViewController: UIViewController {
         return lbl
     }()
     
+    private let refreshControl = UIRefreshControl()
+    
+    private let loadIndicator: UIActivityIndicatorView = {
+        let v = UIActivityIndicatorView(style: .medium)
+        v.hidesWhenStopped = true
+        return v
+    }()
+    
     var tableView: UITableView!
     
     override func viewDidLoad() {
@@ -84,7 +92,7 @@ class BusStaionViewController: UIViewController {
 }
 
 
-extension BusStaionViewController {
+extension BusStationViewController {
     private func setUp() {
         configure()
         setTableView()
@@ -99,16 +107,14 @@ extension BusStaionViewController {
     private func setTableView(){
         tableView = UITableView()
         //        tableView = UITableView(frame: .zero, style: .plain)
-        //        tableView.dataSource = self
+//        tableView.dataSource = self
 //        tableView.delegate = self
-        tableView.separatorStyle = .none
+        
         tableView.showsHorizontalScrollIndicator = false
         tableView.showsVerticalScrollIndicator = false
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        tableView.backgroundColor = .red
-        //    private let refreshControl = UIRefreshControl()
-        //    tableView.refreshControl = refreshControl
-        //    refreshControl.transform = .init(scaleX: 0.75, y: 0.75)
+        tableView.register(BusStationTableViewCell.self, forCellReuseIdentifier: BusStationTableViewCell.cellId)
+        tableView.refreshControl = refreshControl
+        refreshControl.transform = .init(scaleX: 0.75, y: 0.75)
         //        tableView.register(CommunityHeaderView.self, forHeaderFooterViewReuseIdentifier: CommunityHeaderView.headerViewID)
         tableView.translatesAutoresizingMaskIntoConstraints = false
     }
@@ -125,7 +131,35 @@ extension BusStaionViewController {
     }
     
     private func bind() {
+        tableView.refreshControl?.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
         
+        vm.output.isLoading
+            .distinctUntilChanged()
+            .drive(onNext: { [weak self] isLoading in
+                guard let self else { return }
+                isLoading ? self.loadIndicator.startAnimating() : self.loadIndicator.stopAnimating()
+            })
+            .disposed(by: self.disposeBag)
+
+        vm.output.busStationList
+            .drive(tableView.rx.items(cellIdentifier: BusStationTableViewCell.cellId)) { indexPath, item, cell in
+                if let cell = cell as? BusStationTableViewCell {
+                    
+                    cell.configure(busNumber: item.bus.routeNo,
+                                   busType: item.bus.routeType,
+                                   busTime: item.arrival?.remainSeconds,
+                                   busStationAgo: item.arrival?.remainStationCount)
+                }
+            }
+            .disposed(by: self.disposeBag)
+    }
+    
+    @objc private func handleRefresh() {
+        fetch()
+        // TODO: 1초뒤가 아니라 비동기 리턴값 받으면 종료
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.refreshControl.endRefreshing()
+        }
     }
     
     private func setNavi() {
@@ -140,6 +174,7 @@ extension BusStaionViewController {
         view.addSubview(mapView)
         
         view.addSubview(tableView)
+        tableView.addSubview(loadIndicator)
     }
     
     private func setConstraints() {
@@ -175,10 +210,14 @@ extension BusStaionViewController {
             make.bottom.leading.trailing.equalToSuperview()
         
         }
+        loadIndicator.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.width.height.equalTo(40)
+        }
     }
 }
 
-extension BusStaionViewController: CLLocationManagerDelegate {
+extension BusStationViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
         case .authorizedWhenInUse, .authorizedAlways:
@@ -210,7 +249,7 @@ extension BusStaionViewController: CLLocationManagerDelegate {
 }
 
 
-extension BusStaionViewController: MKMapViewDelegate {
+extension BusStationViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         // 내 위치(파란 점)는 기본 스타일 그대로 쓰기
         if annotation is MKUserLocation { return nil }
@@ -234,3 +273,4 @@ extension BusStaionViewController: MKMapViewDelegate {
         return view
     }
 }
+

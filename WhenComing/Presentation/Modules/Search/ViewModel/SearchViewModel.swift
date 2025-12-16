@@ -26,6 +26,7 @@ final class SearchViewModel {
     private let errorRelay = PublishRelay<Error>()
     private var cityCode: String
     private var currentQuery: String?
+    private var searchTask: Task<Void, Never>?
     private var pageNum = 1
     private var isLastPage: Bool = false
     
@@ -82,36 +83,64 @@ final class SearchViewModel {
             .distinctUntilChanged()
             .subscribe(onNext: { [weak self] query in
                 guard let self = self else { return }
+                let q = query.trimmingCharacters(in: .whitespacesAndNewlines)
+
+                // 빈 검색어면 초기화만 하고 종료
+                if q.isEmpty {
+                    self.searchTask?.cancel()
+                    self.searchTask = nil
+
+                    self.itemsRelay.accept([])
+                    self.currentQuery = nil
+                    self.pageNum = 1
+                    self.isLastPage = true
+                    self.isFetchMoreRelay.accept(false)
+                    return
+                }
+
+                self.searchTask?.cancel()
+
                 self.itemsRelay.accept([])
-                currentQuery = query
-                pageNum = 1
-                isLastPage = false
-                isFetchMoreRelay.accept(false)
-                Task {
-                    self.isLoadingRelay.accept(true)
+                self.currentQuery = q
+                self.pageNum = 1
+                self.isLastPage = false
+                self.isFetchMoreRelay.accept(false)
+
+                self.searchTask = Task { [weak self] in
+                    guard let self = self else { return }
+
+                    await MainActor.run {
+                        self.isLoadingRelay.accept(true)
+                    }
                     defer {
-                        self.isLoadingRelay.accept(false)
+                        Task { @MainActor in
+                            self.isLoadingRelay.accept(false)
+                        }
                     }
-                    async let routesTask = self.getRouteUseCase.execute(cityCode: self.cityCode, routeNo: query)
-                    async let stationsTask = self.searchStationByNameUseCase.execute(pageNo: 1, cityCode: self.cityCode, stationName: query)
-                    
-                    // 1) 노선 먼저 받기
+
+                    async let routesTask = self.getRouteUseCase.execute(cityCode: self.cityCode, routeNo: q)
+                    async let stationsTask = self.searchStationByNameUseCase.execute(pageNo: 1, cityCode: self.cityCode, stationName: q)
+
                     let routes = (try? await routesTask) ?? []
-                    let routeItems = Array(routes.prefix(20)).map { SearchItem.route($0) }
-                    // 2) 정류장 받기
                     let stations = (try? await stationsTask) ?? []
+
+                    if Task.isCancelled { return }
+
+                    let routeItems = Array(routes.prefix(20)).map { SearchItem.route($0) }
                     let stationItems = stations.map { SearchItem.station($0) }
-                    // 3) 한 배열로 합치기: [노선들..., 정류장들...]
                     let allItems = routeItems + stationItems
-                    self.itemsRelay.accept(allItems)
-                    
-                    if stationItems.count < 20 {
-                        self.isLastPage = true
-                    } else {
-                        self.pageNum += 1
+
+                    await MainActor.run {
+                        guard self.currentQuery == q else { return }
+
+                        self.itemsRelay.accept(allItems)
+
+                        if stationItems.count < 20 {
+                            self.isLastPage = true
+                        } else {
+                            self.pageNum = 2
+                        }
                     }
-                    
-                    
                 }
             })
             .disposed(by: disposeBag)
@@ -144,5 +173,8 @@ final class SearchViewModel {
                 }
             }
         }
+    }
+    deinit {
+        searchTask?.cancel()
     }
 }
