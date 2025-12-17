@@ -97,7 +97,7 @@ class BusStationTableViewCell: UITableViewCell {
     private func setConstraints() {
         cellView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
-            make.height.equalTo(60)
+//            make.height.equalTo(60)
         }
         
         busLbl.snp.makeConstraints { make in
@@ -126,7 +126,8 @@ class BusStationTableViewCell: UITableViewCell {
         if let busTime = busTime, let busStationAgo = busStationAgo {
             let min = Int(busTime / 60)
             let seconds = busTime - (min * 60)
-            let timeText = min == 0 ? "곧 도착" : "\(min)분 \(seconds)초 (\(busStationAgo)정거장 전)"
+            
+            let timeText = min > 9 ? "\(min)분 (\(busStationAgo)정거장 전)" : (min == 0 ? "곧 도착" : "\(min)분 \(seconds)초 (\(busStationAgo)정거장 전)")
             timeLbl.textColor = .systemOrange
             timeLbl.text = timeText
         } else {

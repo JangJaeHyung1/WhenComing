@@ -32,5 +32,5 @@ struct BusStationArrivalInfoEntity {
     let remainStationCount: Int
 
     /// 도착까지 남은 시간(초)
-    let remainSeconds: Int
+    var remainSeconds: Int
 }

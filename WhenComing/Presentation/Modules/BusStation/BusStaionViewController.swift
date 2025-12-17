@@ -109,6 +109,10 @@ extension BusStationViewController {
         //        tableView = UITableView(frame: .zero, style: .plain)
 //        tableView.dataSource = self
 //        tableView.delegate = self
+        tableView.rowHeight = 60
+        tableView.estimatedRowHeight = 60
+        tableView.sectionHeaderHeight = 0
+        tableView.sectionFooterHeight = 0
         
         tableView.showsHorizontalScrollIndicator = false
         tableView.showsVerticalScrollIndicator = false
@@ -127,12 +131,18 @@ extension BusStationViewController {
     
     private func fetch() {
         vm.fetchFirstPage(nodeId: busStation.id)
-        vm.getStationArrivalInfo(nodeId: busStation.id)
     }
     
     private func bind() {
         tableView.refreshControl?.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
         
+        vm.output.isRefetchLoading
+            .distinctUntilChanged()
+            .drive() { [weak self] isLoading in
+                guard let self else { return }
+                isLoading ? self.refreshControl.beginRefreshing() : self.refreshControl.endRefreshing()
+            }
+            .disposed(by: self.disposeBag)
         vm.output.isLoading
             .distinctUntilChanged()
             .drive(onNext: { [weak self] isLoading in
@@ -155,11 +165,7 @@ extension BusStationViewController {
     }
     
     @objc private func handleRefresh() {
-        fetch()
-        // TODO: 1초뒤가 아니라 비동기 리턴값 받으면 종료
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            self.refreshControl.endRefreshing()
-        }
+        vm.refetch(nodeId: busStation.id)
     }
     
     private func setNavi() {
