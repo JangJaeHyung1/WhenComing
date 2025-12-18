@@ -147,8 +147,7 @@ extension SetRegionViewController {
             .disposed(by: disposeBag)
         
         vm.output.error.asObservable()
-            .subscribe(onNext:{ [weak self] res in
-                guard let self else { return }
+            .subscribe(onNext:{ res in
                 print("🔴error:\(res.localizedDescription)")
             })
             .disposed(by: disposeBag)

@@ -16,8 +16,10 @@ protocol GetSpecificBusArrivalUseCase {
     ///   - cityCode: city code
     ///   - stationId: 정류소 id
     ///   - routeId: 버스 route id
-    /// - Returns: 해당 버스 도착 시간 정보
+    /// - Returns: 해당 정류소에 가장 도착하는 특정 버스 (단일 객체)
+    
     func execute(pageNo: Int, cityCode: String, stationId: String, routeId: String) async throws -> [SpecificBusArrivalEntity]
+    func executeOne(pageNo: Int, cityCode: String, stationId: String, routeId: String) async throws -> SpecificBusArrivalEntity?
 }
 
 // MARK: - Implementation
@@ -27,9 +29,14 @@ final class DefaultSpecificBusArrivalUseCase: GetSpecificBusArrivalUseCase {
     init(repository: BusArrivalRepositoryProtocol) {
         self.repository = repository
     }
-
+    
     func execute(pageNo: Int, cityCode: String, stationId: String, routeId: String) async throws -> [SpecificBusArrivalEntity] {
         try await repository.fetchSpecificBusArrival(pageNo: pageNo, cityCode: cityCode, stationId: stationId, routeId: routeId)
+    }
+        
+    func executeOne(pageNo: Int, cityCode: String, stationId: String, routeId: String) async throws -> SpecificBusArrivalEntity? {
+        let list = try await repository.fetchSpecificBusArrival(pageNo: pageNo, cityCode: cityCode, stationId: stationId, routeId: routeId)
+        return list.min(by: { ($0.arrivalTime) < ($1.arrivalTime) })
     }
 }
 

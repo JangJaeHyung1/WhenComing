@@ -67,6 +67,12 @@
 		E99BEE7C2D4279460013C32E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E99BEE7A2D4279460013C32E /* LaunchScreen.storyboard */; };
 		E9C71ACD2EDCB7F3006EC686 /* BusStationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C71ACC2EDCB7EA006EC686 /* BusStationViewModel.swift */; };
 		E9C71ACF2EDCB959006EC686 /* BusStationDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C71ACE2EDCB952006EC686 /* BusStationDIContainer.swift */; };
+		E9D2C0322EF4595400A13468 /* FavoriteBusLocalDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D2C0312EF4594800A13468 /* FavoriteBusLocalDataSource.swift */; };
+		E9D2C0342EF4597F00A13468 /* FavoriteBusRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D2C0332EF4597200A13468 /* FavoriteBusRepositoryProtocol.swift */; };
+		E9D2C0372EF459B600A13468 /* ObserveFavoriteBusUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D2C0362EF459B400A13468 /* ObserveFavoriteBusUseCase.swift */; };
+		E9D2C0392EF45DBC00A13468 /* FavoriteBusRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D2C0382EF45DB900A13468 /* FavoriteBusRepositoryImpl.swift */; };
+		E9D2C03C2EF4614600A13468 /* ToggleFavoriteBusUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D2C03B2EF4614600A13468 /* ToggleFavoriteBusUseCase.swift */; };
+		E9D2C03E2EF4616000A13468 /* IsFavoriteBusUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D2C03D2EF4615F00A13468 /* IsFavoriteBusUseCase.swift */; };
 		E9D336072E8974CB00BB270F /* CityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D336062E8974CB00BB270F /* CityCell.swift */; };
 		E9D955652D4E2E10009C3353 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D955642D4E2E10009C3353 /* MainViewController.swift */; };
 		E9D955672D4E2E1A009C3353 /* SetRegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D955662D4E2E1A009C3353 /* SetRegionViewController.swift */; };
@@ -138,6 +144,12 @@
 		E99BEE7D2D4279460013C32E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E9C71ACC2EDCB7EA006EC686 /* BusStationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusStationViewModel.swift; sourceTree = "<group>"; };
 		E9C71ACE2EDCB952006EC686 /* BusStationDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusStationDIContainer.swift; sourceTree = "<group>"; };
+		E9D2C0312EF4594800A13468 /* FavoriteBusLocalDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteBusLocalDataSource.swift; sourceTree = "<group>"; };
+		E9D2C0332EF4597200A13468 /* FavoriteBusRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteBusRepositoryProtocol.swift; sourceTree = "<group>"; };
+		E9D2C0362EF459B400A13468 /* ObserveFavoriteBusUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserveFavoriteBusUseCase.swift; sourceTree = "<group>"; };
+		E9D2C0382EF45DB900A13468 /* FavoriteBusRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteBusRepositoryImpl.swift; sourceTree = "<group>"; };
+		E9D2C03B2EF4614600A13468 /* ToggleFavoriteBusUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleFavoriteBusUseCase.swift; sourceTree = "<group>"; };
+		E9D2C03D2EF4615F00A13468 /* IsFavoriteBusUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IsFavoriteBusUseCase.swift; sourceTree = "<group>"; };
 		E9D336062E8974CB00BB270F /* CityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityCell.swift; sourceTree = "<group>"; };
 		E9D955642D4E2E10009C3353 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		E9D955662D4E2E1A009C3353 /* SetRegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetRegionViewController.swift; sourceTree = "<group>"; };
@@ -259,6 +271,7 @@
 		E91EDD652D4664360041104B /* Interfaces */ = {
 			isa = PBXGroup;
 			children = (
+				E9D2C0332EF4597200A13468 /* FavoriteBusRepositoryProtocol.swift */,
 				E9DC2A952EAE2B6D00BF138B /* BusCityCodeRepositoryProtocol.swift */,
 				E98E48772D895982004BFD1D /* BusStationRepositoryProtocol.swift */,
 				E98662D62DD1252400D4BE33 /* BusArrivalRepositoryProtocol.swift */,
@@ -335,6 +348,7 @@
 		E91EDD6E2D4675E90041104B /* DataSource */ = {
 			isa = PBXGroup;
 			children = (
+				E9D2C0312EF4594800A13468 /* FavoriteBusLocalDataSource.swift */,
 				E9DC2A932EAE299900BF138B /* BusCityCodeLocalDataSource.swift */,
 				E99BA3D22DD2587200963ACF /* BusStationRemoteDataSource.swift */,
 				E98E48792D8959CE004BFD1D /* BusArrivalRemoteDataSource.swift */,
@@ -346,6 +360,7 @@
 		E91EDD6F2D4675EE0041104B /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
+				E9D2C0382EF45DB900A13468 /* FavoriteBusRepositoryImpl.swift */,
 				E9DC2A972EAE2BAB00BF138B /* BusCityCodeRepositoryImpl.swift */,
 				E935F9072D6E230B00EC2EC6 /* BusStationRepositoryImpl.swift */,
 				E961EC9E2D6EBC1100BB5E77 /* BusArrivalRepositoryImpl.swift */,
@@ -428,6 +443,7 @@
 		E967E4202EE5BD65003F0959 /* BusRoute */ = {
 			isa = PBXGroup;
 			children = (
+				E9D2C03A2EF4613900A13468 /* Favorite */,
 				E961EC9C2D6EBBFE00BB5E77 /* GetSpecificBusArrivalUseCase.swift */,
 				E9FD038F2EC785D2005FF83B /* GetBusRouteListUseCase.swift */,
 				E990E2722E8189AA004CC626 /* GetBusRouteInfoListUseCase.swift */,
@@ -529,6 +545,16 @@
 				E99BEE7D2D4279460013C32E /* Info.plist */,
 			);
 			path = WhenComing;
+			sourceTree = "<group>";
+		};
+		E9D2C03A2EF4613900A13468 /* Favorite */ = {
+			isa = PBXGroup;
+			children = (
+				E9D2C03D2EF4615F00A13468 /* IsFavoriteBusUseCase.swift */,
+				E9D2C03B2EF4614600A13468 /* ToggleFavoriteBusUseCase.swift */,
+				E9D2C0362EF459B400A13468 /* ObserveFavoriteBusUseCase.swift */,
+			);
+			path = Favorite;
 			sourceTree = "<group>";
 		};
 		E9D336052E8974B200BB270F /* UI */ = {
@@ -660,7 +686,9 @@
 				E91EDD762D4676740041104B /* Extension.swift in Sources */,
 				E9D336072E8974CB00BB270F /* CityCell.swift in Sources */,
 				E9C71ACD2EDCB7F3006EC686 /* BusStationViewModel.swift in Sources */,
+				E9D2C0372EF459B600A13468 /* ObserveFavoriteBusUseCase.swift in Sources */,
 				E91AD47C2E785A3000353FED /* ArroundBusStationDTO.swift in Sources */,
+				E9D2C0342EF4597F00A13468 /* FavoriteBusRepositoryProtocol.swift in Sources */,
 				E935F9042D6E226100EC2EC6 /* NetworkConfig.swift in Sources */,
 				E98E487A2D8959CE004BFD1D /* BusArrivalRemoteDataSource.swift in Sources */,
 				E935F8FE2D6E223E00EC2EC6 /* APIEndpoint.swift in Sources */,
@@ -683,7 +711,9 @@
 				E98E48722D89592E004BFD1D /* SpecificBusArrivalEntity.swift in Sources */,
 				E9DC2A982EAE2BAE00BF138B /* BusCityCodeRepositoryImpl.swift in Sources */,
 				E91EDD742D4676590041104B /* DesignSystem.swift in Sources */,
+				E9D2C0322EF4595400A13468 /* FavoriteBusLocalDataSource.swift in Sources */,
 				E9DC2A962EAE2B6E00BF138B /* BusCityCodeRepositoryProtocol.swift in Sources */,
+				E9D2C03E2EF4616000A13468 /* IsFavoriteBusUseCase.swift in Sources */,
 				E9F646852EE72A2900F9FDC5 /* BusStationTableViewCell.swift in Sources */,
 				E98E48742D895962004BFD1D /* GetCityCodeListUseCase.swift in Sources */,
 				E99BEE742D4279450013C32E /* ViewController.swift in Sources */,
@@ -698,12 +728,14 @@
 				E98E48762D89596E004BFD1D /* GetStationThrghBusListUseCase.swift in Sources */,
 				E91CC6AB2E7985440092F9B8 /* BusRouteRemoteDataSource.swift in Sources */,
 				E935F8FB2D6E204F00EC2EC6 /* BusStationEntity.swift in Sources */,
+				E9D2C0392EF45DBC00A13468 /* FavoriteBusRepositoryImpl.swift in Sources */,
 				E991C3E32E54AFF2006C90D2 /* SearchStationByNameUseCase.swift in Sources */,
 				E967E41D2EE5BA03003F0959 /* BusStationArrivalInfoEntity.swift in Sources */,
 				E9D955652D4E2E10009C3353 /* MainViewController.swift in Sources */,
 				E9DC2A9A2EAE2EDB00BF138B /* CityCodeUseCase.swift in Sources */,
 				E99BEE702D4279450013C32E /* AppDelegate.swift in Sources */,
 				E9408EC32EB375EB004B153E /* SearchViewController.swift in Sources */,
+				E9D2C03C2EF4614600A13468 /* ToggleFavoriteBusUseCase.swift in Sources */,
 				E91AD4782E78561100353FED /* AroundBusStationEntity.swift in Sources */,
 				E91AD47E2E785BF200353FED /* StationThrghBusEntity.swift in Sources */,
 				E99BEE722D4279450013C32E /* SceneDelegate.swift in Sources */,
