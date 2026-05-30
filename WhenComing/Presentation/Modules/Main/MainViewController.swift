@@ -316,8 +316,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             busNumber: row.favorite.routeNo,
             busType: row.favorite.routeType,
             arrivalTime: row.arrival?.arrivalTime,
-            stationCount: row.arrival?.arrivalAtStationCount,
-            isLoadingArrival: row.isLoadingArrival
+            stationCount: row.arrival?.arrivalAtStationCount
         )
     }
     

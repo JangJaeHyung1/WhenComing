@@ -44,16 +44,9 @@ final class MainFavoriteBusCell: UITableViewCell {
         busNumber: String,
         busType: String,
         arrivalTime: Int?,
-        stationCount: Int?,
-        isLoadingArrival: Bool
+        stationCount: Int?
     ) {
         busLabel.text = "\(busNumber)   \(busType)"
-
-        if isLoadingArrival {
-            arrivalLabel.text = "불러오는 중"
-            arrivalLabel.textColor = .secondaryLabel
-            return
-        }
 
         guard let arrivalTime, let stationCount else {
             arrivalLabel.text = "정보 없음"

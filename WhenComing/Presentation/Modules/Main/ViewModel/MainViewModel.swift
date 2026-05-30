@@ -14,7 +14,6 @@ import RxCocoa
 struct MainFavoriteBusRow {
     let favorite: FavoriteBusEntity
     let arrival: SpecificBusArrivalEntity?
-    let isLoadingArrival: Bool
 }
 
 struct MainFavoriteBusSection {
@@ -126,10 +125,9 @@ final class MainViewModel {
                     return previousRow
                 }
 
-                MainFavoriteBusRow(
+                return MainFavoriteBusRow(
                     favorite: favorite,
-                    arrival: nil,
-                    isLoadingArrival: true
+                    arrival: nil
                 )
             }
         )
@@ -153,8 +151,7 @@ final class MainViewModel {
 
                         return MainFavoriteBusRow(
                             favorite: favorite,
-                            arrival: arrival,
-                            isLoadingArrival: false
+                            arrival: arrival
                         )
                     }
                 }
@@ -247,8 +244,7 @@ final class MainViewModel {
 
         return MainFavoriteBusRow(
             favorite: row.favorite,
-            arrival: adjustedArrival,
-            isLoadingArrival: row.isLoadingArrival
+            arrival: adjustedArrival
         )
     }
 
