@@ -121,7 +121,7 @@ enum APIEndpoint {
                 URLQueryItem(name: "pageNo", value: "\(pageNo)"),
                 URLQueryItem(name: "numOfRows", value: "\(pageSize)"),
                 URLQueryItem(name: "cityCode", value: cityCode),
-                URLQueryItem(name: "nodeid", value: "\(stationId)"),
+                URLQueryItem(name: "nodeId", value: "\(stationId)"),
                 URLQueryItem(name: "routeId", value: "\(routeId)"),
             ]
         case .getBusRouteInfoList(pageNo: let pageNo, cityCode: let cityCode, routeId: let routeId):

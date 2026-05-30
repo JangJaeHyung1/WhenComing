@@ -8,8 +8,8 @@
 import Foundation
 
 protocol FavoriteBusLocalDataSource {
-  func load() -> [FavoriteBusEnitity]
-  func save(_ list: [FavoriteBusEnitity])
+  func load() -> [FavoriteBusEntity]
+  func save(_ list: [FavoriteBusEntity])
 }
 
 final class DefaultFavoriteBusLocalDataSource: FavoriteBusLocalDataSource {
@@ -29,12 +29,12 @@ final class DefaultFavoriteBusLocalDataSource: FavoriteBusLocalDataSource {
     self.decoder = decoder
   }
 
-  func load() -> [FavoriteBusEnitity] {
+  func load() -> [FavoriteBusEntity] {
     guard let data = userDefaults.data(forKey: storageKey) else { return [] }
-    return (try? decoder.decode([FavoriteBusEnitity].self, from: data)) ?? []
+    return (try? decoder.decode([FavoriteBusEntity].self, from: data)) ?? []
   }
 
-  func save(_ list: [FavoriteBusEnitity]) {
+  func save(_ list: [FavoriteBusEntity]) {
     guard let data = try? encoder.encode(list) else { return }
     userDefaults.set(data, forKey: storageKey)
   }

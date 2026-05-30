@@ -13,7 +13,7 @@ protocol ToggleFavoriteBusUseCase {
   /// 즐겨찾기 토글
   /// - Parameters:
   ///   - item: 즐겨찾기 버스 엔티티
-  func execute(item: FavoriteBusEnitity)
+  func execute(item: FavoriteBusEntity)
 }
 
 // MARK: - Implementation
@@ -24,7 +24,7 @@ final class DefaultToggleFavoriteBusUseCase: ToggleFavoriteBusUseCase {
     self.repo = repo
   }
 
-  func execute(item: FavoriteBusEnitity) {
+  func execute(item: FavoriteBusEntity) {
     repo.toggle(item)
   }
 }

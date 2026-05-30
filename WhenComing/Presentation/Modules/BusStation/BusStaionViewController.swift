@@ -14,9 +14,10 @@ import MapKit
 class BusStationViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private let locationManager = CLLocationManager()
-    
+
     var busStation: BusStationEntity
-    private let vm = BusStationDIContainer().makeViewModel()
+    private let vm: BusStationViewModel
+    private var autoRefreshDisposable: Disposable?
     // 헤더 컨테이너
     private let headerView: UIView = {
         let v = UIView()
@@ -32,7 +33,7 @@ class BusStationViewController: UIViewController {
         mv.showsUserLocation = false
         return mv
     }()
-    
+
     // 뒤로가기 버튼
     private lazy var backButton: UIButton = {
         let btn = UIButton(type: .system)
@@ -44,11 +45,11 @@ class BusStationViewController: UIViewController {
         btn.addTarget(self, action: #selector(didTapBack), for: .touchUpInside)
         return btn
     }()
-    
+
     @objc private func didTapBack() {
         navigationController?.popViewController(animated: true)
     }
-    
+
     private let naviTitleLbl: UILabel = {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
@@ -61,30 +62,43 @@ class BusStationViewController: UIViewController {
         lbl.minimumScaleFactor = 0.5
         return lbl
     }()
-    
+
     private let refreshControl = UIRefreshControl()
-    
+
     private let loadIndicator: UIActivityIndicatorView = {
         let v = UIActivityIndicatorView(style: .medium)
         v.hidesWhenStopped = true
         return v
     }()
-    
+
     var tableView: UITableView!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setUp()
     }
-    
-    init(busStation: BusStationEntity) {
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        startAutoRefresh()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        stopAutoRefresh()
+    }
+
+    var isGoToWork: Bool
+    init(busStation: BusStationEntity, isGoToWork: Bool) {
+        self.isGoToWork = isGoToWork
         self.busStation = busStation
+        self.vm = BusStationDIContainer().makeViewModel(isGoToWork: isGoToWork)
         naviTitleLbl.text = busStation.name + " 버스역"
-        
-        
+
+
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -101,9 +115,9 @@ extension BusStationViewController {
         setConstraints()
         bind()
         fetch()
-        
+
     }
-    
+
     private func setTableView(){
         tableView = UITableView()
         //        tableView = UITableView(frame: .zero, style: .plain)
@@ -113,7 +127,7 @@ extension BusStationViewController {
         tableView.estimatedRowHeight = 60
         tableView.sectionHeaderHeight = 0
         tableView.sectionFooterHeight = 0
-        
+
         tableView.showsHorizontalScrollIndicator = false
         tableView.showsVerticalScrollIndicator = false
         tableView.register(BusStationTableViewCell.self, forCellReuseIdentifier: BusStationTableViewCell.cellId)
@@ -128,14 +142,14 @@ extension BusStationViewController {
         configureMap()
         configureLocation()
     }
-    
+
     private func fetch() {
         vm.fetchFirstPage(nodeId: busStation.id)
     }
-    
+
     private func bind() {
         tableView.refreshControl?.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
-        
+
         vm.output.isRefetchLoading
             .distinctUntilChanged()
             .drive() { [weak self] isLoading in
@@ -154,35 +168,63 @@ extension BusStationViewController {
         vm.output.busStationList
             .drive(tableView.rx.items(cellIdentifier: BusStationTableViewCell.cellId)) { indexPath, item, cell in
                 if let cell = cell as? BusStationTableViewCell {
-                    
+                    cell.selectionStyle = .none
                     cell.configure(busNumber: item.bus.routeNo,
                                    busType: item.bus.routeType,
                                    busTime: item.arrival?.remainSeconds,
                                    busStationAgo: item.arrival?.remainStationCount)
+
+                    cell.setFavorite(item.isFavorite)
+
+                    cell.starBtn.rx.tap
+                        .subscribe(onNext: { [weak self] in
+                            guard let self else { return }
+
+                            self.vm.toggleFavorite(
+                                bus: item.bus,
+                                station: self.busStation
+                            )
+                        })
+                        .disposed(by: cell.disposeBag)
                 }
             }
             .disposed(by: self.disposeBag)
     }
-    
+
     @objc private func handleRefresh() {
         vm.refetch(nodeId: busStation.id)
     }
-    
+
+    private func startAutoRefresh() {
+        stopAutoRefresh()
+        autoRefreshDisposable = Observable<Int>
+            .interval(.seconds(60), scheduler: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] _ in
+                guard let self else { return }
+                self.vm.refetch(nodeId: self.busStation.id, showsRefreshControl: false)
+            })
+    }
+
+    private func stopAutoRefresh() {
+        autoRefreshDisposable?.dispose()
+        autoRefreshDisposable = nil
+    }
+
     private func setNavi() {
         navigationController?.navigationBar.isHidden = true
     }
-    
+
     private func addViews() {
         view.addSubview(headerView)
         headerView.addSubview(backButton)
         headerView.addSubview(naviTitleLbl)
-        
+
         view.addSubview(mapView)
-        
+
         view.addSubview(tableView)
         tableView.addSubview(loadIndicator)
     }
-    
+
     private func setConstraints() {
         headerView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide)
@@ -196,12 +238,12 @@ extension BusStationViewController {
             make.width.equalTo(40)
             make.height.equalTo(32)
         }
-        
+
         naviTitleLbl.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.leading.equalTo(backButton.snp.trailing).offset(8)
             make.trailing.equalToSuperview().offset(-60)
-            
+
         }
 
         mapView.snp.makeConstraints { make in
@@ -209,12 +251,12 @@ extension BusStationViewController {
             make.height.equalTo(mapView.snp.width).multipliedBy(3.0/4.0)
             make.leading.trailing.equalToSuperview()
         }
-        
-        
+
+
         tableView.snp.makeConstraints { make in
             make.top.equalTo(mapView.snp.bottom)
             make.bottom.leading.trailing.equalToSuperview()
-        
+
         }
         loadIndicator.snp.makeConstraints { make in
             make.center.equalToSuperview()
@@ -233,25 +275,25 @@ extension BusStationViewController: CLLocationManagerDelegate {
             mapView.showsUserLocation = false
         }
     }
-    
+
     private func configureMap() {
         // BusStationEntity에 맞게 프로퍼티 이름 수정해줘야 함
         let coordinate = CLLocationCoordinate2D(latitude: busStation.latitude, longitude: busStation.longitude)
-        
+
         let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: 200, longitudinalMeters: 200)
         mapView.setRegion(region, animated: false)
-        
+
         let annotation = MKPointAnnotation()
         annotation.coordinate = coordinate
         annotation.title = busStation.name + " 버스역"
         mapView.addAnnotation(annotation)
     }
-    
+
     private func configureLocation() {
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
     }
-    
+
 }
 
 
@@ -279,4 +321,3 @@ extension BusStationViewController: MKMapViewDelegate {
         return view
     }
 }
-

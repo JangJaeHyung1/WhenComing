@@ -10,12 +10,12 @@ import RxSwift
 import RxCocoa
 
 
-final class FavoriteBusRepositoryImpl: FavoriteBusRepositoryProtocol {
+final class DefaultFavoriteBusRepository: FavoriteBusRepositoryProtocol {
   private let localDataSource: FavoriteBusLocalDataSource
   private let queue = DispatchQueue(label: "favorite.bus.repo.queue")
 
-  private let relay: BehaviorRelay<[FavoriteBusEnitity]>
-  private var cache: [FavoriteBusEnitity]
+  private let relay: BehaviorRelay<[FavoriteBusEntity]>
+  private var cache: [FavoriteBusEntity]
 
   init(localDataSource: FavoriteBusLocalDataSource) {
     self.localDataSource = localDataSource
@@ -24,8 +24,21 @@ final class FavoriteBusRepositoryImpl: FavoriteBusRepositoryProtocol {
     self.relay = BehaviorRelay(value: initial)
   }
 
-  func observeFavorites() -> Observable<[FavoriteBusEnitity]> {
+  func observeFavorites() -> Observable<[FavoriteBusEntity]> {
     relay.asObservable()
+  }
+
+  func reload() {
+    queue.async { [weak self] in
+      guard let self else { return }
+
+      let next = self.localDataSource.load()
+      self.cache = next
+
+      DispatchQueue.main.async {
+        self.relay.accept(next)
+      }
+    }
   }
 
   func isFavorite(id: String) -> Bool {
@@ -34,7 +47,7 @@ final class FavoriteBusRepositoryImpl: FavoriteBusRepositoryProtocol {
     }
   }
 
-  func toggle(_ item: FavoriteBusEnitity) {
+  func toggle(_ item: FavoriteBusEntity) {
     queue.async { [weak self] in
       guard let self else { return }
 

@@ -6,18 +6,17 @@
 //
 
 import UIKit
+import CoreLocation
 import RxSwift
 import RxCocoa
 import SnapKit
 
 class MainViewController: UIViewController {
-    
-    enum SortType {
-        case nearestStation   // 가까운역순
-        case arrivalTime      // 도착순
-    }
-
-    private var currentSortType: SortType = .nearestStation
+    private let disposeBag = DisposeBag()
+    private let vm = MainDIContainer().makeViewModel()
+    private let locationManager = CLLocationManager()
+    private var sections: [MainFavoriteBusSection] = []
+    private var autoRefreshDisposable: Disposable?
     
     private let segmentControlView: SegmentControlView = {
         let view = SegmentControlView(titles: ["출근길", "퇴근길"])
@@ -27,7 +26,7 @@ class MainViewController: UIViewController {
     }()
     
     // 최근 업데이트된 시간
-    var lastUpdateTimeText = "최근 업데이트 15시 32분"
+    var lastUpdateTimeText = ""
     
     private let bottomGuideLbl: UILabel = {
         let lbl = UILabel()
@@ -57,7 +56,15 @@ class MainViewController: UIViewController {
         setUp()
     }
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         setNavi()
+        vm.reloadFavorites()
+        startAutoRefresh()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        stopAutoRefresh()
     }
 }
 
@@ -72,16 +79,19 @@ extension MainViewController {
         setConstraints()
         bind()
         updateSegmentForCurrentTime()
-        fetch()
     }
     private func configure() {
         view.backgroundColor = .systemBackground
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+        locationManager.requestWhenInUseAuthorization()
+
+        if locationManager.authorizationStatus == .authorizedWhenInUse ||
+            locationManager.authorizationStatus == .authorizedAlways {
+            locationManager.startUpdatingLocation()
+        }
     }
     
-    private func fetch() {
-        
-    }
-
     private func setTableView(){
         tableView = UITableView()
         tableView.dataSource = self
@@ -89,7 +99,8 @@ extension MainViewController {
         tableView.separatorStyle = .none
         tableView.showsHorizontalScrollIndicator = false
         tableView.showsVerticalScrollIndicator = false
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.rowHeight = 60
+        tableView.register(MainFavoriteBusCell.self, forCellReuseIdentifier: MainFavoriteBusCell.cellId)
         tableView.register(NextButtonCell.self, forCellReuseIdentifier: NextButtonCell.cellId)
         
         tableView.backgroundColor = .systemBackground
@@ -107,23 +118,86 @@ extension MainViewController {
         let isCommuteTime = (hour >= 3 && hour < 15)
         let targetIndex = isCommuteTime ? 0 : 1
         segmentControlView.select(index: targetIndex, animated: false)
+        vm.input.isGoToWork.accept(targetIndex == 0)
         setBottomGuideLbl()
     }
     
     private func setBottomGuideLbl() {
         bottomGuideLbl.text = lastUpdateTimeText
     }
+
+    private func updateLastUpdateTime() {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH시 mm분"
+        lastUpdateTimeText = "최근 업데이트 \(formatter.string(from: Date()))"
+        setBottomGuideLbl()
+    }
     
     private func bind() {
         segmentControlView.addTarget(self, action: #selector(segmentChanged(_:)), for: .valueChanged)
         tableView.refreshControl?.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+
+        vm.output.sections
+            .drive(onNext: { [weak self] sections in
+                guard let self else { return }
+
+                let shouldReload = self.sectionItemIds != sections.itemIds
+                self.sections = sections
+
+                if shouldReload {
+                    self.tableView.reloadData()
+                } else {
+                    self.updateVisibleFavoriteCells()
+                }
+            })
+            .disposed(by: disposeBag)
+
+        vm.output.isLoading
+            .drive(onNext: { [weak self] isLoading in
+                if !isLoading {
+                    self?.refreshControl.endRefreshing()
+                    self?.updateLastUpdateTime()
+                }
+            })
+            .disposed(by: disposeBag)
     }
     
     @objc private func handleRefresh() {
-        fetch()
-        // TODO: 1초뒤가 아니라 비동기 리턴값 받으면 종료
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            self.refreshControl.endRefreshing()
+        vm.input.refreshTrigger.accept(())
+    }
+
+    private func startAutoRefresh() {
+        stopAutoRefresh()
+        autoRefreshDisposable = Observable<Int>
+            .interval(.seconds(1), scheduler: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] tick in
+                self?.vm.advanceArrivalCountdown()
+
+                if (tick + 1).isMultiple(of: 60) {
+                    self?.vm.input.refreshTrigger.accept(())
+                }
+            })
+    }
+
+    private func stopAutoRefresh() {
+        autoRefreshDisposable?.dispose()
+        autoRefreshDisposable = nil
+    }
+
+    private var sectionItemIds: [[String]] {
+        sections.map { section in
+            section.rows.map(\.favorite.id)
+        }
+    }
+
+    private func updateVisibleFavoriteCells() {
+        tableView.indexPathsForVisibleRows?.forEach { indexPath in
+            guard indexPath.section < sections.count,
+                  let cell = tableView.cellForRow(at: indexPath) as? MainFavoriteBusCell else {
+                return
+            }
+
+            configure(cell, with: sections[indexPath.section].rows[indexPath.row])
         }
     }
     
@@ -131,11 +205,9 @@ extension MainViewController {
         setBottomGuideLbl()
         switch sender.selectedIndex {
         case 0:
-            // 출근길 탭 선택 시 처리
-            print("출근길 탭 선택")
+            vm.input.isGoToWork.accept(true)
         case 1:
-            // 퇴근길 탭 선택 시 처리
-            print("퇴근길 탭 선택")
+            vm.input.isGoToWork.accept(false)
         default:
             break
         }
@@ -155,23 +227,11 @@ extension MainViewController {
             self?.resetRegion()
         }
 
-        let sortTitle: String
-        switch currentSortType {
-        case .nearestStation:
-            sortTitle = "도착순으로 정렬"
-        case .arrivalTime:
-            sortTitle = "가까운역순으로 정렬"
-        }
-
-        let sortAction = UIAction(title: sortTitle) { [weak self] _ in
-            self?.toggleSortType()
-        }
-        
         let addFavorite = UIAction(title: "즐겨찾기 추가하기") { [weak self] _ in
             self?.presentSearchViewController()
         }
 
-        let settingMenu = UIMenu(title: "", children: [regionAction, sortAction, addFavorite])
+        let settingMenu = UIMenu(title: "", children: [regionAction, addFavorite])
 
         let settingButton = UIBarButtonItem(
             image: gearImage,
@@ -183,12 +243,6 @@ extension MainViewController {
     
     private func resetRegion() {
         presentSetRegionViewController()
-    }
-
-    private func toggleSortType() {
-        currentSortType = (currentSortType == .nearestStation) ? .arrivalTime : .nearestStation
-        // TODO: currentSortType 기준으로 데이터 정렬 후 tableView.reloadData()
-        print("현재 정렬: \(currentSortType == .nearestStation ? "가까운역순" : "도착순")")
     }
 
     private func openFeedback() {
@@ -225,39 +279,95 @@ extension MainViewController {
 
 
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        sections.count + 1
+    }
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        if section == sections.count {
+            return 1
+        }
+
+        return sections[section].rows.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if isLastIndex(indexPath) {
-            let cell = tableView.dequeueReusableCell(withIdentifier: NextButtonCell.cellId, for: indexPath) as! NextButtonCell
+        if indexPath.section == sections.count {
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: NextButtonCell.cellId,
+                for: indexPath
+            ) as! NextButtonCell
             cell.selectionStyle = .none
             return cell
-        } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-            cell.textLabel?.text = "Row \(indexPath.row)"
-            return cell
         }
+
+        let row = sections[indexPath.section].rows[indexPath.row]
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: MainFavoriteBusCell.cellId,
+            for: indexPath
+        ) as! MainFavoriteBusCell
+
+        configure(cell, with: row)
+        return cell
+    }
+
+    private func configure(_ cell: MainFavoriteBusCell, with row: MainFavoriteBusRow) {
+        cell.configure(
+            busNumber: row.favorite.routeNo,
+            busType: row.favorite.routeType,
+            arrivalTime: row.arrival?.arrivalTime,
+            stationCount: row.arrival?.arrivalAtStationCount,
+            isLoadingArrival: row.isLoadingArrival
+        )
     }
     
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard section < sections.count else { return nil }
+        return sections[section].stationName
+    }
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if isLastIndex(indexPath) {
+        if indexPath.section == sections.count {
             presentSearchViewController()
-        } else {
-            
         }
     }
-    
-    private func isLastIndex(_ indexPath: IndexPath) -> Bool {
-        return indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1
+
+    func tableView(
+        _ tableView: UITableView,
+        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+    ) -> UISwipeActionsConfiguration? {
+        guard indexPath.section < sections.count else { return nil }
+
+        let favorite = sections[indexPath.section].rows[indexPath.row].favorite
+        let deleteAction = UIContextualAction(style: .destructive, title: "삭제") { [weak self] _, _, completion in
+            self?.vm.removeFavorite(favorite)
+            completion(false)
+        }
+
+        return UISwipeActionsConfiguration(actions: [deleteAction])
     }
-    
+}
+
+extension MainViewController: CLLocationManagerDelegate {
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        switch manager.authorizationStatus {
+        case .authorizedAlways, .authorizedWhenInUse:
+            manager.startUpdatingLocation()
+        default:
+            break
+        }
+    }
+
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last else { return }
+        vm.input.currentLocation.accept(location)
+        manager.stopUpdatingLocation()
+    }
 }
 
 extension MainViewController {
     func presentSearchViewController() {
-        let searchVC = SearchViewController()
+        let searchVC = SearchViewController(isGoToWork: segmentControlView.selectedIndex == 0)
         navigationController?.pushViewController(searchVC, animated: true)
     }
     

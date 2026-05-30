@@ -1,5 +1,5 @@
 //
-//  FavoriteBusEnitity.swift
+//  FavoriteBusEntity.swift
 //  WhenComing
 //
 //  Created by jh on 9/15/25.
@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct FavoriteBusEnitity: Codable {
-    var id: String { "\(cityCode)|\(stationId)|\(routeId)" }
-    
+struct FavoriteBusEntity: Codable {
+    var id: String { "\(isGoToWork)|\(cityCode)|\(stationId)|\(routeId)" }
+    var isGoToWork: Bool
     // api 호출용
     var cityCode: String
     var stationId: String // 정류소 ID

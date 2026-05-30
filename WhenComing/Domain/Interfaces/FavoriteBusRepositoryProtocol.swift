@@ -8,7 +8,8 @@
 import RxSwift
 
 protocol FavoriteBusRepositoryProtocol {
-  func observeFavorites() -> Observable<[FavoriteBusEnitity]>
-  func toggle(_ item: FavoriteBusEnitity)
+  func observeFavorites() -> Observable<[FavoriteBusEntity]>
+  func reload()
+  func toggle(_ item: FavoriteBusEntity)
   func isFavorite(id: String) -> Bool
 }

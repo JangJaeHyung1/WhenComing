@@ -58,12 +58,31 @@ struct SpecificBusArrivalResponseDTO: Decodable {
         let numOfRows: Int
         let pageNo: Int
         let totalCount: Int
+
+        private enum CodingKeys: String, CodingKey {
+            case items
+            case numOfRows
+            case pageNo
+            case totalCount
+        }
+
+        init(from decoder: Decoder) throws {
+            let c = try decoder.container(keyedBy: CodingKeys.self)
+            items = (try? c.decode(ItemsDTO.self, forKey: .items)) ?? ItemsDTO(item: [])
+            numOfRows = try c.decodeIfPresent(Int.self, forKey: .numOfRows) ?? 0
+            pageNo = try c.decodeIfPresent(Int.self, forKey: .pageNo) ?? 0
+            totalCount = try c.decodeIfPresent(Int.self, forKey: .totalCount) ?? 0
+        }
     }
 
     struct ItemsDTO: Decodable {
         let item: [SpecificBusArrivalDTO]
 
         private enum CodingKeys: String, CodingKey { case item }
+
+        init(item: [SpecificBusArrivalDTO]) {
+            self.item = item
+        }
 
         init(from decoder: Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)

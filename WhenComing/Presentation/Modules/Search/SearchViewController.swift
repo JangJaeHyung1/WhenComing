@@ -15,7 +15,7 @@ class SearchViewController: UIViewController {
     private let vm = SearchDIContainer().makeSearchViewModel()
 
     private var tableView: UITableView!
-    
+
     // 헤더 컨테이너
     private let headerView: UIView = {
         let v = UIView()
@@ -48,7 +48,7 @@ class SearchViewController: UIViewController {
         sb.searchTextField.clearButtonMode = .whileEditing
         return sb
     }()
-    
+
     private let loadingIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .medium)
         indicator.hidesWhenStopped = true
@@ -56,12 +56,15 @@ class SearchViewController: UIViewController {
         return indicator
     }()
 
-    init() {
+
+    var isGoToWork: Bool
+    init(isGoToWork: Bool) {
+        self.isGoToWork = isGoToWork
         super.init(nibName: nil, bundle: nil)
     }
 
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
+        fatalError("init(coder:) has not been implemented")
     }
 
     override func viewDidLoad() {
@@ -149,12 +152,18 @@ extension SearchViewController {
                 }
             })
             .disposed(by: disposeBag)
-        
+
+        searchBar.rx.searchButtonClicked
+            .bind(onNext: { [weak self] in
+                self?.searchBar.resignFirstResponder()
+            })
+            .disposed(by: disposeBag)
+
         // MARK: - output
         vm.output.isLoading
             .drive(loadingIndicator.rx.isAnimating)
             .disposed(by: disposeBag)
-        
+
         vm.output.isFetchMore
             .drive(onNext: { [weak self] isLoadingMore in
                 guard let self else { return }
@@ -168,7 +177,7 @@ extension SearchViewController {
                 }
             })
             .disposed(by: disposeBag)
-        
+
         vm.output.items
             .drive(
                 tableView.rx.items(
@@ -186,11 +195,11 @@ extension SearchViewController {
                     } else {
                         cell.textLabel?.text = "\(station.name) 버스역"
                     }
-                    
+
                 }
             }
             .disposed(by: disposeBag)
-        
+
         // 마지막 셀 기준으로 3개 전 셀이 화면에 보일 때 트리거 (throttled)
         tableView.rx.willDisplayCell
 //            .throttle(.milliseconds(800), scheduler: MainScheduler.instance)
@@ -202,7 +211,7 @@ extension SearchViewController {
                 }
             })
             .disposed(by: disposeBag)
-        
+
         tableView.rx.modelSelected(SearchItem.self)
             .subscribe(onNext:{ [weak self] item in
                 guard let self else { return }
@@ -226,7 +235,7 @@ extension SearchViewController {
 
 extension SearchViewController {
     func nextVC(busStation: BusStationEntity) {
-        let nextVC = BusStationViewController(busStation: busStation)
+        let nextVC = BusStationViewController(busStation: busStation, isGoToWork: self.isGoToWork)
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
 }

@@ -20,62 +20,80 @@ final class BusStationDIContainer {
     private lazy var busCityCodeLocalDataSource: BusCityCodeLocalDataSource = {
         DefaultBusCityCodeLocalDataSource()
     }()
-    
+
     private lazy var busStationDataSource: BusStationRemoteDataSource = {
         DefaultBusStationRemoteDataSource(networkService: networkService)
     }()
-    
+
     private lazy var busArrivalRemoteDataSource: BusArrivalRemoteDataSource = {
         DefaultBusArrivalRemoteDataSource(networkService: networkService)
     }()
-    
-    
-    
+
+    private lazy var favoriteBusLocalDataSource: FavoriteBusLocalDataSource = {
+       DefaultFavoriteBusLocalDataSource()
+    }()
+
+
+
 
     // MARK: - Repository
 
     private lazy var busCityCodeRepository: BusCityCodeRepositoryProtocol = {
         DefaultBusCityCodeRepository(localDataSource: busCityCodeLocalDataSource)
     }()
-    
+
     private lazy var busStationRepository: BusStationRepositoryProtocol = {
         DefaultBusStationRepository(remoteDataSource: busStationDataSource)
     }()
-    
+
     private lazy var busArrivalRepository: BusArrivalRepositoryProtocol = {
         DefaultBusArrivalRepository(remoteDataSource: busArrivalRemoteDataSource)
     }()
-    
-    
-    
-    
+
+
+    private lazy var favoriteBusRepository: FavoriteBusRepositoryProtocol = {
+        DefaultFavoriteBusRepository(localDataSource: favoriteBusLocalDataSource)
+    }()
+
+
+
     // MARK: - UseCases
-    
+
     private func makeLoadSaveCityCodeUseCase() -> LoadSavedCityCodeUseCase {
         DefaultLoadSavedCityCodeUseCase(repository: busCityCodeRepository)
     }
-    
+
     private func makeGetNearbyStationUseCase() -> GetNearbyStationListUseCase {
         DefaultGetNearbyStationListUseCase(repository: busStationRepository)
     }
-    
+
     private func makeGetStationThrghBusUseCase() -> GetStationThrghBusListUseCase {
         DefaultGetStationThrghBusListUseCase(repository: busStationRepository)
     }
-    
+
     private func makeGetBusArrivalInfoUseCase() -> GetBusArrivalInfoUseCase {
         DefaultGetBusArrivalInfoUseCase(repository: busArrivalRepository)
     }
-    
-    
+
+    private func makeToggleFavoriteBusUseCase() -> ToggleFavoriteBusUseCase {
+        DefaultToggleFavoriteBusUseCase(repo: favoriteBusRepository)
+    }
+
+    private func makeObserveFavoriteBusIdSetUseCase() -> ObserveFavoriteBusIdSetUseCase {
+        DefaultObserveFavoriteBusIdSetUseCase(repo: favoriteBusRepository)
+    }
+
+
     // MARK: - ViewModel
-    
-    func makeViewModel() -> BusStationViewModel {
+
+    func makeViewModel(isGoToWork: Bool) -> BusStationViewModel {
         BusStationViewModel(
+            isGoToWork: isGoToWork,
             loadSaveCityCodeUseCase: makeLoadSaveCityCodeUseCase(), getNearbyStationListUseCase: makeGetNearbyStationUseCase(),
             getStationThrghBusListUseCase: makeGetStationThrghBusUseCase(), getBusArrivalInfoUseCase: makeGetBusArrivalInfoUseCase(),
-                            
-        )
+            toggleFavoriteBusUseCase: makeToggleFavoriteBusUseCase(),
+            observeFavoriteBusIdSetUseCase: makeObserveFavoriteBusIdSetUseCase(),
+            )
     }
-    
+
 }

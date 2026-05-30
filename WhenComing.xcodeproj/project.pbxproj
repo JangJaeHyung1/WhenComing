@@ -12,7 +12,7 @@
 		E91AD47A2E78563800353FED /* BusRouteInfoEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91AD4792E78562500353FED /* BusRouteInfoEntity.swift */; };
 		E91AD47C2E785A3000353FED /* ArroundBusStationDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91AD47B2E785A2500353FED /* ArroundBusStationDTO.swift */; };
 		E91AD47E2E785BF200353FED /* StationThrghBusEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91AD47D2E785BF100353FED /* StationThrghBusEntity.swift */; };
-		E91AD4802E785CE400353FED /* FavoriteBusEnitity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91AD47F2E785CE300353FED /* FavoriteBusEnitity.swift */; };
+		E91AD4802E785CE400353FED /* FavoriteBusEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91AD47F2E785CE300353FED /* FavoriteBusEntity.swift */; };
 		E91AD4822E785D5E00353FED /* StationThrghBusDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91AD4812E785D5B00353FED /* StationThrghBusDTO.swift */; };
 		E91AD4842E7862A900353FED /* BusRouteRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91AD4832E7862A700353FED /* BusRouteRepositoryProtocol.swift */; };
 		E91AD48C2E78689900353FED /* BusRouteRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91AD48B2E78689600353FED /* BusRouteRepositoryImpl.swift */; };
@@ -22,9 +22,12 @@
 		E91EDD542D4662380041104B /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = E91EDD532D4662380041104B /* RxCocoa */; };
 		E91EDD562D4662380041104B /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = E91EDD552D4662380041104B /* RxRelay */; };
 		E91EDD582D4662380041104B /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = E91EDD572D4662380041104B /* RxSwift */; };
-		E91EDD602D46630E0041104B /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = E91EDD5F2D46630E0041104B /* RealmSwift */; };
 		E91EDD742D4676590041104B /* DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91EDD732D4676590041104B /* DesignSystem.swift */; };
 		E91EDD762D4676740041104B /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91EDD752D4676740041104B /* Extension.swift */; };
+		E92200222FC44D8C007D8E23 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92200212FC44D86007D8E23 /* MainViewModel.swift */; };
+		E92200242FC45005007D8E23 /* MainDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92200232FC44FFE007D8E23 /* MainDIContainer.swift */; };
+		E92200262FC45304007D8E23 /* ObserveFavoriteBusListUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92200252FC45301007D8E23 /* ObserveFavoriteBusListUseCase.swift */; };
+		E92200282FC45305007D8E23 /* MainFavoriteBusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92200272FC45305007D8E23 /* MainFavoriteBusCell.swift */; };
 		E926810E2EBF1C67009430D4 /* BusRouteDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = E926810D2EBF1C63009430D4 /* BusRouteDTO.swift */; };
 		E92681102EBF262F009430D4 /* BusRouteEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E926810F2EBF262A009430D4 /* BusRouteEntity.swift */; };
 		E935F8FB2D6E204F00EC2EC6 /* BusStationEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E935F8FA2D6E204F00EC2EC6 /* BusStationEntity.swift */; };
@@ -38,6 +41,8 @@
 		E9408EC32EB375EB004B153E /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9408EC22EB375EB004B153E /* SearchViewController.swift */; };
 		E9408EC62EB3BC23004B153E /* SearchDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9408EC52EB3BC23004B153E /* SearchDIContainer.swift */; };
 		E9408EC82EB3BC37004B153E /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9408EC72EB3BC37004B153E /* SearchViewModel.swift */; };
+		E9614F142FC1716500B45A68 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = E9614F132FC1716500B45A68 /* RealmSwift */; };
+		E9614F152FC1716800B45A68 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = E9614F132FC1716500B45A68 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		E961EC9D2D6EBBFE00BB5E77 /* GetSpecificBusArrivalUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E961EC9C2D6EBBFE00BB5E77 /* GetSpecificBusArrivalUseCase.swift */; };
 		E961EC9F2D6EBC1100BB5E77 /* BusArrivalRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E961EC9E2D6EBC1100BB5E77 /* BusArrivalRepositoryImpl.swift */; };
 		E961ECA12D6EBC3B00BB5E77 /* BusStaionDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = E961ECA02D6EBC3B00BB5E77 /* BusStaionDTO.swift */; };
@@ -85,6 +90,20 @@
 		E9FD03902EC785D9005FF83B /* GetBusRouteListUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FD038F2EC785D2005FF83B /* GetBusRouteListUseCase.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		E97C105F2F100AE300677C7D /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				E9614F152FC1716800B45A68 /* RealmSwift in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		E909CCB22DCF280C0080BF16 /* APIEncodingKey.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = APIEncodingKey.xcconfig; sourceTree = "<group>"; };
 		E909CCB32DCF29910080BF16 /* BusCityCodeDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusCityCodeDTO.swift; sourceTree = "<group>"; };
@@ -92,7 +111,7 @@
 		E91AD4792E78562500353FED /* BusRouteInfoEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusRouteInfoEntity.swift; sourceTree = "<group>"; };
 		E91AD47B2E785A2500353FED /* ArroundBusStationDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArroundBusStationDTO.swift; sourceTree = "<group>"; };
 		E91AD47D2E785BF100353FED /* StationThrghBusEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationThrghBusEntity.swift; sourceTree = "<group>"; };
-		E91AD47F2E785CE300353FED /* FavoriteBusEnitity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteBusEnitity.swift; sourceTree = "<group>"; };
+		E91AD47F2E785CE300353FED /* FavoriteBusEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteBusEntity.swift; sourceTree = "<group>"; };
 		E91AD4812E785D5B00353FED /* StationThrghBusDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationThrghBusDTO.swift; sourceTree = "<group>"; };
 		E91AD4832E7862A700353FED /* BusRouteRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusRouteRepositoryProtocol.swift; sourceTree = "<group>"; };
 		E91AD48B2E78689600353FED /* BusRouteRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusRouteRepositoryImpl.swift; sourceTree = "<group>"; };
@@ -100,6 +119,10 @@
 		E91CC6AA2E7985430092F9B8 /* BusRouteRemoteDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusRouteRemoteDataSource.swift; sourceTree = "<group>"; };
 		E91EDD732D4676590041104B /* DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem.swift; sourceTree = "<group>"; };
 		E91EDD752D4676740041104B /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		E92200212FC44D86007D8E23 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
+		E92200232FC44FFE007D8E23 /* MainDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainDIContainer.swift; sourceTree = "<group>"; };
+		E92200252FC45301007D8E23 /* ObserveFavoriteBusListUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserveFavoriteBusListUseCase.swift; sourceTree = "<group>"; };
+		E92200272FC45305007D8E23 /* MainFavoriteBusCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFavoriteBusCell.swift; sourceTree = "<group>"; };
 		E926810D2EBF1C63009430D4 /* BusRouteDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusRouteDTO.swift; sourceTree = "<group>"; };
 		E926810F2EBF262A009430D4 /* BusRouteEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusRouteEntity.swift; sourceTree = "<group>"; };
 		E935F8FA2D6E204F00EC2EC6 /* BusStationEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusStationEntity.swift; sourceTree = "<group>"; };
@@ -170,7 +193,7 @@
 				E91EDD562D4662380041104B /* RxRelay in Frameworks */,
 				E91EDD542D4662380041104B /* RxCocoa in Frameworks */,
 				E91EDD582D4662380041104B /* RxSwift in Frameworks */,
-				E91EDD602D46630E0041104B /* RealmSwift in Frameworks */,
+				E9614F142FC1716500B45A68 /* RealmSwift in Frameworks */,
 				E91EDD462D4660CC0041104B /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -202,7 +225,7 @@
 			isa = PBXGroup;
 			children = (
 				E98E48712D89592E004BFD1D /* SpecificBusArrivalEntity.swift */,
-				E91AD47F2E785CE300353FED /* FavoriteBusEnitity.swift */,
+				E91AD47F2E785CE300353FED /* FavoriteBusEntity.swift */,
 				E926810F2EBF262A009430D4 /* BusRouteEntity.swift */,
 				E91AD4792E78562500353FED /* BusRouteInfoEntity.swift */,
 			);
@@ -401,6 +424,7 @@
 		E93CC49F2EAF91A200741B09 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				E92200272FC45305007D8E23 /* MainFavoriteBusCell.swift */,
 				E91C789F2EB0F18100B537FE /* NextButtonCell.swift */,
 				E93CC4A22EAF91E000741B09 /* SegmentControlView.swift */,
 			);
@@ -436,6 +460,8 @@
 		E9408EC42EB3BBAA004B153E /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				E92200232FC44FFE007D8E23 /* MainDIContainer.swift */,
+				E92200212FC44D86007D8E23 /* MainViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -553,6 +579,7 @@
 				E9D2C03D2EF4615F00A13468 /* IsFavoriteBusUseCase.swift */,
 				E9D2C03B2EF4614600A13468 /* ToggleFavoriteBusUseCase.swift */,
 				E9D2C0362EF459B400A13468 /* ObserveFavoriteBusUseCase.swift */,
+				E92200252FC45301007D8E23 /* ObserveFavoriteBusListUseCase.swift */,
 			);
 			path = Favorite;
 			sourceTree = "<group>";
@@ -604,6 +631,7 @@
 				E99BEE682D4279450013C32E /* Sources */,
 				E99BEE692D4279450013C32E /* Frameworks */,
 				E99BEE6A2D4279450013C32E /* Resources */,
+				E97C105F2F100AE300677C7D /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -615,7 +643,7 @@
 				E91EDD532D4662380041104B /* RxCocoa */,
 				E91EDD552D4662380041104B /* RxRelay */,
 				E91EDD572D4662380041104B /* RxSwift */,
-				E91EDD5F2D46630E0041104B /* RealmSwift */,
+				E9614F132FC1716500B45A68 /* RealmSwift */,
 			);
 			productName = WhenComing;
 			productReference = E99BEE6C2D4279450013C32E /* WhenComing.app */;
@@ -648,7 +676,7 @@
 			packageReferences = (
 				E91EDD442D4660CC0041104B /* XCRemoteSwiftPackageReference "SnapKit" */,
 				E91EDD522D4662380041104B /* XCRemoteSwiftPackageReference "RxSwift" */,
-				E91EDD5E2D46630E0041104B /* XCRemoteSwiftPackageReference "realm-swift" */,
+				E9614F122FC1716500B45A68 /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			productRefGroup = E99BEE6D2D4279450013C32E /* Products */;
 			projectDirPath = "";
@@ -698,6 +726,7 @@
 				E991C3E52E54B1AF006C90D2 /* SetRegionDIContainer.swift in Sources */,
 				E961EC9D2D6EBBFE00BB5E77 /* GetSpecificBusArrivalUseCase.swift in Sources */,
 				E98662D72DD1252400D4BE33 /* BusArrivalRepositoryProtocol.swift in Sources */,
+				E92200242FC45005007D8E23 /* MainDIContainer.swift in Sources */,
 				E9C71ACF2EDCB959006EC686 /* BusStationDIContainer.swift in Sources */,
 				E991C3E12E54AC74006C90D2 /* RegionViewModel.swift in Sources */,
 				E99BA3D32DD2587200963ACF /* BusStationRemoteDataSource.swift in Sources */,
@@ -721,6 +750,8 @@
 				E935F9062D6E22D200EC2EC6 /* APIPath.swift in Sources */,
 				E909CCB42DCF29910080BF16 /* BusCityCodeDTO.swift in Sources */,
 				E990E2712E8188E9004CC626 /* GetNearbyStationListUseCase.swift in Sources */,
+				E92200222FC44D8C007D8E23 /* MainViewModel.swift in Sources */,
+				E92200282FC45305007D8E23 /* MainFavoriteBusCell.swift in Sources */,
 				E91C78A02EB0F18200B537FE /* NextButtonCell.swift in Sources */,
 				E967E41F2EE5BD08003F0959 /* GetBusArrivalInfoUseCase.swift in Sources */,
 				E990E2732E8189AC004CC626 /* GetBusRouteInfoListUseCase.swift in Sources */,
@@ -741,10 +772,11 @@
 				E99BEE722D4279450013C32E /* SceneDelegate.swift in Sources */,
 				E961EC9F2D6EBC1100BB5E77 /* BusArrivalRepositoryImpl.swift in Sources */,
 				E98E48782D895982004BFD1D /* BusStationRepositoryProtocol.swift in Sources */,
-				E91AD4802E785CE400353FED /* FavoriteBusEnitity.swift in Sources */,
+				E91AD4802E785CE400353FED /* FavoriteBusEntity.swift in Sources */,
 				E91AD48C2E78689900353FED /* BusRouteRepositoryImpl.swift in Sources */,
 				E98E487E2D8959EA004BFD1D /* BusRouteInfoDTO.swift in Sources */,
 				E935F9022D6E225600EC2EC6 /* APIError.swift in Sources */,
+				E92200262FC45304007D8E23 /* ObserveFavoriteBusListUseCase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -899,7 +931,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = HU86N788J6;
+				DEVELOPMENT_TEAM = 8Y6GZNH939;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WhenComing/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "언제오지";
@@ -1001,12 +1033,12 @@
 				kind = branch;
 			};
 		};
-		E91EDD5E2D46630E0041104B /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+		E9614F122FC1716500B45A68 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/realm/realm-swift";
+			repositoryURL = "https://github.com/realm/realm-swift/";
 			requirement = {
-				kind = exactVersion;
-				version = 10.50.0;
+				kind = upToNextMajorVersion;
+				minimumVersion = 20.0.4;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -1032,9 +1064,9 @@
 			package = E91EDD522D4662380041104B /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxSwift;
 		};
-		E91EDD5F2D46630E0041104B /* RealmSwift */ = {
+		E9614F132FC1716500B45A68 /* RealmSwift */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = E91EDD5E2D46630E0041104B /* XCRemoteSwiftPackageReference "realm-swift" */;
+			package = E9614F122FC1716500B45A68 /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = RealmSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
