@@ -117,11 +117,17 @@ final class MainViewModel {
 
     private func fetchRows(favorites: [FavoriteBusEntity]) {
         fetchTask?.cancel()
-        elapsedSecondsRelay.accept(0)
+        let previousRows = Dictionary(
+            uniqueKeysWithValues: rowsRelay.value.map { ($0.favorite.id, $0) }
+        )
         rowsRelay.accept(
-            favorites.map {
+            favorites.map { favorite in
+                if let previousRow = previousRows[favorite.id] {
+                    return previousRow
+                }
+
                 MainFavoriteBusRow(
-                    favorite: $0,
+                    favorite: favorite,
                     arrival: nil,
                     isLoadingArrival: true
                 )
@@ -163,8 +169,22 @@ final class MainViewModel {
             guard !Task.isCancelled else { return }
 
             await MainActor.run {
+                let elapsedSeconds = self.elapsedSecondsRelay.value
+                let mergedRows = rows.map { row in
+                    guard row.arrival == nil,
+                          let previousRow = previousRows[row.favorite.id],
+                          previousRow.arrival != nil else {
+                        return row
+                    }
+
+                    return self.adjustedRow(
+                        previousRow,
+                        elapsedSeconds: elapsedSeconds
+                    )
+                }
+
                 self.elapsedSecondsRelay.accept(0)
-                self.rowsRelay.accept(rows)
+                self.rowsRelay.accept(mergedRows)
                 self.isLoadingRelay.accept(false)
             }
         }

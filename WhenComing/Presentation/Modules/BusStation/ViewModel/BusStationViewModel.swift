@@ -164,10 +164,6 @@ final class BusStationViewModel {
     }
 
     func refetch(nodeId: String, showsRefreshControl: Bool = true) {
-        // 카운트/타이머 리셋
-        remainingTimeRelay.accept(0)
-        remainingTimeTimer?.dispose()
-        remainingTimeTimer = nil
         if showsRefreshControl {
             isRefetchLoadingRelay.accept(true)
         }
@@ -203,6 +199,8 @@ final class BusStationViewModel {
             }
             do {
                 let items = try await getBusArrivalInfoUseCase.execute(cityCode: self.cityCode, nodeId: nodeId)
+                guard !items.isEmpty else { return }
+
                 var arrivalDict: [String: BusStationArrivalInfoEntity] = [:]
                 for item in items {
                     arrivalDict[item.routeId] = item
@@ -215,13 +213,6 @@ final class BusStationViewModel {
 
                 print("getStationArrivalInfo item:\(items)")
             } catch {
-                self.arrivalDictRelay.accept([:])
-
-                // 데이터가 없으면 카운트도 멈춤
-                self.remainingTimeRelay.accept(0)
-                self.remainingTimeTimer?.dispose()
-                self.remainingTimeTimer = nil
-
                 print("getStationArrivalInfo error: \(error)")
             }
         }
