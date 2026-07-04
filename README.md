@@ -27,11 +27,15 @@
 
 
 
-## Archive 
+## Archive
 
-검색 페이지에 정류소와 버스 노선이 하나의 리스트에 나타나도록 설계하였습니다. 
-두개의 entity를 통합된 리스트에 노출시켜야하는데, 통일된 enitiy를 새로 만들거나 두개의 섹션으로 나누어 리스트를 표현하기 보다는 enum을 사용하여 하나의 배열로 나타내어 쉽게 표현할수 있도록 하였습니다. 
-추가될 (지하철 검색결과) 사항에 대해서도 enum case로 수정이 용이합니다.
+### 검색 결과 통합 리스트 구성
+
+검색 페이지에 정류소와 버스 노선이 하나의 리스트에 나타나도록 설계했습니다.
+두 개의 entity를 통합된 리스트에 노출시켜야 했는데, 통일된 entity를 새로 만들거나 두 개의 섹션으로 나누어 표현하기보다는 enum을 사용하여 하나의 배열로 관리하도록 구성했습니다.
+
+이를 통해 화면에서는 하나의 datasource만 바인딩하면서도, 각 검색 결과 타입에 따라 cell 표시 방식을 분기할 수 있습니다.
+추후 지하철 검색 결과가 추가되더라도 enum case를 추가하는 방식으로 확장할 수 있어 수정 범위를 줄일 수 있습니다.
 
 ```
 vm.output.items
@@ -58,6 +62,95 @@ vm.output.items
 ```
 
 <br>
+
+### 검색어 입력 debounce 및 이전 Task 취소 처리
+
+검색창 입력은 사용자가 한 글자씩 입력할 때마다 이벤트가 발생하기 때문에, 매 입력마다 API 요청을 보내면 불필요한 네트워크 호출이 많아질 수 있습니다.
+이를 방지하기 위해 검색어 입력에 debounce를 적용하여, 사용자의 입력이 일정 시간 멈춘 뒤 검색 요청이 실행되도록 구성했습니다.
+
+또한 새로운 검색어가 입력되면 이전 검색 요청이 아직 진행 중일 수 있으므로, 기존 Task를 취소하고 새로운 Task를 생성하도록 처리했습니다.
+cancel()은 진행 중인 작업을 즉시 강제 종료하는 것이 아니라 취소 상태를 표시하는 방식이기 때문에, Task 내부에서 취소 여부를 확인하고 결과 반영을 중단하도록 했습니다.
+마지막으로 요청 당시의 검색어와 현재 검색어가 같은지 한 번 더 검증하여, 이전 요청이 늦게 완료되더라도 현재 검색 결과를 덮어쓰지 않도록 방지했습니다.
+
+```
+self.searchTask?.cancel()
+
+self.itemsRelay.accept([])
+self.currentQuery = q
+self.pageNum = 1
+self.isLastPage = false
+self.isFetchMoreRelay.accept(false)
+
+self.isLoadingRelay.accept(true)
+
+self.searchTask = Task { [weak self] in
+    guard let self = self else { return }
+
+    async let routesTask = self.getRouteUseCase.execute(
+        cityCode: self.cityCode,
+        routeNo: q
+    )
+    async let stationsTask = self.searchStationByNameUseCase.execute(
+        pageNo: 1,
+        cityCode: self.cityCode,
+        stationName: q
+    )
+
+    let routes = (try? await routesTask) ?? []
+    let stations = (try? await stationsTask) ?? []
+
+    if Task.isCancelled {
+        await MainActor.run {
+            self.isLoadingRelay.accept(false)
+        }
+        return
+    }
+
+    let routeItems = Array(routes.prefix(20)).map { SearchItem.route($0) }
+    let stationItems = stations.map { SearchItem.station($0) }
+    let allItems = routeItems + stationItems
+
+    await MainActor.run {
+        guard self.currentQuery == q else { return }
+        self.isLoadingRelay.accept(false)
+        self.itemsRelay.accept(allItems)
+    }
+}
+```
+
+<br>
+
+### 즐겨찾기 목록 선노출을 위한 Entity 구성
+
+즐겨찾기 Entity에서 API 호출에 필요한 값뿐만 아니라 버스 번호, 정류장명 등 즉시 표시 가능한 정보도 함께 저장했습니다.
+즐겨찾기 목록은 앱 진입 후 빠르게 표시되어야 하는 화면이기 때문에, API 응답을 기다린 뒤 모든 정보를 보여주는 방식보다 저장된 기본 정보를 먼저 노출하는 방식을 선택했습니다.
+
+이를 통해 목록을 불러올 때 기본 정보를 먼저 표시하고, API 호출이 완료되면 남은 도착 시간과 남은 정류장 수 등을 추가로 갱신하여 사용자의 대기 경험을 개선했습니다.
+
+```
+struct FavoriteBusEntity: Codable {
+    var id: String { "\(isGoToWork)|\(cityCode)|\(stationId)|\(routeId)" }
+    var isGoToWork: Bool
+
+    // api 호출용
+    var cityCode: String
+    var stationId: String
+    var routeId: String
+
+    // view 노출용
+    let stationName: String
+    let routeNo: String
+    let routeType: String
+
+    // 추후 정렬용으로 사용할 수 있음
+    let latitude: Double
+    let longitude: Double
+}
+```
+
+<br>
+
+### API 응답 형태 대응
 
 네트워크 통신 결과 json값에 대하여 기본적으로 배열 dto로 포맷팅 해뒀습니다.
 하지만 값이 하나일 경우 배열 형태가 아니라 단일 객체로 들어와서  dto 포멧 불일치 에러가 발생했어요.
