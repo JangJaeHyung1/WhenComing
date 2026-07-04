@@ -1,21 +1,22 @@
 {
+  "originHash" : "304c6f5488d290d1f6e14f98d284d04919fcf06a56469e1f477f06b81cfc9a8e",
   "pins" : [
     {
       "identity" : "realm-core",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/realm/realm-core.git",
       "state" : {
-        "revision" : "9cf7ef4ad8e2f4c7a519c9a395ca3d253bb87aa8",
-        "version" : "14.6.2"
+        "revision" : "4cc46f8607516226e5465062fdacd088fbd94552",
+        "version" : "20.1.4"
       }
     },
     {
       "identity" : "realm-swift",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/realm/realm-swift",
+      "location" : "https://github.com/realm/realm-swift/",
       "state" : {
-        "revision" : "2000569f03948c281afc83c36c710ab15e5dd33c",
-        "version" : "10.50.0"
+        "revision" : "600e187711e5fa4e8e2c0429cacee27e8e44f112",
+        "version" : "20.0.4"
       }
     },
     {
@@ -24,7 +25,7 @@
       "location" : "https://github.com/ReactiveX/RxSwift",
       "state" : {
         "branch" : "main",
-        "revision" : "68647dbe4d90d54e772ecba80656a04c38fb9bdb"
+        "revision" : "132aea4f236ccadc51590b38af0357a331d51fa2"
       }
     },
     {
@@ -37,5 +38,5 @@
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }

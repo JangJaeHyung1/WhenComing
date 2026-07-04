@@ -90,6 +90,7 @@ final class SearchViewModel {
                     self.searchTask?.cancel()
                     self.searchTask = nil
 
+                    self.isLoadingRelay.accept(false)
                     self.itemsRelay.accept([])
                     self.currentQuery = nil
                     self.pageNum = 1
@@ -106,17 +107,10 @@ final class SearchViewModel {
                 self.isLastPage = false
                 self.isFetchMoreRelay.accept(false)
 
+                self.isLoadingRelay.accept(true)
+                
                 self.searchTask = Task { [weak self] in
                     guard let self = self else { return }
-
-                    await MainActor.run {
-                        self.isLoadingRelay.accept(true)
-                    }
-                    defer {
-                        Task { @MainActor in
-                            self.isLoadingRelay.accept(false)
-                        }
-                    }
 
                     async let routesTask = self.getRouteUseCase.execute(cityCode: self.cityCode, routeNo: q)
                     async let stationsTask = self.searchStationByNameUseCase.execute(pageNo: 1, cityCode: self.cityCode, stationName: q)
@@ -124,17 +118,21 @@ final class SearchViewModel {
                     let routes = (try? await routesTask) ?? []
                     let stations = (try? await stationsTask) ?? []
 
-                    if Task.isCancelled { return }
+                    if Task.isCancelled {
+                        await MainActor.run {
+                            self.isLoadingRelay.accept(false)
+                        }
+                        return
+                    }
 
                     let routeItems = Array(routes.prefix(20)).map { SearchItem.route($0) }
                     let stationItems = stations.map { SearchItem.station($0) }
                     let allItems = routeItems + stationItems
 
                     await MainActor.run {
+                        self.isLoadingRelay.accept(false)
                         guard self.currentQuery == q else { return }
-
                         self.itemsRelay.accept(allItems)
-
                         if stationItems.count < 20 {
                             self.isLastPage = true
                         } else {

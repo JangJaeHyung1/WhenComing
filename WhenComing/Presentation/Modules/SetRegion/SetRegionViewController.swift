@@ -35,7 +35,7 @@ class SetRegionViewController: UIViewController {
         btn.isEnabled = false
         btn.tintColor = .white
         btn.setTitle("저장", for: .normal)
-        btn.setTitleColor(.white, for: .normal)
+        btn.setTitleColor(.label, for: .normal)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
@@ -120,6 +120,7 @@ extension SetRegionViewController {
     func enableBtn() {
         nextBtn.isEnabled = true
         nextBtn.backgroundColor = .label
+        nextBtn.setTitleColor(.systemBackground, for: .normal)
     }
     
     private func bind() {

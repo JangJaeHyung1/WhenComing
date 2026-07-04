@@ -32,7 +32,8 @@ final class NetworkService: NetworkServiceProtocol {
         }
         
         do {
-            print("🟠 Raw JSON:")
+            print("🟠req:\(request) ")
+            print("🟢raw data:")
             print(String(data: data, encoding: .utf8) ?? "nil")
             return try JSONDecoder().decode(T.self, from: data)
         } catch {
