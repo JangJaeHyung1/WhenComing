@@ -56,6 +56,15 @@ class SearchViewController: UIViewController {
         return indicator
     }()
 
+    private let placeholderLbl: UILabel = {
+        let lbl = UILabel()
+        lbl.numberOfLines = 0
+        lbl.text = "검색 결과가 없습니다"
+        lbl.textAlignment = .center
+        lbl.textColor = .secondaryLabel
+        lbl.isHidden = true
+        return lbl
+    }()
 
     var isGoToWork: Bool
     init(isGoToWork: Bool) {
@@ -105,6 +114,7 @@ extension SearchViewController {
         headerView.addSubview(backButton)
         headerView.addSubview(searchBar)
         view.addSubview(tableView)
+        view.addSubview(placeholderLbl)
         view.addSubview(loadingIndicator)
     }
 
@@ -133,6 +143,12 @@ extension SearchViewController {
             make.top.equalTo(headerView.snp.bottom)
             make.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
         }
+
+        placeholderLbl.snp.makeConstraints { make in
+            make.center.equalTo(tableView)
+            make.leading.trailing.equalTo(tableView).inset(24)
+        }
+
         loadingIndicator.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
@@ -162,6 +178,14 @@ extension SearchViewController {
         // MARK: - output
         vm.output.isLoading
             .drive(loadingIndicator.rx.isAnimating)
+            .disposed(by: disposeBag)
+
+        Driver.combineLatest(vm.output.items, vm.output.isLoading)
+            .skip(1)
+            .map { items, isLoading in
+                isLoading || !items.isEmpty
+            }
+            .drive(placeholderLbl.rx.isHidden)
             .disposed(by: disposeBag)
 
         vm.output.isFetchMore
@@ -217,7 +241,11 @@ extension SearchViewController {
                 guard let self else { return }
                 switch item {
                 case .route(let route):
-                    print("\(route)")
+                    let viewController = BusRouteDIContainer().makeViewController(
+                        route: route,
+                        isGoToWork: self.isGoToWork
+                    )
+                    self.navigationController?.pushViewController(viewController, animated: true)
                 case .station(let station):
                     self.nextVC(busStation: station)
                 }

@@ -60,7 +60,7 @@ struct BusRouteInfoDTO: Decodable {
         self.gpsLong = try c.decodeLossyDouble(forKey: .gpsLong)
         self.nodeId = try c.decode(String.self, forKey: .nodeId)
         self.nodeNm = try c.decode(String.self, forKey: .nodeNm)
-        self.nodeNo = try c.decodeLossyInt(forKey: .nodeNo)
+        self.nodeNo = (try? c.decodeLossyInt(forKey: .nodeNo)) ?? 0
         self.nodeOrd = try c.decodeLossyInt(forKey: .nodeOrd)
         self.routeId = try c.decode(String.self, forKey: .routeId)
         self.upDownCd = try c.decodeLossyInt(forKey: .upDownCd)

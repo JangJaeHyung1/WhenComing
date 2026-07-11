@@ -101,13 +101,13 @@ final class SearchViewModel {
 
                 self.searchTask?.cancel()
 
-                self.itemsRelay.accept([])
                 self.currentQuery = q
                 self.pageNum = 1
                 self.isLastPage = false
                 self.isFetchMoreRelay.accept(false)
 
                 self.isLoadingRelay.accept(true)
+                self.itemsRelay.accept([])
                 
                 self.searchTask = Task { [weak self] in
                     guard let self = self else { return }
@@ -120,7 +120,9 @@ final class SearchViewModel {
 
                     if Task.isCancelled {
                         await MainActor.run {
-                            self.isLoadingRelay.accept(false)
+                            if self.currentQuery == q {
+                                self.isLoadingRelay.accept(false)
+                            }
                         }
                         return
                     }
@@ -130,9 +132,9 @@ final class SearchViewModel {
                     let allItems = routeItems + stationItems
 
                     await MainActor.run {
-                        self.isLoadingRelay.accept(false)
                         guard self.currentQuery == q else { return }
                         self.itemsRelay.accept(allItems)
+                        self.isLoadingRelay.accept(false)
                         if stationItems.count < 20 {
                             self.isLastPage = true
                         } else {

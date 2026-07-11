@@ -28,10 +28,44 @@ class BusStationViewController: UIViewController {
 
     private let mapView: MKMapView = {
         let mv = MKMapView()
-        mv.translatesAutoresizingMaskIntoConstraints = false
         mv.isRotateEnabled = false
+        mv.isPitchEnabled = false
+        mv.showsCompass = false
+        mv.showsScale = false
         mv.showsUserLocation = false
+        mv.mapType = .mutedStandard
+        mv.pointOfInterestFilter = .excludingAll
+        mv.layer.cornerRadius = 20
+        mv.clipsToBounds = true
         return mv
+    }()
+
+    private let mapContainerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .secondarySystemBackground
+        view.layer.cornerRadius = 20
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOpacity = 0.12
+        view.layer.shadowRadius = 12
+        view.layer.shadowOffset = CGSize(width: 0, height: 5)
+        return view
+    }()
+
+    private lazy var recenterButton: UIButton = {
+        let button = UIButton(type: .system)
+        var configuration = UIButton.Configuration.filled()
+        configuration.image = UIImage(systemName: "location.fill")
+        configuration.baseForegroundColor = .systemBlue
+        configuration.baseBackgroundColor = .secondarySystemBackground
+        configuration.cornerStyle = .capsule
+        button.configuration = configuration
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowOpacity = 0.12
+        button.layer.shadowRadius = 5
+        button.layer.shadowOffset = CGSize(width: 0, height: 2)
+        button.accessibilityLabel = "정류장 위치로 이동"
+        button.addTarget(self, action: #selector(didTapRecenter), for: .touchUpInside)
+        return button
     }()
 
     // 뒤로가기 버튼
@@ -50,16 +84,31 @@ class BusStationViewController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
 
+    @objc private func didTapRecenter() {
+        mapView.setRegion(stationRegion, animated: true)
+    }
+
+    private var stationRegion: MKCoordinateRegion {
+        let coordinate = CLLocationCoordinate2D(
+            latitude: busStation.latitude,
+            longitude: busStation.longitude
+        )
+        return MKCoordinateRegion(
+            center: coordinate,
+            latitudinalMeters: 350,
+            longitudinalMeters: 350
+        )
+    }
+
     private let naviTitleLbl: UILabel = {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
-        lbl.numberOfLines = 0
         lbl.textAlignment = .center
         lbl.textColor = .label
-        lbl.lineBreakMode = .byWordWrapping
-        lbl.isUserInteractionEnabled = true
+        lbl.font = .systemFont(ofSize: 17, weight: .semibold)
+        lbl.numberOfLines = 1
         lbl.adjustsFontSizeToFitWidth = true
-        lbl.minimumScaleFactor = 0.5
+        lbl.minimumScaleFactor = 0.8
         return lbl
     }()
 
@@ -219,7 +268,9 @@ extension BusStationViewController {
         headerView.addSubview(backButton)
         headerView.addSubview(naviTitleLbl)
 
-        view.addSubview(mapView)
+        view.addSubview(mapContainerView)
+        mapContainerView.addSubview(mapView)
+        mapContainerView.addSubview(recenterButton)
 
         view.addSubview(tableView)
         tableView.addSubview(loadIndicator)
@@ -246,15 +297,24 @@ extension BusStationViewController {
 
         }
 
+        mapContainerView.snp.makeConstraints { make in
+            make.top.equalTo(headerView.snp.bottom).offset(12)
+            make.leading.trailing.equalToSuperview().inset(16)
+            make.height.equalTo(220)
+        }
+
         mapView.snp.makeConstraints { make in
-            make.top.equalTo(headerView.snp.bottom)
-            make.height.equalTo(mapView.snp.width).multipliedBy(3.0/4.0)
-            make.leading.trailing.equalToSuperview()
+            make.edges.equalToSuperview()
+        }
+
+        recenterButton.snp.makeConstraints { make in
+            make.trailing.bottom.equalToSuperview().inset(12)
+            make.width.height.equalTo(44)
         }
 
 
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(mapView.snp.bottom)
+            make.top.equalTo(mapContainerView.snp.bottom).offset(12)
             make.bottom.leading.trailing.equalToSuperview()
 
         }
@@ -277,16 +337,14 @@ extension BusStationViewController: CLLocationManagerDelegate {
     }
 
     private func configureMap() {
-        // BusStationEntity에 맞게 프로퍼티 이름 수정해줘야 함
-        let coordinate = CLLocationCoordinate2D(latitude: busStation.latitude, longitude: busStation.longitude)
-
-        let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: 200, longitudinalMeters: 200)
-        mapView.setRegion(region, animated: false)
+        let coordinate = stationRegion.center
+        mapView.setRegion(stationRegion, animated: false)
 
         let annotation = MKPointAnnotation()
         annotation.coordinate = coordinate
         annotation.title = busStation.name + " 버스역"
         mapView.addAnnotation(annotation)
+        mapView.selectAnnotation(annotation, animated: false)
     }
 
     private func configureLocation() {
@@ -304,17 +362,16 @@ extension BusStationViewController: MKMapViewDelegate {
 
         let identifier = "BusAnnotation"
 
-        // Marker 스타일 (위에 동그란 glyph + 말풍선) 쓰고 싶으면 MKMarkerAnnotationView
         var view = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKMarkerAnnotationView
         if view == nil {
             view = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             view?.canShowCallout = true
+            view?.displayPriority = .required
 
-            let config = UIImage.SymbolConfiguration(pointSize: 34, weight: .bold, scale: .large)
+            let config = UIImage.SymbolConfiguration(pointSize: 11, weight: .medium)
             view?.glyphImage = UIImage(systemName: "bus.fill", withConfiguration: config)
             view?.glyphTintColor = .white
-            view?.markerTintColor = .black
-            view?.isSelected = true
+            view?.markerTintColor = .systemBlue
         } else {
             view?.annotation = annotation
         }

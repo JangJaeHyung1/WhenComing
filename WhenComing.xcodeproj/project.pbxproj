@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C0D000012026071100000001 /* BusRouteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D000022026071100000001 /* BusRouteViewController.swift */; };
+		C0D000032026071100000001 /* BusRouteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D000042026071100000001 /* BusRouteViewModel.swift */; };
+		C0D000052026071100000001 /* BusRouteDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D000062026071100000001 /* BusRouteDIContainer.swift */; };
 		E909CCB42DCF29910080BF16 /* BusCityCodeDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = E909CCB32DCF29910080BF16 /* BusCityCodeDTO.swift */; };
 		E91AD4782E78561100353FED /* AroundBusStationEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91AD4772E7855F600353FED /* AroundBusStationEntity.swift */; };
 		E91AD47A2E78563800353FED /* BusRouteInfoEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91AD4792E78562500353FED /* BusRouteInfoEntity.swift */; };
@@ -77,7 +80,6 @@
 		E9D2C0372EF459B600A13468 /* ObserveFavoriteBusUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D2C0362EF459B400A13468 /* ObserveFavoriteBusUseCase.swift */; };
 		E9D2C0392EF45DBC00A13468 /* FavoriteBusRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D2C0382EF45DB900A13468 /* FavoriteBusRepositoryImpl.swift */; };
 		E9D2C03C2EF4614600A13468 /* ToggleFavoriteBusUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D2C03B2EF4614600A13468 /* ToggleFavoriteBusUseCase.swift */; };
-		E9D2C03E2EF4616000A13468 /* IsFavoriteBusUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D2C03D2EF4615F00A13468 /* IsFavoriteBusUseCase.swift */; };
 		E9D336072E8974CB00BB270F /* CityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D336062E8974CB00BB270F /* CityCell.swift */; };
 		E9D955652D4E2E10009C3353 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D955642D4E2E10009C3353 /* MainViewController.swift */; };
 		E9D955672D4E2E1A009C3353 /* SetRegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D955662D4E2E1A009C3353 /* SetRegionViewController.swift */; };
@@ -105,6 +107,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C0D000022026071100000001 /* BusRouteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusRouteViewController.swift; sourceTree = "<group>"; };
+		C0D000042026071100000001 /* BusRouteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusRouteViewModel.swift; sourceTree = "<group>"; };
+		C0D000062026071100000001 /* BusRouteDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusRouteDIContainer.swift; sourceTree = "<group>"; };
 		E909CCB22DCF280C0080BF16 /* APIEncodingKey.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = APIEncodingKey.xcconfig; sourceTree = "<group>"; };
 		E909CCB32DCF29910080BF16 /* BusCityCodeDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusCityCodeDTO.swift; sourceTree = "<group>"; };
 		E91AD4772E7855F600353FED /* AroundBusStationEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AroundBusStationEntity.swift; sourceTree = "<group>"; };
@@ -172,7 +177,6 @@
 		E9D2C0362EF459B400A13468 /* ObserveFavoriteBusUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserveFavoriteBusUseCase.swift; sourceTree = "<group>"; };
 		E9D2C0382EF45DB900A13468 /* FavoriteBusRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteBusRepositoryImpl.swift; sourceTree = "<group>"; };
 		E9D2C03B2EF4614600A13468 /* ToggleFavoriteBusUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleFavoriteBusUseCase.swift; sourceTree = "<group>"; };
-		E9D2C03D2EF4615F00A13468 /* IsFavoriteBusUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IsFavoriteBusUseCase.swift; sourceTree = "<group>"; };
 		E9D336062E8974CB00BB270F /* CityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityCell.swift; sourceTree = "<group>"; };
 		E9D955642D4E2E10009C3353 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		E9D955662D4E2E1A009C3353 /* SetRegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetRegionViewController.swift; sourceTree = "<group>"; };
@@ -520,6 +524,7 @@
 		E99BE5192ED1B1890012629F /* BusRoute */ = {
 			isa = PBXGroup;
 			children = (
+				C0D000022026071100000001 /* BusRouteViewController.swift */,
 				E99BE51B2ED1B1B80012629F /* ViewModel */,
 				E99BE51A2ED1B1B40012629F /* UI */,
 			);
@@ -536,6 +541,8 @@
 		E99BE51B2ED1B1B80012629F /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				C0D000062026071100000001 /* BusRouteDIContainer.swift */,
+				C0D000042026071100000001 /* BusRouteViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -576,7 +583,6 @@
 		E9D2C03A2EF4613900A13468 /* Favorite */ = {
 			isa = PBXGroup;
 			children = (
-				E9D2C03D2EF4615F00A13468 /* IsFavoriteBusUseCase.swift */,
 				E9D2C03B2EF4614600A13468 /* ToggleFavoriteBusUseCase.swift */,
 				E9D2C0362EF459B400A13468 /* ObserveFavoriteBusUseCase.swift */,
 				E92200252FC45301007D8E23 /* ObserveFavoriteBusListUseCase.swift */,
@@ -705,6 +711,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0D000012026071100000001 /* BusRouteViewController.swift in Sources */,
+				C0D000032026071100000001 /* BusRouteViewModel.swift in Sources */,
+				C0D000052026071100000001 /* BusRouteDIContainer.swift in Sources */,
 				E926810E2EBF1C67009430D4 /* BusRouteDTO.swift in Sources */,
 				E9DDB29C2E689B6B00EC7B5F /* BusCityCodeEntity.swift in Sources */,
 				E935F9002D6E224C00EC2EC6 /* NetworkService.swift in Sources */,
@@ -742,7 +751,6 @@
 				E91EDD742D4676590041104B /* DesignSystem.swift in Sources */,
 				E9D2C0322EF4595400A13468 /* FavoriteBusLocalDataSource.swift in Sources */,
 				E9DC2A962EAE2B6E00BF138B /* BusCityCodeRepositoryProtocol.swift in Sources */,
-				E9D2C03E2EF4616000A13468 /* IsFavoriteBusUseCase.swift in Sources */,
 				E9F646852EE72A2900F9FDC5 /* BusStationTableViewCell.swift in Sources */,
 				E98E48742D895962004BFD1D /* GetCityCodeListUseCase.swift in Sources */,
 				E99BEE742D4279450013C32E /* ViewController.swift in Sources */,
