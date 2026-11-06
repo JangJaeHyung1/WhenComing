@@ -14,155 +14,124 @@
 
 ## 프로젝트 디렉터리 구조
 
-아래는 Git에서 관리하는 주요 소스 및 설정 파일의 구조입니다. `.DS_Store`와 Xcode의 사용자별 설정 파일은 제외했습니다.
+핵심 소스 디렉터리인 `Data`, `Domain`, `Presentation`, `Utilities`의 구조입니다.
 
 ```text
 WhenComing/
-├── WhenComing/
-│   ├── Application/
-│   │   ├── AppDelegate.swift
-│   │   └── SceneDelegate.swift
-│   ├── Base.lproj/
-│   │   ├── LaunchScreen.storyboard
-│   │   └── Main.storyboard
-│   ├── Data/
-│   │   ├── DataSource/
-│   │   │   ├── BusArrivalRemoteDataSource.swift
-│   │   │   ├── BusCityCodeLocalDataSource.swift
-│   │   │   ├── BusRouteRemoteDataSource.swift
-│   │   │   ├── BusStationRemoteDataSource.swift
-│   │   │   └── FavoriteBusLocalDataSource.swift
-│   │   ├── DTOs/
-│   │   │   ├── BusRoute/
-│   │   │   │   ├── BusRouteDTO.swift
-│   │   │   │   ├── BusRouteInfoDTO.swift
-│   │   │   │   └── SpecificBusArrivalDTO.swift
-│   │   │   └── BusStation/
-│   │   │       ├── ArroundBusStationDTO.swift
-│   │   │       ├── BusCityCodeDTO.swift
-│   │   │       ├── BusStaionDTO.swift
-│   │   │       ├── BusStationArrivalInfoDTO.swift
-│   │   │       └── StationThrghBusDTO.swift
-│   │   ├── Network/
-│   │   │   ├── APIEndpoint.swift
-│   │   │   ├── APIError.swift
-│   │   │   ├── APIPath.swift
-│   │   │   ├── NetworkConfig.swift
-│   │   │   └── NetworkService.swift
-│   │   └── Repositories/
-│   │       ├── BusArrivalRepositoryImpl.swift
-│   │       ├── BusCityCodeRepositoryImpl.swift
-│   │       ├── BusRouteRepositoryImpl.swift
-│   │       ├── BusStationRepositoryImpl.swift
-│   │       └── FavoriteBusRepositoryImpl.swift
-│   ├── Domain/
-│   │   ├── Entities/
-│   │   │   ├── BusRoute/
-│   │   │   │   ├── BusRouteEntity.swift
-│   │   │   │   ├── BusRouteInfoEntity.swift
-│   │   │   │   ├── FavoriteBusEntity.swift
-│   │   │   │   └── SpecificBusArrivalEntity.swift
-│   │   │   └── BusStation/
-│   │   │       ├── AroundBusStationEntity.swift
-│   │   │       ├── BusCityCodeEntity.swift
-│   │   │       ├── BusStationArrivalInfoEntity.swift
-│   │   │       ├── BusStationEntity.swift
-│   │   │       └── StationThrghBusEntity.swift
-│   │   ├── Interfaces/
-│   │   │   ├── BusArrivalRepositoryProtocol.swift
-│   │   │   ├── BusCityCodeRepositoryProtocol.swift
-│   │   │   ├── BusRouteRepositoryProtocol.swift
-│   │   │   ├── BusStationRepositoryProtocol.swift
-│   │   │   └── FavoriteBusRepositoryProtocol.swift
-│   │   └── UseCases/
-│   │       ├── BusRoute/
-│   │       │   ├── Favorite/
-│   │       │   │   ├── ObserveFavoriteBusListUseCase.swift
-│   │       │   │   ├── ObserveFavoriteBusUseCase.swift
-│   │       │   │   └── ToggleFavoriteBusUseCase.swift
-│   │       │   ├── GetBusRouteInfoListUseCase.swift
-│   │       │   ├── GetBusRouteListUseCase.swift
-│   │       │   └── GetSpecificBusArrivalUseCase.swift
-│   │       └── BusStation/
-│   │           ├── CityCodeUseCase.swift
-│   │           ├── GetBusArrivalInfoUseCase.swift
-│   │           ├── GetCityCodeListUseCase.swift
-│   │           ├── GetNearbyStationListUseCase.swift
-│   │           ├── GetStationThrghBusListUseCase.swift
-│   │           └── SearchStationByNameUseCase.swift
-│   ├── Presentation/
-│   │   ├── Modules/
-│   │   │   ├── BusRoute/
-│   │   │   │   ├── ViewModel/
-│   │   │   │   │   ├── BusRouteDIContainer.swift
-│   │   │   │   │   └── BusRouteViewModel.swift
-│   │   │   │   └── BusRouteViewController.swift
-│   │   │   ├── BusStation/
-│   │   │   │   ├── UI/
-│   │   │   │   │   └── BusStationTableViewCell.swift
-│   │   │   │   ├── ViewModel/
-│   │   │   │   │   ├── BusStationDIContainer.swift
-│   │   │   │   │   └── BusStationViewModel.swift
-│   │   │   │   └── BusStaionViewController.swift
-│   │   │   ├── Main/
-│   │   │   │   ├── UI/
-│   │   │   │   │   ├── MainFavoriteBusCell.swift
-│   │   │   │   │   ├── NextButtonCell.swift
-│   │   │   │   │   └── SegmentControlView.swift
-│   │   │   │   ├── ViewModel/
-│   │   │   │   │   ├── MainDIContainer.swift
-│   │   │   │   │   └── MainViewModel.swift
-│   │   │   │   └── MainViewController.swift
-│   │   │   ├── Search/
-│   │   │   │   ├── ViewModel/
-│   │   │   │   │   ├── SearchDIContainer.swift
-│   │   │   │   │   └── SearchViewModel.swift
-│   │   │   │   └── SearchViewController.swift
-│   │   │   └── SetRegion/
-│   │   │       ├── UI/
-│   │   │       │   └── CityCell.swift
-│   │   │       ├── ViewModel/
-│   │   │       │   ├── RegionViewModel.swift
-│   │   │       │   └── SetRegionDIContainer.swift
-│   │   │       └── SetRegionViewController.swift
-│   │   └── Resources/
-│   │       └── Assets.xcassets/
-│   │           ├── AccentColor.colorset/
-│   │           │   └── Contents.json
-│   │           ├── AppIcon.appiconset/
-│   │           │   ├── Contents.json
-│   │           │   ├── Group 248.png
-│   │           │   └── Group 249.png
-│   │           └── Contents.json
-│   ├── Utilities/
-│   │   └── Extensions/
-│   │       ├── DesignSystem.swift
-│   │       └── Extension.swift
-│   ├── .gitignore
-│   ├── Info.plist
-│   └── ViewController.swift
-├── WhenComing.xcodeproj/
-│   ├── project.xcworkspace/
-│   │   └── xcshareddata/
-│   │       └── swiftpm/
-│   │           └── Package.resolved
-│   └── project.pbxproj
-├── .coderabbit.yaml
-├── .gitignore
-└── README.md
+├── Data/
+│   ├── DataSource/
+│   │   ├── BusArrivalRemoteDataSource.swift
+│   │   ├── BusCityCodeLocalDataSource.swift
+│   │   ├── BusRouteRemoteDataSource.swift
+│   │   ├── BusStationRemoteDataSource.swift
+│   │   └── FavoriteBusLocalDataSource.swift
+│   ├── DTOs/
+│   │   ├── BusRoute/
+│   │   │   ├── BusRouteDTO.swift
+│   │   │   ├── BusRouteInfoDTO.swift
+│   │   │   └── SpecificBusArrivalDTO.swift
+│   │   └── BusStation/
+│   │       ├── ArroundBusStationDTO.swift
+│   │       ├── BusCityCodeDTO.swift
+│   │       ├── BusStaionDTO.swift
+│   │       ├── BusStationArrivalInfoDTO.swift
+│   │       └── StationThrghBusDTO.swift
+│   ├── Network/
+│   │   ├── APIEndpoint.swift
+│   │   ├── APIError.swift
+│   │   ├── APIPath.swift
+│   │   ├── NetworkConfig.swift
+│   │   └── NetworkService.swift
+│   └── Repositories/
+│       ├── BusArrivalRepositoryImpl.swift
+│       ├── BusCityCodeRepositoryImpl.swift
+│       ├── BusRouteRepositoryImpl.swift
+│       ├── BusStationRepositoryImpl.swift
+│       └── FavoriteBusRepositoryImpl.swift
+├── Domain/
+│   ├── Entities/
+│   │   ├── BusRoute/
+│   │   │   ├── BusRouteEntity.swift
+│   │   │   ├── BusRouteInfoEntity.swift
+│   │   │   ├── FavoriteBusEntity.swift
+│   │   │   └── SpecificBusArrivalEntity.swift
+│   │   └── BusStation/
+│   │       ├── AroundBusStationEntity.swift
+│   │       ├── BusCityCodeEntity.swift
+│   │       ├── BusStationArrivalInfoEntity.swift
+│   │       ├── BusStationEntity.swift
+│   │       └── StationThrghBusEntity.swift
+│   ├── Interfaces/
+│   │   ├── BusArrivalRepositoryProtocol.swift
+│   │   ├── BusCityCodeRepositoryProtocol.swift
+│   │   ├── BusRouteRepositoryProtocol.swift
+│   │   ├── BusStationRepositoryProtocol.swift
+│   │   └── FavoriteBusRepositoryProtocol.swift
+│   └── UseCases/
+│       ├── BusRoute/
+│       │   ├── Favorite/
+│       │   │   ├── ObserveFavoriteBusListUseCase.swift
+│       │   │   ├── ObserveFavoriteBusUseCase.swift
+│       │   │   └── ToggleFavoriteBusUseCase.swift
+│       │   ├── GetBusRouteInfoListUseCase.swift
+│       │   ├── GetBusRouteListUseCase.swift
+│       │   └── GetSpecificBusArrivalUseCase.swift
+│       └── BusStation/
+│           ├── CityCodeUseCase.swift
+│           ├── GetBusArrivalInfoUseCase.swift
+│           ├── GetCityCodeListUseCase.swift
+│           ├── GetNearbyStationListUseCase.swift
+│           ├── GetStationThrghBusListUseCase.swift
+│           └── SearchStationByNameUseCase.swift
+├── Presentation/
+│   ├── Modules/
+│   │   ├── BusRoute/
+│   │   │   ├── ViewModel/
+│   │   │   │   ├── BusRouteDIContainer.swift
+│   │   │   │   └── BusRouteViewModel.swift
+│   │   │   └── BusRouteViewController.swift
+│   │   ├── BusStation/
+│   │   │   ├── UI/
+│   │   │   │   └── BusStationTableViewCell.swift
+│   │   │   ├── ViewModel/
+│   │   │   │   ├── BusStationDIContainer.swift
+│   │   │   │   └── BusStationViewModel.swift
+│   │   │   └── BusStaionViewController.swift
+│   │   ├── Main/
+│   │   │   ├── UI/
+│   │   │   │   ├── MainFavoriteBusCell.swift
+│   │   │   │   ├── NextButtonCell.swift
+│   │   │   │   └── SegmentControlView.swift
+│   │   │   ├── ViewModel/
+│   │   │   │   ├── MainDIContainer.swift
+│   │   │   │   └── MainViewModel.swift
+│   │   │   └── MainViewController.swift
+│   │   ├── Search/
+│   │   │   ├── ViewModel/
+│   │   │   │   ├── SearchDIContainer.swift
+│   │   │   │   └── SearchViewModel.swift
+│   │   │   └── SearchViewController.swift
+│   │   └── SetRegion/
+│   │       ├── UI/
+│   │       │   └── CityCell.swift
+│   │       ├── ViewModel/
+│   │       │   ├── RegionViewModel.swift
+│   │       │   └── SetRegionDIContainer.swift
+│   │       └── SetRegionViewController.swift
+│   └── Resources/
+│       └── Assets.xcassets/
+│           ├── AccentColor.colorset/
+│           │   └── Contents.json
+│           ├── AppIcon.appiconset/
+│           │   ├── Contents.json
+│           │   ├── Group 248.png
+│           │   └── Group 249.png
+│           └── Contents.json
+└── Utilities/
+    └── Extensions/
+        ├── DesignSystem.swift
+        └── Extension.swift
 ```
-
-| 경로 | 역할 |
-| --- | --- |
-| `WhenComing.xcodeproj/` | Xcode 프로젝트 설정과 Swift Package 의존성 버전 정보를 관리합니다. |
-| `WhenComing/Application/` | 앱과 화면 생명주기의 진입점(`AppDelegate`, `SceneDelegate`)입니다. |
-| `WhenComing/Presentation/Modules/` | `Main`, `Search`, `SetRegion`, `BusStation`, `BusRoute` 화면별 ViewController, ViewModel, UI 구성 요소와 DIContainer를 둡니다. |
-| `WhenComing/Presentation/Resources/` | 앱 아이콘과 색상 등 이미지 에셋을 관리합니다. |
-| `WhenComing/Domain/` | 비즈니스 Entity, Repository 인터페이스, UseCase를 정의합니다. |
-| `WhenComing/Data/` | API 응답 DTO, 로컬·원격 DataSource, 네트워크 코드, Repository 구현을 둡니다. |
-| `WhenComing/Utilities/Extensions/` | 공통 확장과 색상·폰트 정의를 둡니다. |
-| `WhenComing/Base.lproj/`, `WhenComing/Info.plist` | 스토리보드와 앱 설정을 관리합니다. |
-| `WhenComing/ViewController.swift` | Xcode 기본 ViewController 파일입니다. |
 
 ## 진행 현황
 
