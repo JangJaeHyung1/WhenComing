@@ -5,10 +5,10 @@
 버스 정류장 검색, 도착 예정 시간 조회 등을 지원하며, 사용자의 이동 흐름에 맞춘 직관적인 UI를 제공하는 것을 목표로 개발 중입니다.
 
 
-<img width="250" alt="IMG_0817" src="https://github.com/user-attachments/assets/156f862b-1048-4840-805a-a78356578137" />
-<img width="250" alt="IMG_0819" src="https://github.com/user-attachments/assets/c078acfd-f857-49ce-aca3-5a624a114519" />
-<img width="250" alt="IMG_0824" src="https://github.com/user-attachments/assets/47acf708-5f4d-481a-bc62-3c1c8fa00761" />
-<img width="250" alt="IMG_0821" src="https://github.com/user-attachments/assets/1045475b-888f-417f-8148-201ed5f85454" />
+<img width="200" alt="IMG_0817" src="https://github.com/user-attachments/assets/156f862b-1048-4840-805a-a78356578137" />
+<img width="200" alt="IMG_0819" src="https://github.com/user-attachments/assets/c078acfd-f857-49ce-aca3-5a624a114519" />
+<img width="200" alt="IMG_0824" src="https://github.com/user-attachments/assets/47acf708-5f4d-481a-bc62-3c1c8fa00761" />
+<img width="200" alt="IMG_0821" src="https://github.com/user-attachments/assets/1045475b-888f-417f-8148-201ed5f85454" />
 
 ## 구조 및 아키텍처
 
