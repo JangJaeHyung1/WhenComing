@@ -4,6 +4,12 @@
 국토교통부 TAGO API를 기반으로 실시간 대중교통 도착 정보를 제공하는 iOS 앱입니다.  
 버스 정류장 검색, 도착 예정 시간 조회 등을 지원하며, 사용자의 이동 흐름에 맞춘 직관적인 UI를 제공하는 것을 목표로 개발 중입니다.
 
+
+<img width="563" height="1218" alt="IMG_0817" src="https://github.com/user-attachments/assets/156f862b-1048-4840-805a-a78356578137" />
+<img width="563" height="1218" alt="IMG_0819" src="https://github.com/user-attachments/assets/c078acfd-f857-49ce-aca3-5a624a114519" />
+<img width="563" height="1218" alt="IMG_0824" src="https://github.com/user-attachments/assets/47acf708-5f4d-481a-bc62-3c1c8fa00761" />
+<img width="563" height="1218" alt="IMG_0821" src="https://github.com/user-attachments/assets/1045475b-888f-417f-8148-201ed5f85454" />
+
 ## 구조 및 아키텍처
 
 - Clean Architecture 기반의 계층 분리 (Presentation / Domain / Data)
